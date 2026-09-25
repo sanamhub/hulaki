@@ -4,20 +4,20 @@ What each Hulaki provider supports, generated from its capability manifest by
 `hulaki capabilities --markdown`. Do not edit it by hand: CI fails when this file and the
 command disagree. A capability a provider does not declare reads as not implemented.
 
-| | bluesky | discord | email | ntfy | slack | teams | telegram | webhook | webpush |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Text limit | 300 graphemes | 2,000 utf16 | 1,000,000 utf16 | 4,096 bytes | 40,000 utf16 | 28,000 bytes | 4,096 utf16 | 65,536 bytes | 3,993 bytes |
-| Attachments | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| Text | available | available | available | available | available | available | available | available | available |
-| Title | unsupported by platform | not implemented | available | available | not implemented | available | unsupported by platform | available | available |
-| Markup | available | available | available | available | available | available | available | unsupported by platform | unsupported by platform |
-| Images | not implemented | not implemented | not implemented | not implemented | not implemented | not implemented | not implemented | not implemented | not implemented |
-| Video | not implemented | not implemented | not implemented | not implemented | not implemented | not implemented | not implemented | not implemented | not implemented |
-| Priority | unsupported by platform | unsupported by platform | available | available | unsupported by platform | unsupported by platform | available | available | available |
-| ClickAction | unsupported by platform | unsupported by platform | unsupported by platform | available | unsupported by platform | available | not implemented | available | available |
-| IdempotentSend | unsupported by platform | unsupported by platform | unsupported by platform | unsupported by platform | unsupported by platform | unsupported by platform | unsupported by platform | unsupported by platform | unsupported by platform |
-| Reconcile | not implemented | not implemented | not implemented | not implemented | not implemented | not implemented | not implemented | not implemented | not implemented |
-| Delete | not implemented | not implemented | not implemented | not implemented | not implemented | not implemented | not implemented | not implemented | not implemented |
+| | bluesky | discord | email | mastodon | ntfy | slack | teams | telegram | webhook | webpush |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Text limit | 300 graphemes | 2,000 utf16 | 1,000,000 utf16 | 500 characters (URLs 23) | 4,096 bytes | 40,000 utf16 | 28,000 bytes | 4,096 utf16 | 65,536 bytes | 3,993 bytes |
+| Attachments | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| Text | available | available | available | unknown until request | available | available | available | available | available | available |
+| Title | unsupported by platform | not implemented | available | unsupported by platform | available | not implemented | available | unsupported by platform | available | available |
+| Markup | available | available | available | unsupported by platform | available | available | available | available | unsupported by platform | unsupported by platform |
+| Images | not implemented | not implemented | not implemented | not implemented | not implemented | not implemented | not implemented | not implemented | not implemented | not implemented |
+| Video | not implemented | not implemented | not implemented | not implemented | not implemented | not implemented | not implemented | not implemented | not implemented | not implemented |
+| Priority | unsupported by platform | unsupported by platform | available | unsupported by platform | available | unsupported by platform | unsupported by platform | available | available | available |
+| ClickAction | unsupported by platform | unsupported by platform | unsupported by platform | unsupported by platform | available | unsupported by platform | available | not implemented | available | available |
+| IdempotentSend | unsupported by platform | unsupported by platform | unsupported by platform | available | unsupported by platform | unsupported by platform | unsupported by platform | unsupported by platform | unsupported by platform | unsupported by platform |
+| Reconcile | not implemented | not implemented | not implemented | not implemented | not implemented | not implemented | not implemented | not implemented | not implemented | not implemented |
+| Delete | not implemented | not implemented | not implemented | not implemented | not implemented | not implemented | not implemented | not implemented | not implemented | not implemented |
 
 ## bluesky
 
@@ -44,6 +44,16 @@ command disagree. A capability a provider does not declare reads as not implemen
 | Markup | available | Rendered into the HTML part |
 | Priority | available | Priority, Importance and X-Priority headers |
 | ClickAction | unsupported by platform | The link is appended |
+
+## mastodon
+
+| Capability | Availability | Note |
+| --- | --- | --- |
+| Text | unknown until request | 500 characters unless the instance allows more (MaxCharacters); URLs count as 23 |
+| Title | unsupported by platform | Sent as the first line |
+| Markup | unsupported by platform | Sent as plain text; the instance links URLs |
+| ClickAction | unsupported by platform | The link is appended |
+| IdempotentSend | available | Idempotency-Key header |
 
 ## ntfy
 

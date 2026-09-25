@@ -5,6 +5,7 @@ using System.Net.Http;
 using Hulaki.Bluesky;
 using Hulaki.Discord;
 using Hulaki.Email;
+using Hulaki.Mastodon;
 using Hulaki.Ntfy;
 using Hulaki.Slack;
 using Hulaki.Teams;
@@ -36,6 +37,8 @@ internal static class ChannelUrls
             (name, url, http) => (DiscordChannelUrl.TryCreate(name, url, http, out var error), error)),
         new([EmailChannelUrl.Scheme], EmailChannelUrl.Format, EmailChannel.Manifest,
             (name, url, _) => (EmailChannelUrl.TryCreate(name, url, out var error), error)),
+        new([MastodonChannelUrl.Scheme], MastodonChannelUrl.Format, MastodonChannel.Manifest,
+            (name, url, http) => (MastodonChannelUrl.TryCreate(name, url, http, out var error), error)),
         new([NtfyChannelUrl.Scheme], NtfyChannelUrl.Format, NtfyChannel.Manifest,
             (name, url, http) => (NtfyChannelUrl.TryCreate(name, url, http, out var error), error)),
         new([SlackChannelUrl.Scheme], SlackChannelUrl.Format, SlackChannel.Manifest,

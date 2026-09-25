@@ -5,6 +5,7 @@
     <Project Path="src/Hulaki.Discord/Hulaki.Discord.csproj" />
     <Project Path="src/Hulaki.Email/Hulaki.Email.csproj" />
     <Project Path="src/Hulaki.Extensions.DependencyInjection/Hulaki.Extensions.DependencyInjection.csproj" />
+    <Project Path="src/Hulaki.Mastodon/Hulaki.Mastodon.csproj" />
     <Project Path="src/Hulaki.Ntfy/Hulaki.Ntfy.csproj" />
     <Project Path="src/Hulaki.Slack/Hulaki.Slack.csproj" />
     <Project Path="src/Hulaki.Teams/Hulaki.Teams.csproj" />
@@ -22,6 +23,7 @@
     <Project Path="tests/Hulaki.Discord.Tests/Hulaki.Discord.Tests.csproj" />
     <Project Path="tests/Hulaki.Email.Tests/Hulaki.Email.Tests.csproj" />
     <Project Path="tests/Hulaki.Extensions.DependencyInjection.Tests/Hulaki.Extensions.DependencyInjection.Tests.csproj" />
+    <Project Path="tests/Hulaki.Mastodon.Tests/Hulaki.Mastodon.Tests.csproj" />
     <Project Path="tests/Hulaki.Ntfy.Tests/Hulaki.Ntfy.Tests.csproj" />
     <Project Path="tests/Hulaki.Slack.Tests/Hulaki.Slack.Tests.csproj" />
     <Project Path="tests/Hulaki.Teams.Tests/Hulaki.Teams.Tests.csproj" />

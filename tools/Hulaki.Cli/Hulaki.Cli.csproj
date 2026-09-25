@@ -21,6 +21,7 @@
     <ProjectReference Include="../../src/Hulaki.Slack/Hulaki.Slack.csproj" />
     <ProjectReference Include="../../src/Hulaki.Teams/Hulaki.Teams.csproj" />
     <ProjectReference Include="../../src/Hulaki.Bluesky/Hulaki.Bluesky.csproj" />
+    <ProjectReference Include="../../src/Hulaki.Mastodon/Hulaki.Mastodon.csproj" />
     <InternalsVisibleTo Include="Hulaki.Cli.Tests" />
   </ItemGroup>
   <ItemGroup>

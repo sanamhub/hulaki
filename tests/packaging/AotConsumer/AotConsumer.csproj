@@ -27,6 +27,7 @@
     <PackageReference Include="Hulaki.Slack" Version="$(HulakiVersion)" />
     <PackageReference Include="Hulaki.Teams" Version="$(HulakiVersion)" />
     <PackageReference Include="Hulaki.Bluesky" Version="$(HulakiVersion)" />
+    <PackageReference Include="Hulaki.Mastodon" Version="$(HulakiVersion)" />
   </ItemGroup>
   <!-- The version to consume is passed in (-p:HulakiVersion=...), so a stale package can never be
        picked up by accident. -->

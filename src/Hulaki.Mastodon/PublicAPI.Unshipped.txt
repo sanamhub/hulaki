@@ -1,0 +1,19 @@
+#nullable enable
+Hulaki.Mastodon.MastodonChannel
+Hulaki.Mastodon.MastodonChannel.MastodonChannel(string! name, System.Net.Http.HttpClient! http, Hulaki.Mastodon.MastodonChannelOptions! options) -> void
+Hulaki.Mastodon.MastodonChannelOptions
+Hulaki.Mastodon.MastodonChannelOptions.AccessToken.get -> string!
+Hulaki.Mastodon.MastodonChannelOptions.AccessToken.set -> void
+Hulaki.Mastodon.MastodonChannelOptions.InstanceUrl.get -> System.Uri?
+Hulaki.Mastodon.MastodonChannelOptions.InstanceUrl.set -> void
+Hulaki.Mastodon.MastodonChannelOptions.Language.get -> string?
+Hulaki.Mastodon.MastodonChannelOptions.Language.set -> void
+Hulaki.Mastodon.MastodonChannelOptions.MastodonChannelOptions() -> void
+Hulaki.Mastodon.MastodonChannelOptions.MaxCharacters.get -> int?
+Hulaki.Mastodon.MastodonChannelOptions.MaxCharacters.set -> void
+Hulaki.Mastodon.MastodonChannelOptions.Visibility.get -> string?
+Hulaki.Mastodon.MastodonChannelOptions.Visibility.set -> void
+Microsoft.Extensions.DependencyInjection.MastodonHulakiBuilderExtensions
+static Hulaki.Mastodon.MastodonChannel.Manifest.get -> Hulaki.CapabilityManifest!
+static Microsoft.Extensions.DependencyInjection.MastodonHulakiBuilderExtensions.AddMastodon(this Microsoft.Extensions.DependencyInjection.IHulakiBuilder! builder, string! name, Microsoft.Extensions.Configuration.IConfigurationSection! section) -> Microsoft.Extensions.DependencyInjection.IHulakiBuilder!
+static Microsoft.Extensions.DependencyInjection.MastodonHulakiBuilderExtensions.AddMastodon(this Microsoft.Extensions.DependencyInjection.IHulakiBuilder! builder, string! name, System.Action<Hulaki.Mastodon.MastodonChannelOptions!>! configure) -> Microsoft.Extensions.DependencyInjection.IHulakiBuilder!

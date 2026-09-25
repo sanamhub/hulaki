@@ -30,7 +30,7 @@ public sealed class CliTests
         var (exit, output, _) = await RunAsync(null, "capabilities");
 
         Assert.Equal(Cli.Success, exit);
-        foreach (var platform in new[] { "bluesky", "discord", "email", "ntfy", "slack", "teams", "telegram", "webhook", "webpush" })
+        foreach (var platform in new[] { "bluesky", "discord", "email", "mastodon", "ntfy", "slack", "teams", "telegram", "webhook", "webpush" })
         {
             Assert.Contains(platform + "\n  text limit:", output, StringComparison.Ordinal);
         }
@@ -58,6 +58,7 @@ public sealed class CliTests
         { TelegramUrl, "telegram" },
         { "discord://123456789012345678:TEST-webhook_token_0000000000@discord", "discord" },
         { "ntfy://ntfy.sh", "ntfy" },
+        { "mastodon://TEST-mastodon-token@social.example.org?visibility=unlisted&max=5000", "mastodon" },
         { "bluesky://alerts.example.org:TEST-aaaa-bbbb@bsky.social?lang=ne,en&thread=true", "bluesky" },
         { "slack://hooks.slack.com/services/T00000000/B00000000/TESTsecret0000", "slack" },
         { "teams://prod-00.westeurope.logic.azure.com/workflows/0000/triggers/manual/paths/invoke?api-version=2016-06-01&sig=TESTsig000", "teams" },
@@ -88,6 +89,7 @@ public sealed class CliTests
         { $"webpush://{VapidPublic}:{VapidPrivate}@vapid?subject=mailto:ops@example.org&ttl=TEST", "ttl parameter" },
         { "webhook+http://TEST-secret@hooks.example.org/in", "Url must be" },
         { "smtp://smtp.example.org", "From is not" },
+        { "mastodon://TEST-token@social.example.org?visibility=followers", "Visibility must be" },
         { "bluesky://alerts.example.org@bsky.social", "AppPassword is empty" },
         { $"webpush://{VapidPublic}:TEST-bad-key@vapid?subject=mailto:ops@example.org", "VapidPrivateKey" },
         { "teams://outlook.office.com/webhook/TESTsecret", "retired" },

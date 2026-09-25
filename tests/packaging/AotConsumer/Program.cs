@@ -7,6 +7,7 @@ using Hulaki.Bluesky;
 using Hulaki.Channels;
 using Hulaki.Discord;
 using Hulaki.Email;
+using Hulaki.Mastodon;
 using Hulaki.Ntfy;
 using Hulaki.Slack;
 using Hulaki.Teams;
@@ -53,7 +54,12 @@ using var bluesky = new BlueskyChannel("bluesky", http, new BlueskyChannelOption
     Identifier = "alerts.example.org",
     AppPassword = "TEST-aaaa-bbbb-cccc",
 });
-var client = new HulakiClient([telegram, discord, ntfy, webhook, webPush, slack, teams, bluesky]);
+using var mastodon = new MastodonChannel("mastodon", http, new MastodonChannelOptions
+{
+    InstanceUrl = new Uri("https://social.example.org/"),
+    AccessToken = "TEST-mastodon-token_000000000000000000000",
+});
+var client = new HulakiClient([telegram, discord, ntfy, webhook, webPush, slack, teams, bluesky, mastodon]);
 
 var message = new Message("**Orange** rain warning for Myagdi. [DHM](https://dhm.gov.np)")
 {
@@ -70,6 +76,7 @@ var result = await client.SendAsync(message,
     new Target("slack", Recipient.Self),
     new Target("teams", Recipient.Self),
     new Target("bluesky", Recipient.Self),
+    new Target("mastodon", Recipient.Self),
     // The receiver keys of the RFC 8291 section 5 example.
     new Target("webpush", new Recipient("https://push.example.net/push/JzLQ3raZJfFBR0aqvOMsLrt54w4rJUsV", new Dictionary<string, string>
     {
@@ -111,6 +118,8 @@ internal sealed class PlatformStub : HttpMessageHandler
         var body = (request.RequestUri!.Host, request.RequestUri.AbsolutePath) switch
         {
             ("bsky.social", "/xrpc/com.atproto.server.createSession") => """{"did":"did:plc:testaaaaaaaaaaaaaaaaaaaa","accessJwt":"TEST.access.jwt","refreshJwt":"TEST.refresh.jwt"}""",
+            ("social.example.org", "/api/v2/instance") => """{"configuration":{"statuses":{"max_characters":500}}}""",
+            ("social.example.org", _) => """{"id":"113000000000000001","url":"https://social.example.org/@alerts/113000000000000001"}""",
             ("bsky.social", _) => """{"uri":"at://did:plc:testaaaaaaaaaaaaaaaaaaaa/app.bsky.feed.post/p1","cid":"bafyreitestp1"}""",
             (var host, _) => host switch
             {
