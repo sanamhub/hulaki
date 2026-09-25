@@ -1,0 +1,30 @@
+name: Provider request
+description: Ask for a platform Hulaki does not support yet.
+labels: [provider]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Read [the provider runbook](https://github.com/sanamhub/hulaki/blob/main/docs/runbooks/add-a-provider.md) first. A provider is added only when the platform's terms allow automated sending.
+  - type: input
+    id: platform
+    attributes:
+      label: Platform
+      placeholder: Matrix, Signal, Viber, ...
+    validations:
+      required: true
+  - type: input
+    id: docs
+    attributes:
+      label: Link to the platform's sending API documentation
+    validations:
+      required: true
+  - type: textarea
+    id: terms
+    attributes:
+      label: What the platform's terms say about bots or automated messages
+      description: Quote the clause and link it. "Not sure" is a fine answer.
+  - type: textarea
+    id: use
+    attributes:
+      label: What you would send with it
