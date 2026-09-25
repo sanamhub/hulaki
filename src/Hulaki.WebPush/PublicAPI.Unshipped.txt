@@ -1,0 +1,17 @@
+#nullable enable
+Hulaki.WebPush.WebPushChannel
+Hulaki.WebPush.WebPushChannel.WebPushChannel(string! name, System.Net.Http.HttpClient! http, Hulaki.WebPush.WebPushChannelOptions! options) -> void
+Hulaki.WebPush.WebPushChannelOptions
+Hulaki.WebPush.WebPushChannelOptions.TimeToLive.get -> System.TimeSpan
+Hulaki.WebPush.WebPushChannelOptions.TimeToLive.set -> void
+Hulaki.WebPush.WebPushChannelOptions.VapidPrivateKey.get -> string!
+Hulaki.WebPush.WebPushChannelOptions.VapidPrivateKey.set -> void
+Hulaki.WebPush.WebPushChannelOptions.VapidPublicKey.get -> string!
+Hulaki.WebPush.WebPushChannelOptions.VapidPublicKey.set -> void
+Hulaki.WebPush.WebPushChannelOptions.VapidSubject.get -> string!
+Hulaki.WebPush.WebPushChannelOptions.VapidSubject.set -> void
+Hulaki.WebPush.WebPushChannelOptions.WebPushChannelOptions() -> void
+Microsoft.Extensions.DependencyInjection.WebPushHulakiBuilderExtensions
+static Hulaki.WebPush.WebPushChannel.Manifest.get -> Hulaki.CapabilityManifest!
+static Microsoft.Extensions.DependencyInjection.WebPushHulakiBuilderExtensions.AddWebPush(this Microsoft.Extensions.DependencyInjection.IHulakiBuilder! builder, string! name, Microsoft.Extensions.Configuration.IConfigurationSection! section) -> Microsoft.Extensions.DependencyInjection.IHulakiBuilder!
+static Microsoft.Extensions.DependencyInjection.WebPushHulakiBuilderExtensions.AddWebPush(this Microsoft.Extensions.DependencyInjection.IHulakiBuilder! builder, string! name, System.Action<Hulaki.WebPush.WebPushChannelOptions!>! configure) -> Microsoft.Extensions.DependencyInjection.IHulakiBuilder!

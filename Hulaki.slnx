@@ -1,6 +1,7 @@
 <Solution>
   <Folder Name="/src/">
     <Project Path="src/Hulaki.Webhook/Hulaki.Webhook.csproj" />
+    <Project Path="src/Hulaki.WebPush/Hulaki.WebPush.csproj" />
     <Project Path="src/Hulaki/Hulaki.csproj" />
     <Project Path="src/Hulaki.Discord/Hulaki.Discord.csproj" />
     <Project Path="src/Hulaki.Email/Hulaki.Email.csproj" />
@@ -17,5 +18,6 @@
     <Project Path="tests/Hulaki.Telegram.Tests/Hulaki.Telegram.Tests.csproj" />
     <Project Path="tests/Hulaki.Tests/Hulaki.Tests.csproj" />
     <Project Path="tests/Hulaki.Webhook.Tests/Hulaki.Webhook.Tests.csproj" />
+    <Project Path="tests/Hulaki.WebPush.Tests/Hulaki.WebPush.Tests.csproj" />
   </Folder>
 </Solution>

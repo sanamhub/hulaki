@@ -1,4 +1,6 @@
+using System.Buffers.Text;
 using System.Net;
+using System.Security.Cryptography;
 using System.Text;
 using Hulaki;
 using Hulaki.Channels;
@@ -7,6 +9,7 @@ using Hulaki.Email;
 using Hulaki.Ntfy;
 using Hulaki.Telegram;
 using Hulaki.Webhook;
+using Hulaki.WebPush;
 
 // One send per provider through HulakiClient, each answered by a stub with that platform's success
 // body. Under Native AOT this exercises every provider's source-generated JSON, markup rendering,
@@ -26,7 +29,15 @@ using var webhook = new WebhookChannel("webhook", http, new WebhookChannelOption
     Url = new Uri("https://hooks.example.org/hulaki"),
     Secret = "TEST-shared-secret_000000",
 });
-var client = new HulakiClient([telegram, discord, ntfy, webhook]);
+using var vapid = ECDsa.Create(ECCurve.NamedCurves.nistP256);
+var vapidKey = vapid.ExportParameters(includePrivateParameters: true);
+using var webPush = new WebPushChannel("webpush", http, new WebPushChannelOptions
+{
+    VapidPublicKey = Base64Url.EncodeToString([4, .. vapidKey.Q.X!, .. vapidKey.Q.Y!]),
+    VapidPrivateKey = Base64Url.EncodeToString(vapidKey.D),
+    VapidSubject = "mailto:ops@example.org",
+});
+var client = new HulakiClient([telegram, discord, ntfy, webhook, webPush]);
 
 var message = new Message("**Orange** rain warning for Myagdi. [DHM](https://dhm.gov.np)")
 {
@@ -40,6 +51,12 @@ var result = await client.SendAsync(message,
     new Target("discord", Recipient.Self),
     new Target("ntfy", new Recipient("hulaki-aot-topic")),
     new Target("webhook", Recipient.Self),
+    // The receiver keys of the RFC 8291 section 5 example.
+    new Target("webpush", new Recipient("https://push.example.net/push/JzLQ3raZJfFBR0aqvOMsLrt54w4rJUsV", new Dictionary<string, string>
+    {
+        ["p256dh"] = "BCVxsr7N_eNgVRqvHtD0zTZsEc6-VV-JvLexhqUzORcxaOzi6-AYWXvTBHm4bjyPjs7Vd8pZGH6SRpkNtoIAiw4",
+        ["auth"] = "BTBZMqHH6r4Tts7J_aSIgg",
+    })),
 ]);
 
 foreach (var (target, outcome) in result.Outcomes.Where(o => !o.Outcome.Succeeded))
@@ -77,7 +94,7 @@ internal sealed class PlatformStub : HttpMessageHandler
             "api.telegram.org" => """{"ok":true,"result":{"message_id":42}}""",
             "discord.com" => """{"id":"1100000000000000001"}""",
             "ntfy.sh" => """{"id":"sPs71M8A2T","event":"message"}""",
-            "hooks.example.org" => "{}",
+            "hooks.example.org" or "push.example.net" => "{}",
             _ => throw new InvalidOperationException("No stub for this host."),
         };
         return Task.FromResult(new HttpResponseMessage(HttpStatusCode.OK)
