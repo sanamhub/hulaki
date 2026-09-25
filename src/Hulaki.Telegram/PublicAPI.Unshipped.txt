@@ -1,0 +1,12 @@
+#nullable enable
+Hulaki.Telegram.TelegramChannel
+Hulaki.Telegram.TelegramChannel.TelegramChannel(string! name, System.Net.Http.HttpClient! http, Hulaki.Telegram.TelegramChannelOptions! options) -> void
+Hulaki.Telegram.TelegramChannelOptions
+Hulaki.Telegram.TelegramChannelOptions.BaseAddress.get -> System.Uri!
+Hulaki.Telegram.TelegramChannelOptions.BaseAddress.set -> void
+Hulaki.Telegram.TelegramChannelOptions.BotToken.get -> string!
+Hulaki.Telegram.TelegramChannelOptions.BotToken.set -> void
+Hulaki.Telegram.TelegramChannelOptions.DisableLinkPreview.get -> bool
+Hulaki.Telegram.TelegramChannelOptions.DisableLinkPreview.set -> void
+Hulaki.Telegram.TelegramChannelOptions.TelegramChannelOptions() -> void
+static Hulaki.Telegram.TelegramChannel.Manifest.get -> Hulaki.CapabilityManifest!

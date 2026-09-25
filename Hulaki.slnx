@@ -1,8 +1,10 @@
 <Solution>
   <Folder Name="/src/">
     <Project Path="src/Hulaki/Hulaki.csproj" />
+    <Project Path="src/Hulaki.Telegram/Hulaki.Telegram.csproj" />
   </Folder>
   <Folder Name="/tests/">
+    <Project Path="tests/Hulaki.Telegram.Tests/Hulaki.Telegram.Tests.csproj" />
     <Project Path="tests/Hulaki.Tests/Hulaki.Tests.csproj" />
   </Folder>
 </Solution>

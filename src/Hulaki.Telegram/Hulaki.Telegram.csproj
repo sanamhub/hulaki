@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <IsAotCompatible>true</IsAotCompatible>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <RootNamespace>Hulaki.Telegram</RootNamespace>
+    <IsPackable>true</IsPackable>
+    <PackageId>Hulaki.Telegram</PackageId>
+    <Description>Hulaki provider for Telegram: sends to chats and channels through the Bot API sendMessage method, with markup rendered as Telegram HTML and the per-bot and per-chat limits built in.</Description>
+    <PackageTags>notifications;telegram;bot;hulaki</PackageTags>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../Hulaki/Hulaki.csproj" />
+    <InternalsVisibleTo Include="Hulaki.Telegram.Tests" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="PACKAGE.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
+</Project>
