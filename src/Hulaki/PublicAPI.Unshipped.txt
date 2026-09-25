@@ -1,3 +1,146 @@
 #nullable enable
+abstract Hulaki.Text.TextCounter.Count(string! text) -> int
+abstract Hulaki.Text.TextCounter.Unit.get -> string!
+Hulaki.Availability
+Hulaki.Availability.ApprovalDependent = 4 -> Hulaki.Availability
+Hulaki.Availability.Available = 0 -> Hulaki.Availability
+Hulaki.Availability.NotImplemented = 2 -> Hulaki.Availability
+Hulaki.Availability.Paid = 5 -> Hulaki.Availability
+Hulaki.Availability.PermissionRequired = 3 -> Hulaki.Availability
+Hulaki.Availability.UnknownUntilRequest = 6 -> Hulaki.Availability
+Hulaki.Availability.UnsupportedByPlatform = 1 -> Hulaki.Availability
+Hulaki.Capability
+Hulaki.Capability.ClickAction = 6 -> Hulaki.Capability
+Hulaki.Capability.Delete = 9 -> Hulaki.Capability
+Hulaki.Capability.IdempotentSend = 7 -> Hulaki.Capability
+Hulaki.Capability.Images = 3 -> Hulaki.Capability
+Hulaki.Capability.Markup = 2 -> Hulaki.Capability
+Hulaki.Capability.Priority = 5 -> Hulaki.Capability
+Hulaki.Capability.Reconcile = 8 -> Hulaki.Capability
+Hulaki.Capability.Text = 0 -> Hulaki.Capability
+Hulaki.Capability.Title = 1 -> Hulaki.Capability
+Hulaki.Capability.Video = 4 -> Hulaki.Capability
+Hulaki.CapabilityDeclaration
+Hulaki.CapabilityDeclaration.<Clone>$() -> Hulaki.CapabilityDeclaration!
+Hulaki.CapabilityDeclaration.Availability.get -> Hulaki.Availability
+Hulaki.CapabilityDeclaration.Availability.init -> void
+Hulaki.CapabilityDeclaration.Capability.get -> Hulaki.Capability
+Hulaki.CapabilityDeclaration.Capability.init -> void
+Hulaki.CapabilityDeclaration.CapabilityDeclaration(Hulaki.Capability Capability, Hulaki.Availability Availability, string? Notes = null) -> void
+Hulaki.CapabilityDeclaration.Deconstruct(out Hulaki.Capability Capability, out Hulaki.Availability Availability, out string? Notes) -> void
+Hulaki.CapabilityDeclaration.Equals(Hulaki.CapabilityDeclaration? other) -> bool
+Hulaki.CapabilityDeclaration.Notes.get -> string?
+Hulaki.CapabilityDeclaration.Notes.init -> void
+Hulaki.CapabilityManifest
+Hulaki.CapabilityManifest.CapabilityManifest(string! platform, Hulaki.Text.TextLimit! textLimit, System.Collections.Generic.IEnumerable<Hulaki.CapabilityDeclaration!>! declarations, int maxAttachments = 0) -> void
+Hulaki.CapabilityManifest.Declarations.get -> System.Collections.Generic.IReadOnlyList<Hulaki.CapabilityDeclaration!>!
+Hulaki.CapabilityManifest.Get(Hulaki.Capability capability) -> Hulaki.Availability
+Hulaki.CapabilityManifest.MaxAttachments.get -> int
+Hulaki.CapabilityManifest.Platform.get -> string!
+Hulaki.CapabilityManifest.Supports(Hulaki.Capability capability) -> bool
+Hulaki.CapabilityManifest.TextLimit.get -> Hulaki.Text.TextLimit!
+Hulaki.MediaAttachment
+Hulaki.MediaAttachment.AltText.get -> string?
+Hulaki.MediaAttachment.AltText.init -> void
+Hulaki.MediaAttachment.ContentType.get -> string!
+Hulaki.MediaAttachment.FileName.get -> string?
+Hulaki.MediaAttachment.Fingerprint.get -> string!
+Hulaki.MediaAttachment.Kind.get -> Hulaki.MediaSourceKind
+Hulaki.MediaAttachment.Length.get -> long?
+Hulaki.MediaAttachment.OpenAsync(System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.ValueTask<System.IO.Stream!>
+Hulaki.MediaAttachment.Url.get -> System.Uri?
+Hulaki.MediaSourceKind
+Hulaki.MediaSourceKind.Bytes = 1 -> Hulaki.MediaSourceKind
+Hulaki.MediaSourceKind.HttpsUrl = 0 -> Hulaki.MediaSourceKind
+Hulaki.MediaSourceKind.Stream = 2 -> Hulaki.MediaSourceKind
 Hulaki.Message
-Hulaki.Message.Message() -> void
+Hulaki.Message.<Clone>$() -> Hulaki.Message!
+Hulaki.Message.Equals(Hulaki.Message? other) -> bool
+Hulaki.Message.Format.get -> Hulaki.TextFormat
+Hulaki.Message.Format.init -> void
+Hulaki.Message.IdempotencyKey.get -> string?
+Hulaki.Message.IdempotencyKey.init -> void
+Hulaki.Message.Link.get -> System.Uri?
+Hulaki.Message.Link.init -> void
+Hulaki.Message.Media.get -> System.Collections.Generic.IReadOnlyList<Hulaki.MediaAttachment!>!
+Hulaki.Message.Media.init -> void
+Hulaki.Message.Message(string! text) -> void
+Hulaki.Message.Overflow.get -> Hulaki.OverflowBehavior
+Hulaki.Message.Overflow.init -> void
+Hulaki.Message.Priority.get -> Hulaki.MessagePriority
+Hulaki.Message.Priority.init -> void
+Hulaki.Message.Text.get -> string!
+Hulaki.Message.Text.init -> void
+Hulaki.Message.Title.get -> string?
+Hulaki.Message.Title.init -> void
+Hulaki.MessagePriority
+Hulaki.MessagePriority.High = 2 -> Hulaki.MessagePriority
+Hulaki.MessagePriority.Low = 0 -> Hulaki.MessagePriority
+Hulaki.MessagePriority.Normal = 1 -> Hulaki.MessagePriority
+Hulaki.MessagePriority.Urgent = 3 -> Hulaki.MessagePriority
+Hulaki.OverflowBehavior
+Hulaki.OverflowBehavior.Reject = 0 -> Hulaki.OverflowBehavior
+Hulaki.OverflowBehavior.Truncate = 1 -> Hulaki.OverflowBehavior
+Hulaki.Recipient
+Hulaki.Recipient.Address.get -> string!
+Hulaki.Recipient.Equals(Hulaki.Recipient? other) -> bool
+Hulaki.Recipient.IsSelf.get -> bool
+Hulaki.Recipient.Properties.get -> System.Collections.Generic.IReadOnlyDictionary<string!, string!>!
+Hulaki.Recipient.Recipient(string! address, System.Collections.Generic.IReadOnlyDictionary<string!, string!>? properties = null) -> void
+Hulaki.Target
+Hulaki.Target.<Clone>$() -> Hulaki.Target!
+Hulaki.Target.Channel.get -> string!
+Hulaki.Target.Channel.init -> void
+Hulaki.Target.Deconstruct(out string! Channel, out Hulaki.Recipient! Recipient) -> void
+Hulaki.Target.Equals(Hulaki.Target? other) -> bool
+Hulaki.Target.Recipient.get -> Hulaki.Recipient!
+Hulaki.Target.Recipient.init -> void
+Hulaki.Target.Target(string! Channel, Hulaki.Recipient! Recipient) -> void
+Hulaki.Text.TextCounter
+Hulaki.Text.TextCounter.TextCounter() -> void
+Hulaki.Text.TextFit
+Hulaki.Text.TextLimit
+Hulaki.Text.TextLimit.<Clone>$() -> Hulaki.Text.TextLimit!
+Hulaki.Text.TextLimit.Counter.get -> Hulaki.Text.TextCounter!
+Hulaki.Text.TextLimit.Counter.init -> void
+Hulaki.Text.TextLimit.Deconstruct(out int Max, out Hulaki.Text.TextCounter! Counter) -> void
+Hulaki.Text.TextLimit.Equals(Hulaki.Text.TextLimit? other) -> bool
+Hulaki.Text.TextLimit.Fits(string! text) -> bool
+Hulaki.Text.TextLimit.Max.get -> int
+Hulaki.Text.TextLimit.Max.init -> void
+Hulaki.Text.TextLimit.TextLimit(int Max, Hulaki.Text.TextCounter! Counter) -> void
+Hulaki.TextFormat
+Hulaki.TextFormat.Markup = 1 -> Hulaki.TextFormat
+Hulaki.TextFormat.Plain = 0 -> Hulaki.TextFormat
+override Hulaki.CapabilityDeclaration.Equals(object? obj) -> bool
+override Hulaki.CapabilityDeclaration.GetHashCode() -> int
+override Hulaki.CapabilityDeclaration.ToString() -> string!
+override Hulaki.Message.Equals(object? obj) -> bool
+override Hulaki.Message.GetHashCode() -> int
+override Hulaki.Message.ToString() -> string!
+override Hulaki.Recipient.Equals(object? obj) -> bool
+override Hulaki.Recipient.GetHashCode() -> int
+override Hulaki.Recipient.ToString() -> string!
+override Hulaki.Target.Equals(object? obj) -> bool
+override Hulaki.Target.GetHashCode() -> int
+override Hulaki.Target.ToString() -> string!
+override Hulaki.Text.TextLimit.Equals(object? obj) -> bool
+override Hulaki.Text.TextLimit.GetHashCode() -> int
+override Hulaki.Text.TextLimit.ToString() -> string!
+static Hulaki.CapabilityDeclaration.operator !=(Hulaki.CapabilityDeclaration? left, Hulaki.CapabilityDeclaration? right) -> bool
+static Hulaki.CapabilityDeclaration.operator ==(Hulaki.CapabilityDeclaration? left, Hulaki.CapabilityDeclaration? right) -> bool
+static Hulaki.MediaAttachment.FromBytes(System.ReadOnlyMemory<byte> bytes, string! contentType, string? fileName = null) -> Hulaki.MediaAttachment!
+static Hulaki.MediaAttachment.FromStream(System.Func<System.Threading.CancellationToken, System.Threading.Tasks.ValueTask<System.IO.Stream!>>! open, string! contentType, string! fingerprint, long? length = null, string? fileName = null) -> Hulaki.MediaAttachment!
+static Hulaki.MediaAttachment.FromUrl(System.Uri! url, string! contentType) -> Hulaki.MediaAttachment!
+static Hulaki.Message.operator !=(Hulaki.Message? left, Hulaki.Message? right) -> bool
+static Hulaki.Message.operator ==(Hulaki.Message? left, Hulaki.Message? right) -> bool
+static Hulaki.Recipient.Self.get -> Hulaki.Recipient!
+static Hulaki.Target.operator !=(Hulaki.Target? left, Hulaki.Target? right) -> bool
+static Hulaki.Target.operator ==(Hulaki.Target? left, Hulaki.Target? right) -> bool
+static Hulaki.Text.TextCounter.Graphemes.get -> Hulaki.Text.TextCounter!
+static Hulaki.Text.TextCounter.Utf16CodeUnits.get -> Hulaki.Text.TextCounter!
+static Hulaki.Text.TextCounter.Utf8Bytes.get -> Hulaki.Text.TextCounter!
+static Hulaki.Text.TextFit.Split(string! text, Hulaki.Text.TextLimit! limit) -> System.Collections.Generic.IReadOnlyList<string!>!
+static Hulaki.Text.TextFit.Truncate(string! text, Hulaki.Text.TextLimit! limit, string! ellipsis = "…") -> string!
+static Hulaki.Text.TextLimit.operator !=(Hulaki.Text.TextLimit? left, Hulaki.Text.TextLimit? right) -> bool
+static Hulaki.Text.TextLimit.operator ==(Hulaki.Text.TextLimit? left, Hulaki.Text.TextLimit? right) -> bool
