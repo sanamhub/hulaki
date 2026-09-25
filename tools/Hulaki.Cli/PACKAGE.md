@@ -27,6 +27,8 @@ the recipient or the text. Keep the URL in an environment variable so it stays o
 | Telegram | `telegram://<bot-token>@telegram[?base=<bot api url>]` |
 | Discord | `discord://<webhook-id>:<webhook-token>@discord` |
 | ntfy | `ntfy://[<access-token>@]<host>[:port][/path]`, HTTP only for a loopback host |
+| Slack | `slack://hooks.slack.com/services/<T...>/<B...>/<secret>` |
+| Teams | `teams://<workflow host>/<path>?<query>`: the Workflows URL with `teams` as its scheme |
 | Webhook | `webhook+https://[<hmac-secret>@]<host>/<path>` |
 | Email | `smtp://[<user>[:<password>]@]<host>[:port]?from=<address>`, port 587 by default |
 | Web Push | `webpush://<vapid-public-key>:<vapid-private-key>@vapid?subject=<mailto:...>[&ttl=<seconds>]`; pass `--property p256dh=... --property auth=...` with the endpoint as `--to` |

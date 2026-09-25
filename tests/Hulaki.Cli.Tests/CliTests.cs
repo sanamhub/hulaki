@@ -30,7 +30,7 @@ public sealed class CliTests
         var (exit, output, _) = await RunAsync(null, "capabilities");
 
         Assert.Equal(Cli.Success, exit);
-        foreach (var platform in new[] { "discord", "email", "ntfy", "telegram", "webhook", "webpush" })
+        foreach (var platform in new[] { "discord", "email", "ntfy", "slack", "teams", "telegram", "webhook", "webpush" })
         {
             Assert.Contains(platform + "\n  text limit:", output, StringComparison.Ordinal);
         }
@@ -58,6 +58,8 @@ public sealed class CliTests
         { TelegramUrl, "telegram" },
         { "discord://123456789012345678:TEST-webhook_token_0000000000@discord", "discord" },
         { "ntfy://ntfy.sh", "ntfy" },
+        { "slack://hooks.slack.com/services/T00000000/B00000000/TESTsecret0000", "slack" },
+        { "teams://prod-00.westeurope.logic.azure.com/workflows/0000/triggers/manual/paths/invoke?api-version=2016-06-01&sig=TESTsig000", "teams" },
         { "ntfy://tk_TESTtoken0000@localhost:8090", "ntfy" },
         { "webhook+https://TEST-secret@hooks.example.org/in", "webhook" },
         { "webhook+http://localhost:5000/in", "webhook" },
@@ -86,7 +88,9 @@ public sealed class CliTests
         { "webhook+http://TEST-secret@hooks.example.org/in", "Url must be" },
         { "smtp://smtp.example.org", "From is not" },
         { $"webpush://{VapidPublic}:TEST-bad-key@vapid?subject=mailto:ops@example.org", "VapidPrivateKey" },
-        { "slack://TEST-secret@hooks", "No provider handles the scheme 'slack'" },
+        { "teams://outlook.office.com/webhook/TESTsecret", "retired" },
+        { "slack://example.org/services/TESTsecret", "hooks.slack.com" },
+        { "matrix://TEST-secret@hooks", "No provider handles the scheme 'matrix'" },
         { "not a url TEST-secret", "not an absolute URL" },
     };
 

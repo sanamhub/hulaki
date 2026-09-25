@@ -18,6 +18,8 @@
     <ProjectReference Include="../../src/Hulaki.Webhook/Hulaki.Webhook.csproj" />
     <ProjectReference Include="../../src/Hulaki.Email/Hulaki.Email.csproj" />
     <ProjectReference Include="../../src/Hulaki.WebPush/Hulaki.WebPush.csproj" />
+    <ProjectReference Include="../../src/Hulaki.Slack/Hulaki.Slack.csproj" />
+    <ProjectReference Include="../../src/Hulaki.Teams/Hulaki.Teams.csproj" />
     <InternalsVisibleTo Include="Hulaki.Cli.Tests" />
   </ItemGroup>
   <ItemGroup>

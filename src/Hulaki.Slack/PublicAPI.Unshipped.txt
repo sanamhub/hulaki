@@ -1,0 +1,11 @@
+#nullable enable
+Hulaki.Slack.SlackChannel
+Hulaki.Slack.SlackChannel.SlackChannel(string! name, System.Net.Http.HttpClient! http, Hulaki.Slack.SlackChannelOptions! options) -> void
+Hulaki.Slack.SlackChannelOptions
+Hulaki.Slack.SlackChannelOptions.SlackChannelOptions() -> void
+Hulaki.Slack.SlackChannelOptions.WebhookUrl.get -> System.Uri?
+Hulaki.Slack.SlackChannelOptions.WebhookUrl.set -> void
+Microsoft.Extensions.DependencyInjection.SlackHulakiBuilderExtensions
+static Hulaki.Slack.SlackChannel.Manifest.get -> Hulaki.CapabilityManifest!
+static Microsoft.Extensions.DependencyInjection.SlackHulakiBuilderExtensions.AddSlack(this Microsoft.Extensions.DependencyInjection.IHulakiBuilder! builder, string! name, Microsoft.Extensions.Configuration.IConfigurationSection! section) -> Microsoft.Extensions.DependencyInjection.IHulakiBuilder!
+static Microsoft.Extensions.DependencyInjection.SlackHulakiBuilderExtensions.AddSlack(this Microsoft.Extensions.DependencyInjection.IHulakiBuilder! builder, string! name, System.Action<Hulaki.Slack.SlackChannelOptions!>! configure) -> Microsoft.Extensions.DependencyInjection.IHulakiBuilder!

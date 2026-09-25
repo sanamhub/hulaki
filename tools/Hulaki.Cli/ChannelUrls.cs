@@ -5,6 +5,8 @@ using System.Net.Http;
 using Hulaki.Discord;
 using Hulaki.Email;
 using Hulaki.Ntfy;
+using Hulaki.Slack;
+using Hulaki.Teams;
 using Hulaki.Telegram;
 using Hulaki.Webhook;
 using Hulaki.WebPush;
@@ -33,6 +35,10 @@ internal static class ChannelUrls
             (name, url, _) => (EmailChannelUrl.TryCreate(name, url, out var error), error)),
         new([NtfyChannelUrl.Scheme], NtfyChannelUrl.Format, NtfyChannel.Manifest,
             (name, url, http) => (NtfyChannelUrl.TryCreate(name, url, http, out var error), error)),
+        new([SlackChannelUrl.Scheme], SlackChannelUrl.Format, SlackChannel.Manifest,
+            (name, url, http) => (SlackChannelUrl.TryCreate(name, url, http, out var error), error)),
+        new([TeamsChannelUrl.Scheme], TeamsChannelUrl.Format, TeamsChannel.Manifest,
+            (name, url, http) => (TeamsChannelUrl.TryCreate(name, url, http, out var error), error)),
         new([TelegramChannelUrl.Scheme], TelegramChannelUrl.Format, TelegramChannel.Manifest,
             (name, url, http) => (TelegramChannelUrl.TryCreate(name, url, http, out var error), error)),
         new([WebhookChannelUrl.Scheme, WebhookChannelUrl.LoopbackScheme], WebhookChannelUrl.Format, WebhookChannel.Manifest,

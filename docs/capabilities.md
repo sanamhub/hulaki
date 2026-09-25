@@ -4,20 +4,20 @@ What each Hulaki provider supports, generated from its capability manifest by
 `hulaki capabilities --markdown`. Do not edit it by hand: CI fails when this file and the
 command disagree. A capability a provider does not declare reads as not implemented.
 
-| | discord | email | ntfy | telegram | webhook | webpush |
-| --- | --- | --- | --- | --- | --- | --- |
-| Text limit | 2,000 utf16 | 1,000,000 utf16 | 4,096 bytes | 4,096 utf16 | 65,536 bytes | 3,993 bytes |
-| Attachments | 0 | 0 | 0 | 0 | 0 | 0 |
-| Text | available | available | available | available | available | available |
-| Title | not implemented | available | available | unsupported by platform | available | available |
-| Markup | available | available | available | available | unsupported by platform | unsupported by platform |
-| Images | not implemented | not implemented | not implemented | not implemented | not implemented | not implemented |
-| Video | not implemented | not implemented | not implemented | not implemented | not implemented | not implemented |
-| Priority | unsupported by platform | available | available | available | available | available |
-| ClickAction | unsupported by platform | unsupported by platform | available | not implemented | available | available |
-| IdempotentSend | unsupported by platform | unsupported by platform | unsupported by platform | unsupported by platform | unsupported by platform | unsupported by platform |
-| Reconcile | not implemented | not implemented | not implemented | not implemented | not implemented | not implemented |
-| Delete | not implemented | not implemented | not implemented | not implemented | not implemented | not implemented |
+| | discord | email | ntfy | slack | teams | telegram | webhook | webpush |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Text limit | 2,000 utf16 | 1,000,000 utf16 | 4,096 bytes | 40,000 utf16 | 28,000 bytes | 4,096 utf16 | 65,536 bytes | 3,993 bytes |
+| Attachments | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| Text | available | available | available | available | available | available | available | available |
+| Title | not implemented | available | available | not implemented | available | unsupported by platform | available | available |
+| Markup | available | available | available | available | available | available | unsupported by platform | unsupported by platform |
+| Images | not implemented | not implemented | not implemented | not implemented | not implemented | not implemented | not implemented | not implemented |
+| Video | not implemented | not implemented | not implemented | not implemented | not implemented | not implemented | not implemented | not implemented |
+| Priority | unsupported by platform | available | available | unsupported by platform | unsupported by platform | available | available | available |
+| ClickAction | unsupported by platform | unsupported by platform | available | unsupported by platform | available | not implemented | available | available |
+| IdempotentSend | unsupported by platform | unsupported by platform | unsupported by platform | unsupported by platform | unsupported by platform | unsupported by platform | unsupported by platform | unsupported by platform |
+| Reconcile | not implemented | not implemented | not implemented | not implemented | not implemented | not implemented | not implemented | not implemented |
+| Delete | not implemented | not implemented | not implemented | not implemented | not implemented | not implemented | not implemented | not implemented |
 
 ## discord
 
@@ -43,6 +43,22 @@ command disagree. A capability a provider does not declare reads as not implemen
 | Markup | available | Markdown; rendered by the web app, shown as text where a client does not render it |
 | Priority | available | Low 2, Normal 3, High 4, Urgent 5 |
 | ClickAction | available | Message.Link opens on tap |
+
+## slack
+
+| Capability | Availability | Note |
+| --- | --- | --- |
+| Title | not implemented | Sent as a bold first line; blocks are not used |
+| Markup | available | mrkdwn: *bold*, _italic_, `code`, <url\|text> |
+| ClickAction | unsupported by platform | The link is appended |
+
+## teams
+
+| Capability | Availability | Note |
+| --- | --- | --- |
+| Title | available | A bold TextBlock above the text |
+| Markup | available | Adaptive Card Markdown; code spans are sent as text |
+| ClickAction | available | An Open link button |
 
 ## telegram
 

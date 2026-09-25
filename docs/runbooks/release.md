@@ -20,7 +20,7 @@ post-deploy verification.
 | Web Push | subscribe in Chrome and Firefox via the sample page; both receive; unsubscribe gives `RecipientNotFound` on the next send |
 | Email | send to the test mailbox; HTML and text parts both present |
 | Webhook | send with `Secret` set to a local receiver; its HMAC-SHA256 of the raw body matches `X-Hulaki-Signature` |
-| Slack, Teams | webhook send renders bold and links |
+| Slack, Teams | webhook send renders bold and links; in Teams, `snake_case` in plain text shows no backslash |
 | Bluesky | post with a link and Nepali text; link facet is clickable; delete it |
 | Mastodon | post twice with the same idempotency key; one status exists |
 

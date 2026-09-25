@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <IsAotCompatible>true</IsAotCompatible>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <RootNamespace>Hulaki.Slack</RootNamespace>
+    <!-- Binds SlackChannelOptions with generated code instead of reflection, so AOT apps can bind it. -->
+    <EnableConfigurationBindingGenerator>true</EnableConfigurationBindingGenerator>
+    <IsPackable>true</IsPackable>
+    <PackageId>Hulaki.Slack</PackageId>
+    <Description>Hulaki provider for Slack: posts through an incoming webhook, with markup rendered as mrkdwn and Slack's error codes mapped to outcomes.</Description>
+    <PackageTags>notifications;slack;webhook;hulaki</PackageTags>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../Hulaki/Hulaki.csproj" />
+    <ProjectReference Include="../Hulaki.Extensions.DependencyInjection/Hulaki.Extensions.DependencyInjection.csproj" />
+    <InternalsVisibleTo Include="Hulaki.Slack.Tests" />
+    <!-- The CLI builds channels from channel URLs with the internal parser (ADR-0013). -->
+    <InternalsVisibleTo Include="Hulaki.Cli" />
+    <!-- Settings binding and DI registration shared by every provider, without a public type. -->
+    <Compile Include="../Shared/*.cs" LinkBase="Shared" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="PACKAGE.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
+</Project>

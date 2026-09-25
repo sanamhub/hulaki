@@ -7,6 +7,8 @@ using Hulaki.Channels;
 using Hulaki.Discord;
 using Hulaki.Email;
 using Hulaki.Ntfy;
+using Hulaki.Slack;
+using Hulaki.Teams;
 using Hulaki.Telegram;
 using Hulaki.Webhook;
 using Hulaki.WebPush;
@@ -37,7 +39,15 @@ using var webPush = new WebPushChannel("webpush", http, new WebPushChannelOption
     VapidPrivateKey = Base64Url.EncodeToString(vapidKey.D),
     VapidSubject = "mailto:ops@example.org",
 });
-var client = new HulakiClient([telegram, discord, ntfy, webhook, webPush]);
+using var slack = new SlackChannel("slack", http, new SlackChannelOptions
+{
+    WebhookUrl = new Uri("https://hooks.slack.com/services/T00000000/B00000000/TESTsecret000000000000000"),
+});
+using var teams = new TeamsChannel("teams", http, new TeamsChannelOptions
+{
+    WorkflowUrl = new Uri("https://prod-00.westeurope.logic.azure.com/workflows/0000/triggers/manual/paths/invoke?sig=TESTsig000"),
+});
+var client = new HulakiClient([telegram, discord, ntfy, webhook, webPush, slack, teams]);
 
 var message = new Message("**Orange** rain warning for Myagdi. [DHM](https://dhm.gov.np)")
 {
@@ -51,6 +61,8 @@ var result = await client.SendAsync(message,
     new Target("discord", Recipient.Self),
     new Target("ntfy", new Recipient("hulaki-aot-topic")),
     new Target("webhook", Recipient.Self),
+    new Target("slack", Recipient.Self),
+    new Target("teams", Recipient.Self),
     // The receiver keys of the RFC 8291 section 5 example.
     new Target("webpush", new Recipient("https://push.example.net/push/JzLQ3raZJfFBR0aqvOMsLrt54w4rJUsV", new Dictionary<string, string>
     {
@@ -94,7 +106,8 @@ internal sealed class PlatformStub : HttpMessageHandler
             "api.telegram.org" => """{"ok":true,"result":{"message_id":42}}""",
             "discord.com" => """{"id":"1100000000000000001"}""",
             "ntfy.sh" => """{"id":"sPs71M8A2T","event":"message"}""",
-            "hooks.example.org" or "push.example.net" => "{}",
+            "hooks.example.org" or "push.example.net" or "prod-00.westeurope.logic.azure.com" => "{}",
+            "hooks.slack.com" => "ok",
             _ => throw new InvalidOperationException("No stub for this host."),
         };
         return Task.FromResult(new HttpResponseMessage(HttpStatusCode.OK)
