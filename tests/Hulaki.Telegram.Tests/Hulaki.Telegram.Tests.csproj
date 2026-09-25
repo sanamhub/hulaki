@@ -17,4 +17,8 @@
     <ProjectReference Include="../../src/Hulaki.Telegram/Hulaki.Telegram.csproj" />
     <ProjectReference Include="../../src/Hulaki.Testing/Hulaki.Testing.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <!-- The log, span and metric capture shared with Hulaki.Tests, for the AC-3.5 leak test. -->
+    <Compile Include="../Hulaki.Tests/Telemetry.cs" Link="Telemetry.cs" />
+  </ItemGroup>
 </Project>

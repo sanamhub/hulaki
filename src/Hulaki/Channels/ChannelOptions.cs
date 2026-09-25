@@ -1,5 +1,6 @@
 using System;
 using System.Threading.RateLimiting;
+using Microsoft.Extensions.Logging;
 
 namespace Hulaki.Channels;
 
@@ -48,4 +49,10 @@ public abstract class ChannelOptions
 
     /// <summary>Clock for backoff and pauses. Tests pass a fake.</summary>
     public TimeProvider TimeProvider { get; set; } = TimeProvider.System;
+
+    /// <summary>
+    /// Creates the channel's logger. Null means no logging. Hulaki logs channel names, platform
+    /// ids, error codes and counts, never content, addresses or tokens (ADR-0012).
+    /// </summary>
+    public ILoggerFactory? LoggerFactory { get; set; }
 }

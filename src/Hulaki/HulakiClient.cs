@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Hulaki.Diagnostics;
 using Hulaki.Idempotency;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
@@ -96,6 +97,7 @@ public sealed class HulakiClient
             var claim = await _store.ClaimAsync(_options.IdempotencyScope, key, MessageFingerprint.Compute(message), cancellationToken).ConfigureAwait(false);
             if (claim.Status == ClaimStatus.Conflict)
             {
+                Log.IdempotencyConflict(_logger, targets.Select(t => t.Channel).Distinct(StringComparer.Ordinal).Count());
                 var conflict = DeliveryOutcome.NotSubmitted(new HulakiError(
                     HulakiErrorCode.IdempotencyConflict, RetryDisposition.Never, "The idempotency key was used with different content."));
                 return new SendResult([.. targets.Select(t => new TargetOutcome(t, conflict))]);
@@ -114,7 +116,13 @@ public sealed class HulakiClient
                 var target = targets[index];
                 if (replay.TryGetValue(target.Key, out var stored) && IsFinal(stored))
                 {
-                    outcomes[index] = new TargetOutcome(target, stored.With(stored.Attempts, isReplay: true));
+                    var replayed = stored.With(stored.Attempts, isReplay: true);
+                    using (var activity = HulakiDiagnostics.StartSend(target.Channel, _channels[target.Channel].Capabilities.Platform))
+                    {
+                        HulakiDiagnostics.Complete(activity, replayed, isReplay: true);
+                    }
+
+                    outcomes[index] = new TargetOutcome(target, replayed);
                     return;
                 }
 
@@ -131,7 +139,7 @@ public sealed class HulakiClient
     }
 
     // A provider bug must cost one target, not the batch (AC-3.2). Cancellation still propagates.
-    private static async Task<DeliveryOutcome> SendOneAsync(IChannel channel, Message message, Recipient recipient, CancellationToken cancellationToken)
+    private async Task<DeliveryOutcome> SendOneAsync(IChannel channel, Message message, Recipient recipient, CancellationToken cancellationToken)
     {
         try
         {
@@ -139,7 +147,7 @@ public sealed class HulakiClient
         }
         catch (Exception ex) when (ex is not OperationCanceledException)
         {
-            // T13: log event 7
+            Log.ProviderThrew(_logger, channel.Name, ex.GetType().Name);
             return DeliveryOutcome.Failed(new HulakiError(
                 HulakiErrorCode.UpstreamFailure, RetryDisposition.Never, $"Channel threw {ex.GetType().Name}."));
         }

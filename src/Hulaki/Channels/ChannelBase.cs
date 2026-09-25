@@ -5,7 +5,10 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.RateLimiting;
 using System.Threading.Tasks;
+using Hulaki.Diagnostics;
 using Hulaki.Markup;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 
 namespace Hulaki.Channels;
 
@@ -19,6 +22,7 @@ public abstract class ChannelBase : IChannel, IDisposable
     private readonly RateLimiter? _limiter;
     private readonly bool _ownsLimiter;
     private readonly Func<double> _jitter;
+    private readonly ILogger _logger;
     private long _pausedUntilTicks;
 
     /// <summary>Creates the channel.</summary>
@@ -47,6 +51,7 @@ public abstract class ChannelBase : IChannel, IDisposable
         Capabilities = capabilities;
         Options = options;
         _jitter = jitter ?? Random.Shared.NextDouble;
+        _logger = (options.LoggerFactory ?? NullLoggerFactory.Instance).CreateLogger(GetType().FullName ?? nameof(ChannelBase));
         if (!options.DisableRateLimiting)
         {
             _limiter = options.RateLimiter;
@@ -112,19 +117,30 @@ public abstract class ChannelBase : IChannel, IDisposable
     public async Task<DeliveryOutcome> SendAsync(Message message, Recipient recipient, CancellationToken cancellationToken = default)
     {
         var issues = Prepare(message, recipient);
+        using var activity = HulakiDiagnostics.StartSend(Name, Capabilities.Platform);
+        var started = Options.TimeProvider.GetTimestamp();
+
+        DeliveryOutcome outcome;
         if (issues.Any(i => i.IsError))
         {
-            return DeliveryOutcome.NotSubmitted(issues);
+            outcome = DeliveryOutcome.NotSubmitted(issues);
         }
-
-        if (message.Overflow == OverflowBehavior.Truncate)
+        else
         {
-            message = message.WithTruncatedText(Capabilities.TextLimit, CountedText);
+            if (message.Overflow == OverflowBehavior.Truncate)
+            {
+                message = message.WithTruncatedText(Capabilities.TextLimit, CountedText);
+            }
+
+            // Warnings such as title-inlined describe what the recipient sees, so they stay on the outcome.
+            outcome = await SendWithRetriesAsync(message, recipient, cancellationToken).ConfigureAwait(false);
+            outcome = issues.Count == 0 ? outcome : outcome.WithWarnings(issues);
         }
 
-        // Warnings such as title-inlined describe what the recipient sees, so they stay on the outcome.
-        var outcome = await SendWithRetriesAsync(message, recipient, cancellationToken).ConfigureAwait(false);
-        return issues.Count == 0 ? outcome : outcome.WithWarnings(issues);
+        HulakiDiagnostics.Complete(activity, outcome, isReplay: false);
+        HulakiDiagnostics.RecordSend(Capabilities.Platform, outcome, Options.TimeProvider.GetElapsedTime(started));
+        LogOutcome(outcome);
+        return outcome;
     }
 
     /// <summary>
@@ -164,9 +180,13 @@ public abstract class ChannelBase : IChannel, IDisposable
 
             if (outcome.Error.Code == HulakiErrorCode.RateLimited)
             {
-                PauseUntil(Options.TimeProvider.GetUtcNow() + delay);
+                var until = Options.TimeProvider.GetUtcNow() + delay;
+                PauseUntil(until);
+                Log.ChannelPaused(_logger, Name, until);
             }
 
+            HulakiDiagnostics.RecordRetry(Capabilities.Platform, outcome.Error.Code);
+            Log.Retrying(_logger, Name, Capabilities.Platform, outcome.Error.Code, delay);
             await Task.Delay(delay, Options.TimeProvider, cancellationToken).ConfigureAwait(false);
         }
     }
@@ -206,6 +226,24 @@ public abstract class ChannelBase : IChannel, IDisposable
         if (disposing && _ownsLimiter)
         {
             _limiter?.Dispose();
+        }
+    }
+
+    private void LogOutcome(DeliveryOutcome outcome)
+    {
+        switch (outcome.Status)
+        {
+            case DeliveryStatus.Delivered or DeliveryStatus.Accepted:
+                Log.SendDelivered(_logger, Name, Capabilities.Platform, outcome.Attempts);
+                break;
+            case DeliveryStatus.Failed:
+                Log.SendFailed(_logger, Name, Capabilities.Platform, outcome.Error!.Code);
+                break;
+            case DeliveryStatus.Unknown:
+                Log.OutcomeUnknown(_logger, Name, Capabilities.Platform);
+                break;
+            default:
+                break;
         }
     }
 

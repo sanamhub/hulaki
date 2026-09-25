@@ -53,6 +53,8 @@ Hulaki.Channels.ChannelOptions
 Hulaki.Channels.ChannelOptions.ChannelOptions() -> void
 Hulaki.Channels.ChannelOptions.DisableRateLimiting.get -> bool
 Hulaki.Channels.ChannelOptions.DisableRateLimiting.set -> void
+Hulaki.Channels.ChannelOptions.LoggerFactory.get -> Microsoft.Extensions.Logging.ILoggerFactory?
+Hulaki.Channels.ChannelOptions.LoggerFactory.set -> void
 Hulaki.Channels.ChannelOptions.RateLimiter.get -> System.Threading.RateLimiting.RateLimiter?
 Hulaki.Channels.ChannelOptions.RateLimiter.set -> void
 Hulaki.Channels.ChannelOptions.Retry.get -> Hulaki.Channels.SendRetryPolicy!

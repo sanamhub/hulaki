@@ -3,6 +3,7 @@ using System.Net.Http;
 using Hulaki.Telegram;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 namespace Microsoft.Extensions.DependencyInjection;
@@ -50,7 +51,9 @@ public static class TelegramHulakiBuilderExtensions
     private static IHulakiBuilder AddTelegramCore(IHulakiBuilder builder, string name, Action<OptionsBuilder<TelegramChannelOptions>> configure)
     {
         var services = builder.Services;
-        configure(services.AddOptions<TelegramChannelOptions>(name).ValidateOnStart());
+        var options = services.AddOptions<TelegramChannelOptions>(name).ValidateOnStart();
+        configure(options);
+        options.PostConfigure<IServiceProvider>((o, provider) => o.LoggerFactory ??= provider.GetService<ILoggerFactory>());
         services.TryAddEnumerable(ServiceDescriptor.Singleton<IValidateOptions<TelegramChannelOptions>, TelegramChannelOptionsValidator>());
 
         // The bot token is in every request path, and IHttpClientFactory logs request URIs at
