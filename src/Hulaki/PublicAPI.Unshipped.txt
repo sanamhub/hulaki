@@ -138,6 +138,29 @@ Hulaki.IChannel.Capabilities.get -> Hulaki.CapabilityManifest!
 Hulaki.IChannel.Name.get -> string!
 Hulaki.IChannel.Prepare(Hulaki.Message! message, Hulaki.Recipient! recipient) -> System.Collections.Generic.IReadOnlyList<Hulaki.PreparationIssue!>!
 Hulaki.IChannel.SendAsync(Hulaki.Message! message, Hulaki.Recipient! recipient, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<Hulaki.DeliveryOutcome!>!
+Hulaki.Idempotency.ClaimStatus
+Hulaki.Idempotency.ClaimStatus.Conflict = 2 -> Hulaki.Idempotency.ClaimStatus
+Hulaki.Idempotency.ClaimStatus.Existing = 1 -> Hulaki.Idempotency.ClaimStatus
+Hulaki.Idempotency.ClaimStatus.New = 0 -> Hulaki.Idempotency.ClaimStatus
+Hulaki.Idempotency.IdempotencyClaim
+Hulaki.Idempotency.IdempotencyClaim.<Clone>$() -> Hulaki.Idempotency.IdempotencyClaim!
+Hulaki.Idempotency.IdempotencyClaim.Deconstruct(out Hulaki.Idempotency.ClaimStatus Status, out System.Collections.Generic.IReadOnlyDictionary<string!, Hulaki.DeliveryOutcome!>! Outcomes) -> void
+Hulaki.Idempotency.IdempotencyClaim.Equals(Hulaki.Idempotency.IdempotencyClaim? other) -> bool
+Hulaki.Idempotency.IdempotencyClaim.IdempotencyClaim(Hulaki.Idempotency.ClaimStatus Status, System.Collections.Generic.IReadOnlyDictionary<string!, Hulaki.DeliveryOutcome!>! Outcomes) -> void
+Hulaki.Idempotency.IdempotencyClaim.Outcomes.get -> System.Collections.Generic.IReadOnlyDictionary<string!, Hulaki.DeliveryOutcome!>!
+Hulaki.Idempotency.IdempotencyClaim.Outcomes.init -> void
+Hulaki.Idempotency.IdempotencyClaim.Status.get -> Hulaki.Idempotency.ClaimStatus
+Hulaki.Idempotency.IdempotencyClaim.Status.init -> void
+Hulaki.Idempotency.IIdempotencyStore
+Hulaki.Idempotency.IIdempotencyStore.ClaimAsync(string! scope, string! key, string! fingerprint, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.ValueTask<Hulaki.Idempotency.IdempotencyClaim!>
+Hulaki.Idempotency.IIdempotencyStore.SaveOutcomeAsync(string! scope, string! key, string! targetKey, Hulaki.DeliveryOutcome! outcome, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.ValueTask
+Hulaki.Idempotency.InMemoryIdempotencyStore
+Hulaki.Idempotency.InMemoryIdempotencyStore.ClaimAsync(string! scope, string! key, string! fingerprint, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.ValueTask<Hulaki.Idempotency.IdempotencyClaim!>
+Hulaki.Idempotency.InMemoryIdempotencyStore.InMemoryIdempotencyStore(System.TimeProvider? timeProvider = null) -> void
+Hulaki.Idempotency.InMemoryIdempotencyStore.Retention.get -> System.TimeSpan
+Hulaki.Idempotency.InMemoryIdempotencyStore.Retention.init -> void
+Hulaki.Idempotency.InMemoryIdempotencyStore.SaveOutcomeAsync(string! scope, string! key, string! targetKey, Hulaki.DeliveryOutcome! outcome, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.ValueTask
+Hulaki.Idempotency.MessageFingerprint
 Hulaki.Markup.BoldNode
 Hulaki.Markup.BoldNode.BoldNode(System.Collections.Generic.IReadOnlyList<Hulaki.Markup.MarkupNode!>! Children) -> void
 Hulaki.Markup.BoldNode.Children.get -> System.Collections.Generic.IReadOnlyList<Hulaki.Markup.MarkupNode!>!
@@ -292,6 +315,9 @@ override Hulaki.DeliveryOutcome.ToString() -> string!
 override Hulaki.HulakiError.Equals(object? obj) -> bool
 override Hulaki.HulakiError.GetHashCode() -> int
 override Hulaki.HulakiError.ToString() -> string!
+override Hulaki.Idempotency.IdempotencyClaim.Equals(object? obj) -> bool
+override Hulaki.Idempotency.IdempotencyClaim.GetHashCode() -> int
+override Hulaki.Idempotency.IdempotencyClaim.ToString() -> string!
 override Hulaki.Markup.BoldNode.<Clone>$() -> Hulaki.Markup.BoldNode!
 override Hulaki.Markup.BoldNode.Equals(object? obj) -> bool
 override Hulaki.Markup.BoldNode.GetHashCode() -> int
@@ -355,6 +381,9 @@ static Hulaki.DeliveryOutcome.NotSubmitted(System.Collections.Generic.IReadOnlyL
 static Hulaki.DeliveryOutcome.Unknown(Hulaki.HulakiError! error) -> Hulaki.DeliveryOutcome!
 static Hulaki.HulakiError.operator !=(Hulaki.HulakiError? left, Hulaki.HulakiError? right) -> bool
 static Hulaki.HulakiError.operator ==(Hulaki.HulakiError? left, Hulaki.HulakiError? right) -> bool
+static Hulaki.Idempotency.IdempotencyClaim.operator !=(Hulaki.Idempotency.IdempotencyClaim? left, Hulaki.Idempotency.IdempotencyClaim? right) -> bool
+static Hulaki.Idempotency.IdempotencyClaim.operator ==(Hulaki.Idempotency.IdempotencyClaim? left, Hulaki.Idempotency.IdempotencyClaim? right) -> bool
+static Hulaki.Idempotency.MessageFingerprint.Compute(Hulaki.Message! message) -> string!
 static Hulaki.Markup.BoldNode.operator !=(Hulaki.Markup.BoldNode? left, Hulaki.Markup.BoldNode? right) -> bool
 static Hulaki.Markup.BoldNode.operator ==(Hulaki.Markup.BoldNode? left, Hulaki.Markup.BoldNode? right) -> bool
 static Hulaki.Markup.CodeNode.operator !=(Hulaki.Markup.CodeNode? left, Hulaki.Markup.CodeNode? right) -> bool
