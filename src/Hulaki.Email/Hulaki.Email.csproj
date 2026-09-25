@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <IsAotCompatible>true</IsAotCompatible>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <RootNamespace>Hulaki.Email</RootNamespace>
+    <!-- Binds EmailChannelOptions with generated code instead of reflection, so AOT apps can bind it. -->
+    <EnableConfigurationBindingGenerator>true</EnableConfigurationBindingGenerator>
+    <IsPackable>true</IsPackable>
+    <PackageId>Hulaki.Email</PackageId>
+    <Description>Hulaki provider for email over SMTP submission with MailKit: STARTTLS by default, a plain text and an HTML part, and SMTP replies mapped to retry-safe outcomes.</Description>
+    <PackageTags>notifications;email;smtp;mailkit;hulaki</PackageTags>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../Hulaki/Hulaki.csproj" />
+    <ProjectReference Include="../Hulaki.Extensions.DependencyInjection/Hulaki.Extensions.DependencyInjection.csproj" />
+    <PackageReference Include="MailKit" />
+    <InternalsVisibleTo Include="Hulaki.Email.Tests" />
+    <!-- Settings binding and DI registration shared by every provider, without a public type. -->
+    <Compile Include="../Shared/*.cs" LinkBase="Shared" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="PACKAGE.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
+</Project>

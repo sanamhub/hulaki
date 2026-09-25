@@ -3,6 +3,7 @@
     <Project Path="src/Hulaki.Webhook/Hulaki.Webhook.csproj" />
     <Project Path="src/Hulaki/Hulaki.csproj" />
     <Project Path="src/Hulaki.Discord/Hulaki.Discord.csproj" />
+    <Project Path="src/Hulaki.Email/Hulaki.Email.csproj" />
     <Project Path="src/Hulaki.Extensions.DependencyInjection/Hulaki.Extensions.DependencyInjection.csproj" />
     <Project Path="src/Hulaki.Ntfy/Hulaki.Ntfy.csproj" />
     <Project Path="src/Hulaki.Telegram/Hulaki.Telegram.csproj" />
@@ -10,6 +11,7 @@
   </Folder>
   <Folder Name="/tests/">
     <Project Path="tests/Hulaki.Discord.Tests/Hulaki.Discord.Tests.csproj" />
+    <Project Path="tests/Hulaki.Email.Tests/Hulaki.Email.Tests.csproj" />
     <Project Path="tests/Hulaki.Extensions.DependencyInjection.Tests/Hulaki.Extensions.DependencyInjection.Tests.csproj" />
     <Project Path="tests/Hulaki.Ntfy.Tests/Hulaki.Ntfy.Tests.csproj" />
     <Project Path="tests/Hulaki.Telegram.Tests/Hulaki.Telegram.Tests.csproj" />

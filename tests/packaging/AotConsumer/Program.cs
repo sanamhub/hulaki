@@ -1,7 +1,9 @@
 using System.Net;
 using System.Text;
 using Hulaki;
+using Hulaki.Channels;
 using Hulaki.Discord;
+using Hulaki.Email;
 using Hulaki.Ntfy;
 using Hulaki.Telegram;
 using Hulaki.Webhook;
@@ -43,6 +45,23 @@ var result = await client.SendAsync(message,
 foreach (var (target, outcome) in result.Outcomes.Where(o => !o.Outcome.Succeeded))
 {
     Console.Error.WriteLine($"{target.Channel}: {outcome}");
+}
+
+// SMTP has no stub: connect to a closed loopback port instead. That runs MailKit's connect path and
+// MimeKit's message building under AOT, and the refusal must come back as a retryable failure.
+using var email = new EmailChannel("email", new EmailChannelOptions
+{
+    Host = "127.0.0.1",
+    Port = 9,
+    From = "alerts@example.org",
+    Retry = SendRetryPolicy.None,
+});
+var refused = await email.SendAsync(message, new Recipient("reader@example.org"));
+if (refused.Error is not { Code: HulakiErrorCode.UpstreamFailure, Retry: RetryDisposition.AfterDelay })
+{
+    Console.Error.WriteLine($"email: expected a refused connection, got {refused}");
+    Console.WriteLine("Failed");
+    return 1;
 }
 
 // CI compares the whole output with "Delivered".

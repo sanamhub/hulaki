@@ -12,6 +12,8 @@
     <PackageVersion Include="System.Threading.RateLimiting" Version="10.0.12" />
     <PackageVersion Include="Microsoft.Extensions.Http" Version="10.0.12" />
     <PackageVersion Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="10.0.12" />
+    <!-- The one third-party runtime dependency, in Hulaki.Email only (ADR-0009). -->
+    <PackageVersion Include="MailKit" Version="4.18.0" />
     <PackageVersion Include="xunit.v3" Version="4.0.1" />
     <!-- Hulaki.Testing ships the contract kit on the core library only, so consumers pick their own
          runner. Keep it on the same version as xunit.v3. -->

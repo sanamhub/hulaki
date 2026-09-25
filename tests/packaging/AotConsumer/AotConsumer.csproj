@@ -22,6 +22,7 @@
     <PackageReference Include="Hulaki.Discord" Version="$(HulakiVersion)" />
     <PackageReference Include="Hulaki.Ntfy" Version="$(HulakiVersion)" />
     <PackageReference Include="Hulaki.Webhook" Version="$(HulakiVersion)" />
+    <PackageReference Include="Hulaki.Email" Version="$(HulakiVersion)" />
   </ItemGroup>
   <!-- The version to consume is passed in (-p:HulakiVersion=...), so a stale package can never be
        picked up by accident. -->
