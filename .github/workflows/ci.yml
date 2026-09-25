@@ -89,14 +89,16 @@ jobs:
           sudo apt-get update && sudo apt-get install -y clang zlib1g-dev
           ./tests/packaging/verify-package.sh --package-dir artifacts/packages --aot
 
-      # TreatWarningsAsErrors in the consumer turns any IL2xxx or IL3xxx warning into a failure.
-      - name: publish the AOT consumer
+      # TreatWarningsAsErrors in the consumers turns any IL2xxx or IL3xxx warning into a failure.
+      # AotConsumer calls TelegramChannel directly; AotConsumer.DependencyInjection goes through
+      # AddHulaki().AddTelegram(configuration).
+      - name: publish and run the AOT consumers
         run: |
           version="$(sed -n 's:.*<Version>\(.*\)</Version>.*:\1:p' Directory.Build.props)"
-          dotnet publish tests/packaging/AotConsumer -c Release -r linux-x64 -p:HulakiVersion="$version" -o aot-consumer
-
-      - name: run the AOT consumer
-        run: test "$(./aot-consumer/AotConsumer)" = "Delivered"
+          for consumer in AotConsumer AotConsumer.DependencyInjection; do
+            dotnet publish "tests/packaging/$consumer" -c Release -r linux-x64 -p:HulakiVersion="$version" -o "aot/$consumer"
+            test "$("./aot/$consumer/$consumer")" = "Delivered"
+          done
 
       - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:

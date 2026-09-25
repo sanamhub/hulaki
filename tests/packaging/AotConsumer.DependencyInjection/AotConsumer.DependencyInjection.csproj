@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- The same check as AotConsumer, through AddHulaki().AddTelegram(configuration): options
+       binding, startup validation and IHttpClientFactory under Native AOT. Not in Hulaki.slnx; see
+       AotConsumer.csproj. -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <PublishAot>true</PublishAot>
+    <InvariantGlobalization>true</InvariantGlobalization>
+    <!-- A trim or AOT warning (IL2xxx, IL3xxx) from our packages fails the publish. -->
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+  <ItemGroup>
+    <TrimmerRootAssembly Include="Hulaki" />
+    <TrimmerRootAssembly Include="Hulaki.Extensions.DependencyInjection" />
+    <PackageReference Include="Hulaki.Telegram" Version="$(HulakiVersion)" />
+    <PackageReference Include="Hulaki.Extensions.DependencyInjection" Version="$(HulakiVersion)" />
+  </ItemGroup>
+  <Target Name="RequireHulakiVersion" BeforeTargets="_CheckForInvalidConfigurationAndPlatform;CollectPackageReferences">
+    <Error Condition="'$(HulakiVersion)' == ''" Text="Pass -p:HulakiVersion=&lt;the version in Directory.Build.props&gt;." />
+  </Target>
+</Project>

@@ -9,4 +9,7 @@ Hulaki.Telegram.TelegramChannelOptions.BotToken.set -> void
 Hulaki.Telegram.TelegramChannelOptions.DisableLinkPreview.get -> bool
 Hulaki.Telegram.TelegramChannelOptions.DisableLinkPreview.set -> void
 Hulaki.Telegram.TelegramChannelOptions.TelegramChannelOptions() -> void
+Microsoft.Extensions.DependencyInjection.TelegramHulakiBuilderExtensions
 static Hulaki.Telegram.TelegramChannel.Manifest.get -> Hulaki.CapabilityManifest!
+static Microsoft.Extensions.DependencyInjection.TelegramHulakiBuilderExtensions.AddTelegram(this Microsoft.Extensions.DependencyInjection.IHulakiBuilder! builder, string! name, Microsoft.Extensions.Configuration.IConfigurationSection! section) -> Microsoft.Extensions.DependencyInjection.IHulakiBuilder!
+static Microsoft.Extensions.DependencyInjection.TelegramHulakiBuilderExtensions.AddTelegram(this Microsoft.Extensions.DependencyInjection.IHulakiBuilder! builder, string! name, System.Action<Hulaki.Telegram.TelegramChannelOptions!>! configure) -> Microsoft.Extensions.DependencyInjection.IHulakiBuilder!

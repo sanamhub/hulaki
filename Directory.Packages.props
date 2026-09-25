@@ -10,6 +10,8 @@
   <ItemGroup>
     <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.12" />
     <PackageVersion Include="System.Threading.RateLimiting" Version="10.0.12" />
+    <PackageVersion Include="Microsoft.Extensions.Http" Version="10.0.12" />
+    <PackageVersion Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="10.0.12" />
     <PackageVersion Include="xunit.v3" Version="4.0.1" />
     <!-- Hulaki.Testing ships the contract kit on the core library only, so consumers pick their own
          runner. Keep it on the same version as xunit.v3. -->

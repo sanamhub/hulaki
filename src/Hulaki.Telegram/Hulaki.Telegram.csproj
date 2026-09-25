@@ -4,6 +4,8 @@
     <IsAotCompatible>true</IsAotCompatible>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <RootNamespace>Hulaki.Telegram</RootNamespace>
+    <!-- Binds TelegramChannelOptions with generated code instead of reflection, so AOT apps can bind it. -->
+    <EnableConfigurationBindingGenerator>true</EnableConfigurationBindingGenerator>
     <IsPackable>true</IsPackable>
     <PackageId>Hulaki.Telegram</PackageId>
     <Description>Hulaki provider for Telegram: sends to chats and channels through the Bot API sendMessage method, with markup rendered as Telegram HTML and the per-bot and per-chat limits built in.</Description>
@@ -11,6 +13,7 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="../Hulaki/Hulaki.csproj" />
+    <ProjectReference Include="../Hulaki.Extensions.DependencyInjection/Hulaki.Extensions.DependencyInjection.csproj" />
     <InternalsVisibleTo Include="Hulaki.Telegram.Tests" />
   </ItemGroup>
   <ItemGroup>
