@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <OutputType>Exe</OutputType>
+    <IsPackable>false</IsPackable>
+    <UseMicrosoftTestingPlatformRunner>true</UseMicrosoftTestingPlatformRunner>
+    <!-- A leg that discovers no tests fails instead of passing green (ADR-0014). -->
+    <TestingPlatformCommandLineArguments>--minimum-expected-tests 1</TestingPlatformCommandLineArguments>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="xunit.v3" />
+    <PackageReference Include="Microsoft.Extensions.TimeProvider.Testing" />
+    <!-- CI asks for coverage and a TRX report. Without these extensions the test run rejects
+         both switches as unknown and fails. -->
+    <PackageReference Include="Microsoft.Testing.Extensions.CodeCoverage" />
+    <PackageReference Include="Microsoft.Testing.Extensions.TrxReport" />
+    <ProjectReference Include="../../src/Hulaki.Discord/Hulaki.Discord.csproj" />
+    <ProjectReference Include="../../src/Hulaki.Testing/Hulaki.Testing.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <!-- The log, span and metric capture shared with Hulaki.Tests, for the AC-3.5 leak test. -->
+    <Compile Include="../Hulaki.Tests/Telemetry.cs" Link="Telemetry.cs" />
+    <Compile Include="../Shared/*.cs" LinkBase="Shared" />
+  </ItemGroup>
+</Project>

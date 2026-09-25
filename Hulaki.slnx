@@ -1,11 +1,13 @@
 <Solution>
   <Folder Name="/src/">
     <Project Path="src/Hulaki/Hulaki.csproj" />
+    <Project Path="src/Hulaki.Discord/Hulaki.Discord.csproj" />
     <Project Path="src/Hulaki.Extensions.DependencyInjection/Hulaki.Extensions.DependencyInjection.csproj" />
     <Project Path="src/Hulaki.Telegram/Hulaki.Telegram.csproj" />
     <Project Path="src/Hulaki.Testing/Hulaki.Testing.csproj" />
   </Folder>
   <Folder Name="/tests/">
+    <Project Path="tests/Hulaki.Discord.Tests/Hulaki.Discord.Tests.csproj" />
     <Project Path="tests/Hulaki.Extensions.DependencyInjection.Tests/Hulaki.Extensions.DependencyInjection.Tests.csproj" />
     <Project Path="tests/Hulaki.Telegram.Tests/Hulaki.Telegram.Tests.csproj" />
     <Project Path="tests/Hulaki.Tests/Hulaki.Tests.csproj" />

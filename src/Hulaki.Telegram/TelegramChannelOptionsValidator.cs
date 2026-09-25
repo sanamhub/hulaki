@@ -1,4 +1,5 @@
 using System;
+using Hulaki.Providers;
 using Microsoft.Extensions.Options;
 
 namespace Hulaki.Telegram;
@@ -16,10 +17,7 @@ internal sealed class TelegramChannelOptionsValidator : IValidateOptions<Telegra
         }
 
         // HTTPS only, except a local Bot API server on loopback (ADR-0015).
-        var address = options.BaseAddress;
-        var allowed = address is { IsAbsoluteUri: true }
-            && (address.Scheme == Uri.UriSchemeHttps || (address.Scheme == Uri.UriSchemeHttp && address.IsLoopback));
-        if (!allowed)
+        if (!Endpoints.IsHttpsOrLoopback(options.BaseAddress))
         {
             return ValidateOptionsResult.Fail($"Telegram channel '{channel}': BaseAddress must be an absolute HTTPS URL, or an HTTP loopback URL for a local server.");
         }

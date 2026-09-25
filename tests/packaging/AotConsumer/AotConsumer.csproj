@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
-  <!-- Consumes the packed Hulaki and Hulaki.Telegram under Native AOT. Not in Hulaki.slnx: it can
-       only restore after `dotnet pack -c Release -o artifacts/packages`. CI publishes it with
-       -r linux-x64 and runs the binary, which prints Delivered. -->
+  <!-- Consumes the packed Hulaki and every provider package under Native AOT. Not in Hulaki.slnx:
+       it can only restore after `dotnet pack -c Release -o artifacts/packages`. CI publishes it
+       with -r linux-x64 and runs the binary, which prints Delivered. -->
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net10.0</TargetFramework>
@@ -19,6 +19,7 @@
     <TrimmerRootAssembly Include="Hulaki" />
     <PackageReference Include="Hulaki" Version="$(HulakiVersion)" />
     <PackageReference Include="Hulaki.Telegram" Version="$(HulakiVersion)" />
+    <PackageReference Include="Hulaki.Discord" Version="$(HulakiVersion)" />
   </ItemGroup>
   <!-- The version to consume is passed in (-p:HulakiVersion=...), so a stale package can never be
        picked up by accident. -->

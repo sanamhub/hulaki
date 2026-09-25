@@ -1,52 +1,52 @@
 using System;
+using Hulaki.Discord;
 using Hulaki.Providers;
-using Hulaki.Telegram;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 
 namespace Microsoft.Extensions.DependencyInjection;
 
-/// <summary>Adds Telegram channels to Hulaki (ADR-0013).</summary>
-public static class TelegramHulakiBuilderExtensions
+/// <summary>Adds Discord webhook channels to Hulaki (ADR-0013).</summary>
+public static class DiscordHulakiBuilderExtensions
 {
     /// <summary>
-    /// Adds a Telegram channel named <paramref name="name"/> with options bound from
-    /// <paramref name="section"/>, for example <c>{ "BotToken": "..." }</c>. The options are
+    /// Adds a Discord channel named <paramref name="name"/> with options bound from
+    /// <paramref name="section"/>, for example <c>{ "WebhookUrl": "..." }</c>. The options are
     /// validated when the host starts.
     /// </summary>
     /// <param name="builder">The Hulaki builder.</param>
     /// <param name="name">The channel name, unique across channels.</param>
-    /// <param name="section">The configuration section holding <see cref="TelegramChannelOptions"/>.</param>
+    /// <param name="section">The configuration section holding <see cref="DiscordChannelOptions"/>.</param>
     /// <returns>The builder, for chaining.</returns>
     /// <exception cref="ArgumentNullException"><paramref name="builder"/> or <paramref name="section"/> is null.</exception>
     /// <exception cref="ArgumentException"><paramref name="name"/> is null, empty or whitespace.</exception>
-    public static IHulakiBuilder AddTelegram(this IHulakiBuilder builder, string name, IConfigurationSection section)
+    public static IHulakiBuilder AddDiscord(this IHulakiBuilder builder, string name, IConfigurationSection section)
     {
         ArgumentNullException.ThrowIfNull(builder);
         ArgumentException.ThrowIfNullOrWhiteSpace(name);
         ArgumentNullException.ThrowIfNull(section);
-        return AddTelegramCore(builder, name, options => options.Configure(o => TelegramChannelSettings.Apply(section, o)));
+        return AddDiscordCore(builder, name, options => options.Configure(o => DiscordChannelSettings.Apply(section, o)));
     }
 
     /// <summary>
-    /// Adds a Telegram channel named <paramref name="name"/> configured in code. The options are
+    /// Adds a Discord channel named <paramref name="name"/> configured in code. The options are
     /// validated when the host starts.
     /// </summary>
     /// <param name="builder">The Hulaki builder.</param>
     /// <param name="name">The channel name, unique across channels.</param>
-    /// <param name="configure">Sets the options, at least <see cref="TelegramChannelOptions.BotToken"/>.</param>
+    /// <param name="configure">Sets the options, at least <see cref="DiscordChannelOptions.WebhookUrl"/>.</param>
     /// <returns>The builder, for chaining.</returns>
     /// <exception cref="ArgumentNullException"><paramref name="builder"/> or <paramref name="configure"/> is null.</exception>
     /// <exception cref="ArgumentException"><paramref name="name"/> is null, empty or whitespace.</exception>
-    public static IHulakiBuilder AddTelegram(this IHulakiBuilder builder, string name, Action<TelegramChannelOptions> configure)
+    public static IHulakiBuilder AddDiscord(this IHulakiBuilder builder, string name, Action<DiscordChannelOptions> configure)
     {
         ArgumentNullException.ThrowIfNull(builder);
         ArgumentException.ThrowIfNullOrWhiteSpace(name);
         ArgumentNullException.ThrowIfNull(configure);
-        return AddTelegramCore(builder, name, options => options.Configure(configure));
+        return AddDiscordCore(builder, name, options => options.Configure(configure));
     }
 
-    private static IHulakiBuilder AddTelegramCore(IHulakiBuilder builder, string name, Action<OptionsBuilder<TelegramChannelOptions>> configure) =>
-        ProviderRegistration.AddHttpChannel<TelegramChannelOptions, TelegramChannelOptionsValidator>(
-            builder, name, configure, (channel, http, options, _) => new TelegramChannel(channel, http, options));
+    private static IHulakiBuilder AddDiscordCore(IHulakiBuilder builder, string name, Action<OptionsBuilder<DiscordChannelOptions>> configure) =>
+        ProviderRegistration.AddHttpChannel<DiscordChannelOptions, DiscordChannelOptionsValidator>(
+            builder, name, configure, (channel, http, options, _) => new DiscordChannel(channel, http, options));
 }
