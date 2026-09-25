@@ -77,21 +77,31 @@ jobs:
         with:
           global-json-file: global.json
 
+      # tests/packaging/NuGet.Config reads the packages from this folder.
       - name: pack
-        run: dotnet pack -c Release -o out
+        run: dotnet pack -c Release -o artifacts/packages
 
       - name: consume the packages
-        run: ./tests/packaging/verify-package.sh --package-dir out
+        run: ./tests/packaging/verify-package.sh --package-dir artifacts/packages
 
       - name: consume them under Native AOT
         run: |
           sudo apt-get update && sudo apt-get install -y clang zlib1g-dev
-          ./tests/packaging/verify-package.sh --package-dir out --aot
+          ./tests/packaging/verify-package.sh --package-dir artifacts/packages --aot
+
+      # TreatWarningsAsErrors in the consumer turns any IL2xxx or IL3xxx warning into a failure.
+      - name: publish the AOT consumer
+        run: |
+          version="$(sed -n 's:.*<Version>\(.*\)</Version>.*:\1:p' Directory.Build.props)"
+          dotnet publish tests/packaging/AotConsumer -c Release -r linux-x64 -p:HulakiVersion="$version" -o aot-consumer
+
+      - name: run the AOT consumer
+        run: test "$(./aot-consumer/AotConsumer)" = "Delivered"
 
       - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: nupkg
-          path: out/*.nupkg
+          path: artifacts/packages/*.nupkg
           retention-days: 7
 
   codeql:
