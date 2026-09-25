@@ -74,6 +74,20 @@ Hulaki.Channels.SendRetryPolicy.MaxRetryAfter.init -> void
 Hulaki.Channels.SendRetryPolicy.ResendUnknown.get -> bool
 Hulaki.Channels.SendRetryPolicy.ResendUnknown.init -> void
 Hulaki.Channels.SendRetryPolicy.SendRetryPolicy() -> void
+Hulaki.Credentials.ICredentialStore
+Hulaki.Credentials.ICredentialStore.CompareAndSetAsync(string! key, long expectedRevision, Hulaki.Credentials.StoredCredential! value, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.ValueTask<bool>
+Hulaki.Credentials.ICredentialStore.GetAsync(string! key, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.ValueTask<Hulaki.Credentials.StoredCredential?>
+Hulaki.Credentials.InMemoryCredentialStore
+Hulaki.Credentials.InMemoryCredentialStore.CompareAndSetAsync(string! key, long expectedRevision, Hulaki.Credentials.StoredCredential! value, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.ValueTask<bool>
+Hulaki.Credentials.InMemoryCredentialStore.GetAsync(string! key, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.ValueTask<Hulaki.Credentials.StoredCredential?>
+Hulaki.Credentials.InMemoryCredentialStore.InMemoryCredentialStore() -> void
+Hulaki.Credentials.StoredCredential
+Hulaki.Credentials.StoredCredential.AccessToken.get -> string!
+Hulaki.Credentials.StoredCredential.ExpiresAt.get -> System.DateTimeOffset?
+Hulaki.Credentials.StoredCredential.Extra.get -> System.Collections.Generic.IReadOnlyDictionary<string!, string!>!
+Hulaki.Credentials.StoredCredential.RefreshToken.get -> string?
+Hulaki.Credentials.StoredCredential.Revision.get -> long
+Hulaki.Credentials.StoredCredential.StoredCredential(long revision, string! accessToken, string? refreshToken = null, System.DateTimeOffset? expiresAt = null, System.Collections.Generic.IReadOnlyDictionary<string!, string!>? extra = null) -> void
 Hulaki.DeliveryOutcome
 Hulaki.DeliveryOutcome.Attempts.get -> int
 Hulaki.DeliveryOutcome.Attempts.init -> void
@@ -321,6 +335,7 @@ override Hulaki.CapabilityDeclaration.ToString() -> string!
 override Hulaki.Channels.SendRetryPolicy.Equals(object? obj) -> bool
 override Hulaki.Channels.SendRetryPolicy.GetHashCode() -> int
 override Hulaki.Channels.SendRetryPolicy.ToString() -> string!
+override Hulaki.Credentials.StoredCredential.ToString() -> string!
 override Hulaki.DeliveryOutcome.ToString() -> string!
 override Hulaki.HulakiError.Equals(object? obj) -> bool
 override Hulaki.HulakiError.GetHashCode() -> int
