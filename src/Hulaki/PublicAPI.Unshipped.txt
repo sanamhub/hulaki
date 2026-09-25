@@ -1,4 +1,5 @@
 #nullable enable
+abstract Hulaki.Markup.MarkupNode.<Clone>$() -> Hulaki.Markup.MarkupNode!
 abstract Hulaki.Text.TextCounter.Count(string! text) -> int
 abstract Hulaki.Text.TextCounter.Unit.get -> string!
 Hulaki.Availability
@@ -39,6 +40,44 @@ Hulaki.CapabilityManifest.MaxAttachments.get -> int
 Hulaki.CapabilityManifest.Platform.get -> string!
 Hulaki.CapabilityManifest.Supports(Hulaki.Capability capability) -> bool
 Hulaki.CapabilityManifest.TextLimit.get -> Hulaki.Text.TextLimit!
+Hulaki.Markup.BoldNode
+Hulaki.Markup.BoldNode.BoldNode(System.Collections.Generic.IReadOnlyList<Hulaki.Markup.MarkupNode!>! Children) -> void
+Hulaki.Markup.BoldNode.Children.get -> System.Collections.Generic.IReadOnlyList<Hulaki.Markup.MarkupNode!>!
+Hulaki.Markup.BoldNode.Children.init -> void
+Hulaki.Markup.BoldNode.Deconstruct(out System.Collections.Generic.IReadOnlyList<Hulaki.Markup.MarkupNode!>! Children) -> void
+Hulaki.Markup.BoldNode.Equals(Hulaki.Markup.BoldNode? other) -> bool
+Hulaki.Markup.CodeNode
+Hulaki.Markup.CodeNode.CodeNode(string! Value) -> void
+Hulaki.Markup.CodeNode.Deconstruct(out string! Value) -> void
+Hulaki.Markup.CodeNode.Equals(Hulaki.Markup.CodeNode? other) -> bool
+Hulaki.Markup.CodeNode.Value.get -> string!
+Hulaki.Markup.CodeNode.Value.init -> void
+Hulaki.Markup.ItalicNode
+Hulaki.Markup.ItalicNode.Children.get -> System.Collections.Generic.IReadOnlyList<Hulaki.Markup.MarkupNode!>!
+Hulaki.Markup.ItalicNode.Children.init -> void
+Hulaki.Markup.ItalicNode.Deconstruct(out System.Collections.Generic.IReadOnlyList<Hulaki.Markup.MarkupNode!>! Children) -> void
+Hulaki.Markup.ItalicNode.Equals(Hulaki.Markup.ItalicNode? other) -> bool
+Hulaki.Markup.ItalicNode.ItalicNode(System.Collections.Generic.IReadOnlyList<Hulaki.Markup.MarkupNode!>! Children) -> void
+Hulaki.Markup.LinkNode
+Hulaki.Markup.LinkNode.Deconstruct(out string! Text, out System.Uri! Target) -> void
+Hulaki.Markup.LinkNode.Equals(Hulaki.Markup.LinkNode? other) -> bool
+Hulaki.Markup.LinkNode.LinkNode(string! Text, System.Uri! Target) -> void
+Hulaki.Markup.LinkNode.Target.get -> System.Uri!
+Hulaki.Markup.LinkNode.Target.init -> void
+Hulaki.Markup.LinkNode.Text.get -> string!
+Hulaki.Markup.LinkNode.Text.init -> void
+Hulaki.Markup.MarkupDocument
+Hulaki.Markup.MarkupDocument.Nodes.get -> System.Collections.Generic.IReadOnlyList<Hulaki.Markup.MarkupNode!>!
+Hulaki.Markup.MarkupDocument.ToPlainText() -> string!
+Hulaki.Markup.MarkupNode
+Hulaki.Markup.MarkupNode.MarkupNode() -> void
+Hulaki.Markup.MarkupNode.MarkupNode(Hulaki.Markup.MarkupNode! original) -> void
+Hulaki.Markup.TextNode
+Hulaki.Markup.TextNode.Deconstruct(out string! Value) -> void
+Hulaki.Markup.TextNode.Equals(Hulaki.Markup.TextNode? other) -> bool
+Hulaki.Markup.TextNode.TextNode(string! Value) -> void
+Hulaki.Markup.TextNode.Value.get -> string!
+Hulaki.Markup.TextNode.Value.init -> void
 Hulaki.MediaAttachment
 Hulaki.MediaAttachment.AltText.get -> string?
 Hulaki.MediaAttachment.AltText.init -> void
@@ -115,6 +154,29 @@ Hulaki.TextFormat.Plain = 0 -> Hulaki.TextFormat
 override Hulaki.CapabilityDeclaration.Equals(object? obj) -> bool
 override Hulaki.CapabilityDeclaration.GetHashCode() -> int
 override Hulaki.CapabilityDeclaration.ToString() -> string!
+override Hulaki.Markup.BoldNode.<Clone>$() -> Hulaki.Markup.BoldNode!
+override Hulaki.Markup.BoldNode.Equals(object? obj) -> bool
+override Hulaki.Markup.BoldNode.GetHashCode() -> int
+override Hulaki.Markup.BoldNode.ToString() -> string!
+override Hulaki.Markup.CodeNode.<Clone>$() -> Hulaki.Markup.CodeNode!
+override Hulaki.Markup.CodeNode.Equals(object? obj) -> bool
+override Hulaki.Markup.CodeNode.GetHashCode() -> int
+override Hulaki.Markup.CodeNode.ToString() -> string!
+override Hulaki.Markup.ItalicNode.<Clone>$() -> Hulaki.Markup.ItalicNode!
+override Hulaki.Markup.ItalicNode.Equals(object? obj) -> bool
+override Hulaki.Markup.ItalicNode.GetHashCode() -> int
+override Hulaki.Markup.ItalicNode.ToString() -> string!
+override Hulaki.Markup.LinkNode.<Clone>$() -> Hulaki.Markup.LinkNode!
+override Hulaki.Markup.LinkNode.Equals(object? obj) -> bool
+override Hulaki.Markup.LinkNode.GetHashCode() -> int
+override Hulaki.Markup.LinkNode.ToString() -> string!
+override Hulaki.Markup.MarkupNode.Equals(object? obj) -> bool
+override Hulaki.Markup.MarkupNode.GetHashCode() -> int
+override Hulaki.Markup.MarkupNode.ToString() -> string!
+override Hulaki.Markup.TextNode.<Clone>$() -> Hulaki.Markup.TextNode!
+override Hulaki.Markup.TextNode.Equals(object? obj) -> bool
+override Hulaki.Markup.TextNode.GetHashCode() -> int
+override Hulaki.Markup.TextNode.ToString() -> string!
 override Hulaki.Message.Equals(object? obj) -> bool
 override Hulaki.Message.GetHashCode() -> int
 override Hulaki.Message.ToString() -> string!
@@ -127,8 +189,26 @@ override Hulaki.Target.ToString() -> string!
 override Hulaki.Text.TextLimit.Equals(object? obj) -> bool
 override Hulaki.Text.TextLimit.GetHashCode() -> int
 override Hulaki.Text.TextLimit.ToString() -> string!
+override sealed Hulaki.Markup.BoldNode.Equals(Hulaki.Markup.MarkupNode? other) -> bool
+override sealed Hulaki.Markup.CodeNode.Equals(Hulaki.Markup.MarkupNode? other) -> bool
+override sealed Hulaki.Markup.ItalicNode.Equals(Hulaki.Markup.MarkupNode? other) -> bool
+override sealed Hulaki.Markup.LinkNode.Equals(Hulaki.Markup.MarkupNode? other) -> bool
+override sealed Hulaki.Markup.TextNode.Equals(Hulaki.Markup.MarkupNode? other) -> bool
 static Hulaki.CapabilityDeclaration.operator !=(Hulaki.CapabilityDeclaration? left, Hulaki.CapabilityDeclaration? right) -> bool
 static Hulaki.CapabilityDeclaration.operator ==(Hulaki.CapabilityDeclaration? left, Hulaki.CapabilityDeclaration? right) -> bool
+static Hulaki.Markup.BoldNode.operator !=(Hulaki.Markup.BoldNode? left, Hulaki.Markup.BoldNode? right) -> bool
+static Hulaki.Markup.BoldNode.operator ==(Hulaki.Markup.BoldNode? left, Hulaki.Markup.BoldNode? right) -> bool
+static Hulaki.Markup.CodeNode.operator !=(Hulaki.Markup.CodeNode? left, Hulaki.Markup.CodeNode? right) -> bool
+static Hulaki.Markup.CodeNode.operator ==(Hulaki.Markup.CodeNode? left, Hulaki.Markup.CodeNode? right) -> bool
+static Hulaki.Markup.ItalicNode.operator !=(Hulaki.Markup.ItalicNode? left, Hulaki.Markup.ItalicNode? right) -> bool
+static Hulaki.Markup.ItalicNode.operator ==(Hulaki.Markup.ItalicNode? left, Hulaki.Markup.ItalicNode? right) -> bool
+static Hulaki.Markup.LinkNode.operator !=(Hulaki.Markup.LinkNode? left, Hulaki.Markup.LinkNode? right) -> bool
+static Hulaki.Markup.LinkNode.operator ==(Hulaki.Markup.LinkNode? left, Hulaki.Markup.LinkNode? right) -> bool
+static Hulaki.Markup.MarkupDocument.Parse(string! markup) -> Hulaki.Markup.MarkupDocument!
+static Hulaki.Markup.MarkupNode.operator !=(Hulaki.Markup.MarkupNode? left, Hulaki.Markup.MarkupNode? right) -> bool
+static Hulaki.Markup.MarkupNode.operator ==(Hulaki.Markup.MarkupNode? left, Hulaki.Markup.MarkupNode? right) -> bool
+static Hulaki.Markup.TextNode.operator !=(Hulaki.Markup.TextNode? left, Hulaki.Markup.TextNode? right) -> bool
+static Hulaki.Markup.TextNode.operator ==(Hulaki.Markup.TextNode? left, Hulaki.Markup.TextNode? right) -> bool
 static Hulaki.MediaAttachment.FromBytes(System.ReadOnlyMemory<byte> bytes, string! contentType, string? fileName = null) -> Hulaki.MediaAttachment!
 static Hulaki.MediaAttachment.FromStream(System.Func<System.Threading.CancellationToken, System.Threading.Tasks.ValueTask<System.IO.Stream!>>! open, string! contentType, string! fingerprint, long? length = null, string? fileName = null) -> Hulaki.MediaAttachment!
 static Hulaki.MediaAttachment.FromUrl(System.Uri! url, string! contentType) -> Hulaki.MediaAttachment!
@@ -144,3 +224,6 @@ static Hulaki.Text.TextFit.Split(string! text, Hulaki.Text.TextLimit! limit) -> 
 static Hulaki.Text.TextFit.Truncate(string! text, Hulaki.Text.TextLimit! limit, string! ellipsis = "…") -> string!
 static Hulaki.Text.TextLimit.operator !=(Hulaki.Text.TextLimit? left, Hulaki.Text.TextLimit? right) -> bool
 static Hulaki.Text.TextLimit.operator ==(Hulaki.Text.TextLimit? left, Hulaki.Text.TextLimit? right) -> bool
+virtual Hulaki.Markup.MarkupNode.EqualityContract.get -> System.Type!
+virtual Hulaki.Markup.MarkupNode.Equals(Hulaki.Markup.MarkupNode? other) -> bool
+virtual Hulaki.Markup.MarkupNode.PrintMembers(System.Text.StringBuilder! builder) -> bool
