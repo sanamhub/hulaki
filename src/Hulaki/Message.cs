@@ -32,7 +32,7 @@ public enum MessagePriority
 /// <summary>What to do when the text is longer than the channel allows.</summary>
 public enum OverflowBehavior
 {
-    /// <summary>Do not send. The outcome is <c>DeliveryStatus.NotSubmitted</c> with a <c>text-too-long</c> issue.</summary>
+    /// <summary>Do not send. The outcome is <see cref="DeliveryStatus.NotSubmitted"/> with a <c>text-too-long</c> issue.</summary>
     Reject = 0,
 
     /// <summary>Cut the text at a grapheme boundary and append an ellipsis. Plain text only in 0.x.</summary>
