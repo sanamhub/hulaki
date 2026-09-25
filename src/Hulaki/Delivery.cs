@@ -290,7 +290,7 @@ public enum SendStatus
 /// <param name="Outcome">Its outcome.</param>
 public sealed record TargetOutcome(Target Target, DeliveryOutcome Outcome);
 
-/// <summary>The result of <c>HulakiClient.SendAsync</c>: one outcome per target, in input order.</summary>
+/// <summary>The result of <see cref="HulakiClient.SendAsync"/>: one outcome per target, in input order.</summary>
 public sealed class SendResult
 {
     /// <summary>Creates a result.</summary>

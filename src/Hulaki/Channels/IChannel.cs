@@ -11,7 +11,7 @@ namespace Hulaki;
 /// </summary>
 public interface IChannel
 {
-    /// <summary>Name given at registration, unique within a <c>HulakiClient</c>.</summary>
+    /// <summary>Name given at registration, unique within a <see cref="HulakiClient"/>.</summary>
     string Name { get; }
 
     /// <summary>What the channel can do.</summary>

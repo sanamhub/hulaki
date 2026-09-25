@@ -93,6 +93,16 @@ Hulaki.DeliveryStatus.Delivered = 2 -> Hulaki.DeliveryStatus
 Hulaki.DeliveryStatus.Failed = 3 -> Hulaki.DeliveryStatus
 Hulaki.DeliveryStatus.NotSubmitted = 0 -> Hulaki.DeliveryStatus
 Hulaki.DeliveryStatus.Unknown = 4 -> Hulaki.DeliveryStatus
+Hulaki.HulakiClient
+Hulaki.HulakiClient.Channels.get -> System.Collections.Generic.IReadOnlyDictionary<string!, Hulaki.IChannel!>!
+Hulaki.HulakiClient.HulakiClient(System.Collections.Generic.IEnumerable<Hulaki.IChannel!>! channels, Hulaki.HulakiClientOptions? options = null, Hulaki.Idempotency.IIdempotencyStore? idempotencyStore = null, Microsoft.Extensions.Logging.ILogger<Hulaki.HulakiClient!>? logger = null) -> void
+Hulaki.HulakiClient.SendAsync(Hulaki.Message! message, System.Collections.Generic.IReadOnlyList<Hulaki.Target!>! targets, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<Hulaki.SendResult!>!
+Hulaki.HulakiClientOptions
+Hulaki.HulakiClientOptions.HulakiClientOptions() -> void
+Hulaki.HulakiClientOptions.IdempotencyScope.get -> string!
+Hulaki.HulakiClientOptions.IdempotencyScope.set -> void
+Hulaki.HulakiClientOptions.MaxConcurrency.get -> int
+Hulaki.HulakiClientOptions.MaxConcurrency.set -> void
 Hulaki.HulakiDeliveryException
 Hulaki.HulakiDeliveryException.HulakiDeliveryException() -> void
 Hulaki.HulakiDeliveryException.HulakiDeliveryException(Hulaki.DeliveryOutcome! outcome) -> void
