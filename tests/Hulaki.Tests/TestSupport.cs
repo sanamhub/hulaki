@@ -1,9 +1,5 @@
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Net;
-using System.Net.Http;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Hulaki.Channels;
@@ -69,33 +65,6 @@ internal sealed class ScriptedChannel : ChannelBase
         }
 
         return Task.FromResult(next());
-    }
-}
-
-/// <summary>Returns queued responses and records requests with their bodies.</summary>
-internal sealed class StubHandler : HttpMessageHandler
-{
-    private readonly ConcurrentQueue<Func<HttpRequestMessage, HttpResponseMessage>> _responses = new();
-
-    public List<(HttpRequestMessage Request, string Body)> Requests { get; } = [];
-
-    public StubHandler Respond(HttpStatusCode status, string json)
-    {
-        _responses.Enqueue(_ => new HttpResponseMessage(status) { Content = new StringContent(json, Encoding.UTF8, "application/json") });
-        return this;
-    }
-
-    public StubHandler Throw(Exception exception)
-    {
-        _responses.Enqueue(_ => throw exception);
-        return this;
-    }
-
-    protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
-    {
-        var body = request.Content is null ? string.Empty : await request.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
-        Requests.Add((request, body));
-        return _responses.TryDequeue(out var next) ? next(request) : throw new InvalidOperationException("No stub response left.");
     }
 }
 

@@ -1,7 +1,9 @@
 using System;
 using System.Net;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Hulaki.Testing;
 using Microsoft.Extensions.Time.Testing;
 using Xunit;
 
@@ -11,9 +13,9 @@ public sealed class TelegramChannelTests
 {
     private const string Token = "123456:TEST-token_0000000000000000000";
 
-    private static (TelegramChannel Channel, StubHandler Stub) Create(FakeTimeProvider? time = null)
+    private static (TelegramChannel Channel, ScriptedHttpHandler Stub) Create(FakeTimeProvider? time = null)
     {
-        var stub = new StubHandler();
+        var stub = new ScriptedHttpHandler();
         var channel = new TelegramChannel(
             "tg",
             new HttpClient(stub),
@@ -32,7 +34,7 @@ public sealed class TelegramChannelTests
 
         Assert.Equal(DeliveryStatus.Delivered, outcome.Status);
         Assert.Equal("77", outcome.PlatformMessageId);
-        var (request, body) = Assert.Single(stub.Requests);
+        var (request, body, _) = Assert.Single(stub.Requests);
         Assert.Equal($"https://api.telegram.org/bot{Token}/sendMessage", request.RequestUri!.AbsoluteUri);
         Assert.Contains("\"text\":\"\\u003Cb\\u003EDHM\\u003C/b\\u003E\\nRain \\u003Cb\\u003ERed\\u003C/b\\u003E in \\u0026lt;Myagdi\\u0026gt; \\u0026amp; Mustang\"", body, StringComparison.Ordinal);
         Assert.Contains("\"disable_notification\":true", body, StringComparison.Ordinal);
@@ -164,8 +166,8 @@ public sealed class TelegramChannelTests
             channel.SendAsync(new Message("two"), new Recipient("-100123"), ct)));
 
         Assert.All(outcomes, o => Assert.True(o.Succeeded));
-        var times = stub.RequestTimes;
-        Assert.Equal(2, times.Count);
+        var times = stub.Requests.Select(r => r.ReceivedAt).ToArray();
+        Assert.Equal(2, times.Length);
         Assert.True((times[1] - times[0]).Duration() >= TimeSpan.FromSeconds(1));
     }
 
@@ -189,12 +191,12 @@ public sealed class TelegramChannelTests
     [Fact]
     public void Constructor_rejects_an_empty_token()
     {
-        Assert.Throws<ArgumentException>(() => new TelegramChannel("tg", new HttpClient(new StubHandler()), new TelegramChannelOptions()));
+        Assert.Throws<ArgumentException>(() => new TelegramChannel("tg", new HttpClient(new ScriptedHttpHandler()), new TelegramChannelOptions()));
     }
 
-    private static (TelegramChannel Channel, StubHandler Stub) CreateLimited(FakeTimeProvider time)
+    private static (TelegramChannel Channel, ScriptedHttpHandler Stub) CreateLimited(FakeTimeProvider time)
     {
-        var stub = new StubHandler(time);
+        var stub = new ScriptedHttpHandler(time);
         var channel = new TelegramChannel("tg", new HttpClient(stub), new TelegramChannelOptions { BotToken = Token, TimeProvider = time });
         return (channel, stub);
     }
