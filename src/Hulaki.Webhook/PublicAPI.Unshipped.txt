@@ -1,0 +1,20 @@
+#nullable enable
+Hulaki.Webhook.WebhookChannel
+Hulaki.Webhook.WebhookChannel.WebhookChannel(string! name, System.Net.Http.HttpClient! http, Hulaki.Webhook.WebhookChannelOptions! options) -> void
+Hulaki.Webhook.WebhookChannelOptions
+Hulaki.Webhook.WebhookChannelOptions.BodyTemplate.get -> string?
+Hulaki.Webhook.WebhookChannelOptions.BodyTemplate.set -> void
+Hulaki.Webhook.WebhookChannelOptions.ContentType.get -> string!
+Hulaki.Webhook.WebhookChannelOptions.ContentType.set -> void
+Hulaki.Webhook.WebhookChannelOptions.Headers.get -> System.Collections.Generic.IDictionary<string!, string!>!
+Hulaki.Webhook.WebhookChannelOptions.MaxTextBytes.get -> int
+Hulaki.Webhook.WebhookChannelOptions.MaxTextBytes.set -> void
+Hulaki.Webhook.WebhookChannelOptions.Secret.get -> string?
+Hulaki.Webhook.WebhookChannelOptions.Secret.set -> void
+Hulaki.Webhook.WebhookChannelOptions.Url.get -> System.Uri?
+Hulaki.Webhook.WebhookChannelOptions.Url.set -> void
+Hulaki.Webhook.WebhookChannelOptions.WebhookChannelOptions() -> void
+Microsoft.Extensions.DependencyInjection.WebhookHulakiBuilderExtensions
+static Hulaki.Webhook.WebhookChannel.Manifest.get -> Hulaki.CapabilityManifest!
+static Microsoft.Extensions.DependencyInjection.WebhookHulakiBuilderExtensions.AddWebhook(this Microsoft.Extensions.DependencyInjection.IHulakiBuilder! builder, string! name, Microsoft.Extensions.Configuration.IConfigurationSection! section) -> Microsoft.Extensions.DependencyInjection.IHulakiBuilder!
+static Microsoft.Extensions.DependencyInjection.WebhookHulakiBuilderExtensions.AddWebhook(this Microsoft.Extensions.DependencyInjection.IHulakiBuilder! builder, string! name, System.Action<Hulaki.Webhook.WebhookChannelOptions!>! configure) -> Microsoft.Extensions.DependencyInjection.IHulakiBuilder!
