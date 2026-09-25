@@ -15,6 +15,8 @@
     <ProjectReference Include="../Hulaki/Hulaki.csproj" />
     <ProjectReference Include="../Hulaki.Extensions.DependencyInjection/Hulaki.Extensions.DependencyInjection.csproj" />
     <InternalsVisibleTo Include="Hulaki.Webhook.Tests" />
+    <!-- The CLI builds channels from channel URLs with the internal parser (ADR-0013). -->
+    <InternalsVisibleTo Include="Hulaki.Cli" />
     <!-- Settings binding and DI registration shared by every provider, without a public type. -->
     <Compile Include="../Shared/*.cs" LinkBase="Shared" />
   </ItemGroup>

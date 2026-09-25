@@ -34,7 +34,7 @@ public sealed class EmailChannel : ChannelBase
         new TextLimit(1_000_000, TextCounter.Utf16CodeUnits),
         [
             new(Capability.Text, Availability.Available),
-            new(Capability.Title, Availability.Available, "The subject; without a title the first line is"),
+            new(Capability.Title, Availability.Available, "The subject; without a title, the first line of the text"),
             new(Capability.Markup, Availability.Available, "Rendered into the HTML part"),
             new(Capability.Priority, Availability.Available, "Priority, Importance and X-Priority headers"),
             new(Capability.ClickAction, Availability.UnsupportedByPlatform, "The link is appended"),

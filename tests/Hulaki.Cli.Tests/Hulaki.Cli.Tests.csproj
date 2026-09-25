@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <OutputType>Exe</OutputType>
+    <IsPackable>false</IsPackable>
+    <UseMicrosoftTestingPlatformRunner>true</UseMicrosoftTestingPlatformRunner>
+    <!-- A leg that discovers no tests fails instead of passing green (ADR-0014). -->
+    <TestingPlatformCommandLineArguments>--minimum-expected-tests 1</TestingPlatformCommandLineArguments>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="xunit.v3" />
+    <!-- CI asks for coverage and a TRX report. Without these extensions the test run rejects
+         both switches as unknown and fails. -->
+    <PackageReference Include="Microsoft.Testing.Extensions.CodeCoverage" />
+    <PackageReference Include="Microsoft.Testing.Extensions.TrxReport" />
+    <ProjectReference Include="../../tools/Hulaki.Cli/Hulaki.Cli.csproj" />
+    <ProjectReference Include="../../src/Hulaki.Testing/Hulaki.Testing.csproj" />
+  </ItemGroup>
+</Project>

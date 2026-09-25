@@ -49,6 +49,14 @@ jobs:
       - name: build
         run: dotnet build -c Release --no-restore
 
+      # docs/capabilities.md is generated from the manifests (ADR-0006). A provider change that
+      # alters a manifest without regenerating the file fails here.
+      - name: capabilities doc is current
+        if: matrix.os == 'ubuntu-24.04'
+        run: |
+          dotnet run --project tools/Hulaki.Cli -c Release --no-build -- capabilities --markdown > docs/capabilities.md
+          git diff --exit-code docs/capabilities.md
+
       - name: test
         run: >
           dotnet test -c Release --no-build
