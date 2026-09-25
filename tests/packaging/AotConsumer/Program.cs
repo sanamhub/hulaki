@@ -2,6 +2,7 @@ using System.Net;
 using System.Text;
 using Hulaki;
 using Hulaki.Discord;
+using Hulaki.Ntfy;
 using Hulaki.Telegram;
 
 // One send per provider through HulakiClient, each answered by a stub with that platform's success
@@ -16,7 +17,8 @@ using var discord = new DiscordChannel("discord", http, new DiscordChannelOption
 {
     WebhookUrl = new Uri("https://discord.com/api/webhooks/123456789012345678/TEST-webhook_token_0000000000"),
 });
-var client = new HulakiClient([telegram, discord]);
+using var ntfy = new NtfyChannel("ntfy", http, new NtfyChannelOptions());
+var client = new HulakiClient([telegram, discord, ntfy]);
 
 var message = new Message("**Orange** rain warning for Myagdi. [DHM](https://dhm.gov.np)")
 {
@@ -28,6 +30,7 @@ var result = await client.SendAsync(message,
 [
     new Target("alerts", new Recipient("-1001234567890")),
     new Target("discord", Recipient.Self),
+    new Target("ntfy", new Recipient("hulaki-aot-topic")),
 ]);
 
 foreach (var (target, outcome) in result.Outcomes.Where(o => !o.Outcome.Succeeded))
@@ -47,6 +50,7 @@ internal sealed class PlatformStub : HttpMessageHandler
         {
             "api.telegram.org" => """{"ok":true,"result":{"message_id":42}}""",
             "discord.com" => """{"id":"1100000000000000001"}""",
+            "ntfy.sh" => """{"id":"sPs71M8A2T","event":"message"}""",
             _ => throw new InvalidOperationException("No stub for this host."),
         };
         return Task.FromResult(new HttpResponseMessage(HttpStatusCode.OK)

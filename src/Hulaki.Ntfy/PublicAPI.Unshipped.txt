@@ -1,0 +1,13 @@
+#nullable enable
+Hulaki.Ntfy.NtfyChannel
+Hulaki.Ntfy.NtfyChannel.NtfyChannel(string! name, System.Net.Http.HttpClient! http, Hulaki.Ntfy.NtfyChannelOptions! options) -> void
+Hulaki.Ntfy.NtfyChannelOptions
+Hulaki.Ntfy.NtfyChannelOptions.AccessToken.get -> string?
+Hulaki.Ntfy.NtfyChannelOptions.AccessToken.set -> void
+Hulaki.Ntfy.NtfyChannelOptions.BaseAddress.get -> System.Uri!
+Hulaki.Ntfy.NtfyChannelOptions.BaseAddress.set -> void
+Hulaki.Ntfy.NtfyChannelOptions.NtfyChannelOptions() -> void
+Microsoft.Extensions.DependencyInjection.NtfyHulakiBuilderExtensions
+static Hulaki.Ntfy.NtfyChannel.Manifest.get -> Hulaki.CapabilityManifest!
+static Microsoft.Extensions.DependencyInjection.NtfyHulakiBuilderExtensions.AddNtfy(this Microsoft.Extensions.DependencyInjection.IHulakiBuilder! builder, string! name, Microsoft.Extensions.Configuration.IConfigurationSection! section) -> Microsoft.Extensions.DependencyInjection.IHulakiBuilder!
+static Microsoft.Extensions.DependencyInjection.NtfyHulakiBuilderExtensions.AddNtfy(this Microsoft.Extensions.DependencyInjection.IHulakiBuilder! builder, string! name, System.Action<Hulaki.Ntfy.NtfyChannelOptions!>! configure) -> Microsoft.Extensions.DependencyInjection.IHulakiBuilder!

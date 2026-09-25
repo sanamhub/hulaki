@@ -20,6 +20,7 @@
     <PackageReference Include="Hulaki" Version="$(HulakiVersion)" />
     <PackageReference Include="Hulaki.Telegram" Version="$(HulakiVersion)" />
     <PackageReference Include="Hulaki.Discord" Version="$(HulakiVersion)" />
+    <PackageReference Include="Hulaki.Ntfy" Version="$(HulakiVersion)" />
   </ItemGroup>
   <!-- The version to consume is passed in (-p:HulakiVersion=...), so a stale package can never be
        picked up by accident. -->
