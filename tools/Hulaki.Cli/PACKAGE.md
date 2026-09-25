@@ -24,6 +24,7 @@ the recipient or the text. Keep the URL in an environment variable so it stays o
 
 | Provider | Channel URL |
 | --- | --- |
+| Bluesky | `bluesky://<handle>:<app-password>@bsky.social[?lang=ne,en&thread=true]` |
 | Telegram | `telegram://<bot-token>@telegram[?base=<bot api url>]` |
 | Discord | `discord://<webhook-id>:<webhook-token>@discord` |
 | ntfy | `ntfy://[<access-token>@]<host>[:port][/path]`, HTTP only for a loopback host |

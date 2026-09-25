@@ -13,6 +13,8 @@
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
     <PackageReference Include="System.Threading.RateLimiting" />
     <InternalsVisibleTo Include="Hulaki.Tests" />
+    <!-- Providers with refreshable sessions use the internal CredentialRefresher (ADR-0010). -->
+    <InternalsVisibleTo Include="Hulaki.Bluesky" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PACKAGE.md" Pack="true" PackagePath="\" />

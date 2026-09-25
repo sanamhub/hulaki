@@ -1,0 +1,20 @@
+#nullable enable
+Hulaki.Bluesky.BlueskyChannel
+Hulaki.Bluesky.BlueskyChannel.BlueskyChannel(string! name, System.Net.Http.HttpClient! http, Hulaki.Bluesky.BlueskyChannelOptions! options) -> void
+Hulaki.Bluesky.BlueskyChannelOptions
+Hulaki.Bluesky.BlueskyChannelOptions.AppPassword.get -> string!
+Hulaki.Bluesky.BlueskyChannelOptions.AppPassword.set -> void
+Hulaki.Bluesky.BlueskyChannelOptions.BlueskyChannelOptions() -> void
+Hulaki.Bluesky.BlueskyChannelOptions.CredentialStore.get -> Hulaki.Credentials.ICredentialStore?
+Hulaki.Bluesky.BlueskyChannelOptions.CredentialStore.set -> void
+Hulaki.Bluesky.BlueskyChannelOptions.Identifier.get -> string!
+Hulaki.Bluesky.BlueskyChannelOptions.Identifier.set -> void
+Hulaki.Bluesky.BlueskyChannelOptions.Languages.get -> System.Collections.Generic.IList<string!>!
+Hulaki.Bluesky.BlueskyChannelOptions.ServiceUrl.get -> System.Uri!
+Hulaki.Bluesky.BlueskyChannelOptions.ServiceUrl.set -> void
+Hulaki.Bluesky.BlueskyChannelOptions.ThreadLongPosts.get -> bool
+Hulaki.Bluesky.BlueskyChannelOptions.ThreadLongPosts.set -> void
+Microsoft.Extensions.DependencyInjection.BlueskyHulakiBuilderExtensions
+static Hulaki.Bluesky.BlueskyChannel.Manifest.get -> Hulaki.CapabilityManifest!
+static Microsoft.Extensions.DependencyInjection.BlueskyHulakiBuilderExtensions.AddBluesky(this Microsoft.Extensions.DependencyInjection.IHulakiBuilder! builder, string! name, Microsoft.Extensions.Configuration.IConfigurationSection! section) -> Microsoft.Extensions.DependencyInjection.IHulakiBuilder!
+static Microsoft.Extensions.DependencyInjection.BlueskyHulakiBuilderExtensions.AddBluesky(this Microsoft.Extensions.DependencyInjection.IHulakiBuilder! builder, string! name, System.Action<Hulaki.Bluesky.BlueskyChannelOptions!>! configure) -> Microsoft.Extensions.DependencyInjection.IHulakiBuilder!

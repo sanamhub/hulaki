@@ -3,6 +3,7 @@ using System.Net;
 using System.Security.Cryptography;
 using System.Text;
 using Hulaki;
+using Hulaki.Bluesky;
 using Hulaki.Channels;
 using Hulaki.Discord;
 using Hulaki.Email;
@@ -47,7 +48,12 @@ using var teams = new TeamsChannel("teams", http, new TeamsChannelOptions
 {
     WorkflowUrl = new Uri("https://prod-00.westeurope.logic.azure.com/workflows/0000/triggers/manual/paths/invoke?sig=TESTsig000"),
 });
-var client = new HulakiClient([telegram, discord, ntfy, webhook, webPush, slack, teams]);
+using var bluesky = new BlueskyChannel("bluesky", http, new BlueskyChannelOptions
+{
+    Identifier = "alerts.example.org",
+    AppPassword = "TEST-aaaa-bbbb-cccc",
+});
+var client = new HulakiClient([telegram, discord, ntfy, webhook, webPush, slack, teams, bluesky]);
 
 var message = new Message("**Orange** rain warning for Myagdi. [DHM](https://dhm.gov.np)")
 {
@@ -63,6 +69,7 @@ var result = await client.SendAsync(message,
     new Target("webhook", Recipient.Self),
     new Target("slack", Recipient.Self),
     new Target("teams", Recipient.Self),
+    new Target("bluesky", Recipient.Self),
     // The receiver keys of the RFC 8291 section 5 example.
     new Target("webpush", new Recipient("https://push.example.net/push/JzLQ3raZJfFBR0aqvOMsLrt54w4rJUsV", new Dictionary<string, string>
     {
@@ -101,14 +108,19 @@ internal sealed class PlatformStub : HttpMessageHandler
 {
     protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
     {
-        var body = request.RequestUri!.Host switch
+        var body = (request.RequestUri!.Host, request.RequestUri.AbsolutePath) switch
         {
+            ("bsky.social", "/xrpc/com.atproto.server.createSession") => """{"did":"did:plc:testaaaaaaaaaaaaaaaaaaaa","accessJwt":"TEST.access.jwt","refreshJwt":"TEST.refresh.jwt"}""",
+            ("bsky.social", _) => """{"uri":"at://did:plc:testaaaaaaaaaaaaaaaaaaaa/app.bsky.feed.post/p1","cid":"bafyreitestp1"}""",
+            (var host, _) => host switch
+            {
             "api.telegram.org" => """{"ok":true,"result":{"message_id":42}}""",
             "discord.com" => """{"id":"1100000000000000001"}""",
             "ntfy.sh" => """{"id":"sPs71M8A2T","event":"message"}""",
             "hooks.example.org" or "push.example.net" or "prod-00.westeurope.logic.azure.com" => "{}",
             "hooks.slack.com" => "ok",
-            _ => throw new InvalidOperationException("No stub for this host."),
+                _ => throw new InvalidOperationException("No stub for this host."),
+            },
         };
         return Task.FromResult(new HttpResponseMessage(HttpStatusCode.OK)
         {

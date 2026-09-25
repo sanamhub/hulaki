@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using Hulaki.Bluesky;
 using Hulaki.Discord;
 using Hulaki.Email;
 using Hulaki.Ntfy;
@@ -29,6 +30,8 @@ internal static class ChannelUrls
 {
     public static IReadOnlyList<CliProvider> Providers { get; } =
     [
+        new([BlueskyChannelUrl.Scheme], BlueskyChannelUrl.Format, BlueskyChannel.Manifest,
+            (name, url, http) => (BlueskyChannelUrl.TryCreate(name, url, http, out var error), error)),
         new([DiscordChannelUrl.Scheme], DiscordChannelUrl.Format, DiscordChannel.Manifest,
             (name, url, http) => (DiscordChannelUrl.TryCreate(name, url, http, out var error), error)),
         new([EmailChannelUrl.Scheme], EmailChannelUrl.Format, EmailChannel.Manifest,

@@ -1,6 +1,7 @@
 <Solution>
   <Folder Name="/src/">
     <Project Path="src/Hulaki/Hulaki.csproj" />
+    <Project Path="src/Hulaki.Bluesky/Hulaki.Bluesky.csproj" />
     <Project Path="src/Hulaki.Discord/Hulaki.Discord.csproj" />
     <Project Path="src/Hulaki.Email/Hulaki.Email.csproj" />
     <Project Path="src/Hulaki.Extensions.DependencyInjection/Hulaki.Extensions.DependencyInjection.csproj" />
@@ -16,6 +17,7 @@
     <Project Path="tools/Hulaki.Cli/Hulaki.Cli.csproj" />
   </Folder>
   <Folder Name="/tests/">
+    <Project Path="tests/Hulaki.Bluesky.Tests/Hulaki.Bluesky.Tests.csproj" />
     <Project Path="tests/Hulaki.Cli.Tests/Hulaki.Cli.Tests.csproj" />
     <Project Path="tests/Hulaki.Discord.Tests/Hulaki.Discord.Tests.csproj" />
     <Project Path="tests/Hulaki.Email.Tests/Hulaki.Email.Tests.csproj" />
