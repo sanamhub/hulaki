@@ -98,7 +98,7 @@ jobs:
           ./tests/packaging/verify-package.sh --package-dir artifacts/packages --aot
 
       # TreatWarningsAsErrors in the consumers turns any IL2xxx or IL3xxx warning into a failure.
-      # AotConsumer calls each provider's channel directly; AotConsumer.DependencyInjection goes
+      # AotConsumer calls each channel directly; AotConsumer.DependencyInjection goes
       # through AddHulaki().AddTelegram(configuration).
       - name: publish and run the AOT consumers
         run: |

@@ -33,7 +33,7 @@ body:
     id: provider
     attributes:
       label: Provider package and version
-      placeholder: Hulaki.Telegram 0.1.0
+      placeholder: Hulaki 0.1.0
     validations:
       required: true
   - type: input

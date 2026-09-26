@@ -1,13 +1,15 @@
 # Runbook: add a provider
 
-For contributors and agents adding `Hulaki.<Name>`. Read ADR-0005, ADR-0006, ADR-0007, ADR-0009
+For contributors and agents adding a channel. A channel with no new dependency goes into the
+`Hulaki` package under `src/Hulaki/<Name>/`; one that needs a new dependency gets its own package
+like `Hulaki.Email`, and an ADR. Read ADR-0005, ADR-0006, ADR-0007, ADR-0009
 and ADR-0015 first.
 
 ## 1. Before writing code
 
 | Check | Where it goes |
 | --- | --- |
-| Official API docs for the send endpoint and its errors | links in the provider's PACKAGE.md and test file header |
+| Official API docs for the send endpoint and its errors | links in `docs/channels/<name>.md` and the test file header |
 | Terms of service allow automated sending | a note in the PR; stop if unclear |
 | Cost and approval gates | manifest `Availability` (`Paid`, `ApprovalDependent`) |
 | Text limit and how it is counted | `TextLimit` with the right `TextCounter` |
@@ -18,18 +20,19 @@ and ADR-0015 first.
 ## 2. Project
 
 ```
-src/Hulaki.<Name>/
-  Hulaki.<Name>.csproj          references Hulaki and Hulaki.Extensions.DependencyInjection only
+src/Hulaki/<Name>/             namespace Hulaki.<Name>
   <Name>Channel.cs             sealed, derives from ChannelBase, static Manifest
   <Name>ChannelOptions.cs      derives from ChannelOptions
   <Name>HulakiBuilderExtensions.cs
   Wire/                        internal request and response types, JsonSerializerContext
-  PACKAGE.md  PublicAPI.Shipped.txt  PublicAPI.Unshipped.txt
-tests/Hulaki.<Name>.Tests/
+docs/channels/<name>.md        the channel's facts table, linked from src/Hulaki/PACKAGE.md
+tests/Hulaki.Tests/<Name>/
   Fixtures/                    JSON copied from the platform docs, synthetic values only
   <Name>ChannelTests.cs
   <Name>ContractTests.cs       derives from Hulaki.Testing.ChannelContractTests<T>
 ```
+
+Public members go into `src/Hulaki/PublicAPI.Unshipped.txt`.
 
 ## 3. Rules
 
@@ -50,4 +53,4 @@ Success; each documented error; 429 with the platform's own retry hint; an HTML 
 
 - Add the live test to [release.md](release.md).
 - Regenerate `docs/capabilities.md` with `hulaki capabilities --markdown`.
-- Add the package to the release workflow's push list.
+- Add the channel to the tables in `src/Hulaki/PACKAGE.md` and the README.

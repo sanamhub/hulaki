@@ -51,7 +51,7 @@ dotnet_diagnostic.CA1812.severity = none    # stub handlers are created in ways 
 # test naming convention of the [tests/**.cs] section instead of the public API naming rule.
 dotnet_diagnostic.CA1707.severity = none
 
-[tests/Hulaki.WebPush.Tests/**.cs]
+[tests/Hulaki.Tests/WebPush/**.cs]
 # T18 requires the RFC 8291 section 5 example, whose keys and salt are fixed by the RFC.
 dotnet_diagnostic.CA5390.severity = none
 

@@ -13,7 +13,6 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="../Hulaki/Hulaki.csproj" />
-    <ProjectReference Include="../Hulaki.Extensions.DependencyInjection/Hulaki.Extensions.DependencyInjection.csproj" />
     <PackageReference Include="MailKit" />
     <InternalsVisibleTo Include="Hulaki.Email.Tests" />
     <!-- The CLI builds channels from channel URLs with the internal parser (ADR-0013). -->

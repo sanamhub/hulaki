@@ -11,8 +11,8 @@ namespace Hulaki.Providers;
 /// across. Null means "keep the default".
 /// </summary>
 /// <remarks>
-/// Compiled into every provider assembly from <c>src/Shared</c>, so the providers share the code
-/// without a public type in the core.
+/// Compiled into <c>Hulaki</c> and <c>Hulaki.Email</c> from <c>src/Shared</c>, so both share the
+/// code without a public type.
 /// </remarks>
 internal abstract class ChannelSettings
 {

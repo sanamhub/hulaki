@@ -12,6 +12,9 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   idempotency keys, credential refresh, and `Hulaki` traces and metrics.
 - Providers: Telegram, Discord, ntfy, Webhook, Email (SMTP), Web Push, Slack, Teams, Bluesky and
   Mastodon, each with a capability manifest. `docs/capabilities.md` is generated from them.
-- `Hulaki.Extensions.DependencyInjection`, `Hulaki.Testing` (contract kit) and the `hulaki` tool.
+- `AddHulaki()` dependency injection, `Hulaki.Testing` (contract kit) and the `hulaki` tool.
+- Three packages: `Hulaki` (core, `AddHulaki()` and every channel without an extra dependency),
+  `Hulaki.Email` (MailKit) and `Hulaki.Testing`. Channel namespaces are unchanged
+  (`Hulaki.Telegram`, `Hulaki.Discord` and so on).
 - README samples live in `samples/Hulaki.Samples`, which CI builds, so they cannot drift from the
   API.

@@ -17,4 +17,7 @@
     <ProjectReference Include="../../src/Hulaki/Hulaki.csproj" />
     <ProjectReference Include="../../src/Hulaki.Testing/Hulaki.Testing.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Compile Include="../Shared/*.cs" LinkBase="Shared" />
+  </ItemGroup>
 </Project>

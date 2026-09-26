@@ -82,5 +82,5 @@ defaults; a deviation needs an ADR.
 | Security | OWASP ASVS where it applies; TLS 1.2 or later; secrets only in environment variables or GitHub environment secrets; CI blocks high and critical advisories. |
 | Release | SemVer and `CHANGELOG.md`; green CI; the `production` environment approval; rollback is unlist plus a patch release. |
 | Review | One maintainer merges their own PRs after full CI. PRs touching credentials, retries, Web Push crypto or the release wait 24 hours and get a `/code-review` pass first. This ends when a second maintainer joins. |
-| Layering | Domain and Application share the `Hulaki` assembly; each provider package is Infrastructure; there is no Presentation layer. Providers depend on the core, never the reverse (ADR-0003). |
+| Layering | Domain and Application share the `Hulaki` assembly; the channel folders (`src/Hulaki/<Name>/`) and `Hulaki.Email` are Infrastructure; there is no Presentation layer. Channels depend on the core types, never the reverse, and never on each other (ADR-0017). |
 | Operations | A library has no environment to provision. Consumers get monitoring through `ActivitySource` and `Meter` named `Hulaki` (ADR-0012). |

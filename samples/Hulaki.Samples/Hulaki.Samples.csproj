@@ -10,9 +10,6 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\Hulaki\Hulaki.csproj" />
-    <ProjectReference Include="..\..\src\Hulaki.Telegram\Hulaki.Telegram.csproj" />
-    <ProjectReference Include="..\..\src\Hulaki.Ntfy\Hulaki.Ntfy.csproj" />
-    <ProjectReference Include="..\..\src\Hulaki.Extensions.DependencyInjection\Hulaki.Extensions.DependencyInjection.csproj" />
     <PackageReference Include="Microsoft.Extensions.Configuration" />
     <PackageReference Include="OpenTelemetry" />
     <PackageReference Include="OpenTelemetry.Instrumentation.Http" />

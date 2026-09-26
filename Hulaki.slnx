@@ -1,18 +1,8 @@
 <Solution>
   <Folder Name="/src/">
     <Project Path="src/Hulaki/Hulaki.csproj" />
-    <Project Path="src/Hulaki.Bluesky/Hulaki.Bluesky.csproj" />
-    <Project Path="src/Hulaki.Discord/Hulaki.Discord.csproj" />
     <Project Path="src/Hulaki.Email/Hulaki.Email.csproj" />
-    <Project Path="src/Hulaki.Extensions.DependencyInjection/Hulaki.Extensions.DependencyInjection.csproj" />
-    <Project Path="src/Hulaki.Mastodon/Hulaki.Mastodon.csproj" />
-    <Project Path="src/Hulaki.Ntfy/Hulaki.Ntfy.csproj" />
-    <Project Path="src/Hulaki.Slack/Hulaki.Slack.csproj" />
-    <Project Path="src/Hulaki.Teams/Hulaki.Teams.csproj" />
-    <Project Path="src/Hulaki.Telegram/Hulaki.Telegram.csproj" />
     <Project Path="src/Hulaki.Testing/Hulaki.Testing.csproj" />
-    <Project Path="src/Hulaki.Webhook/Hulaki.Webhook.csproj" />
-    <Project Path="src/Hulaki.WebPush/Hulaki.WebPush.csproj" />
   </Folder>
   <Folder Name="/tools/">
     <Project Path="tools/Hulaki.Cli/Hulaki.Cli.csproj" />
@@ -21,18 +11,8 @@
     <Project Path="samples/Hulaki.Samples/Hulaki.Samples.csproj" />
   </Folder>
   <Folder Name="/tests/">
-    <Project Path="tests/Hulaki.Bluesky.Tests/Hulaki.Bluesky.Tests.csproj" />
     <Project Path="tests/Hulaki.Cli.Tests/Hulaki.Cli.Tests.csproj" />
-    <Project Path="tests/Hulaki.Discord.Tests/Hulaki.Discord.Tests.csproj" />
     <Project Path="tests/Hulaki.Email.Tests/Hulaki.Email.Tests.csproj" />
-    <Project Path="tests/Hulaki.Extensions.DependencyInjection.Tests/Hulaki.Extensions.DependencyInjection.Tests.csproj" />
-    <Project Path="tests/Hulaki.Mastodon.Tests/Hulaki.Mastodon.Tests.csproj" />
-    <Project Path="tests/Hulaki.Ntfy.Tests/Hulaki.Ntfy.Tests.csproj" />
-    <Project Path="tests/Hulaki.Slack.Tests/Hulaki.Slack.Tests.csproj" />
-    <Project Path="tests/Hulaki.Teams.Tests/Hulaki.Teams.Tests.csproj" />
-    <Project Path="tests/Hulaki.Telegram.Tests/Hulaki.Telegram.Tests.csproj" />
     <Project Path="tests/Hulaki.Tests/Hulaki.Tests.csproj" />
-    <Project Path="tests/Hulaki.Webhook.Tests/Hulaki.Webhook.Tests.csproj" />
-    <Project Path="tests/Hulaki.WebPush.Tests/Hulaki.WebPush.Tests.csproj" />
   </Folder>
 </Solution>

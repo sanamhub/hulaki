@@ -1,5 +1,5 @@
 <Project Sdk="Microsoft.NET.Sdk">
-  <!-- Consumes the packed Hulaki and every provider package under Native AOT. Not in Hulaki.slnx:
+  <!-- Consumes the packed Hulaki and Hulaki.Email packages under Native AOT. Not in Hulaki.slnx:
        it can only restore after `dotnet pack -c Release -o artifacts/packages`. CI publishes it
        with -r linux-x64 and runs the binary, which prints Delivered. -->
   <PropertyGroup>
@@ -17,17 +17,9 @@
     <!-- Roots every type in Hulaki, so the trimmer analyses the whole core, not just what one send
          reaches. -->
     <TrimmerRootAssembly Include="Hulaki" />
+    <TrimmerRootAssembly Include="Hulaki.Email" />
     <PackageReference Include="Hulaki" Version="$(HulakiVersion)" />
-    <PackageReference Include="Hulaki.Telegram" Version="$(HulakiVersion)" />
-    <PackageReference Include="Hulaki.Discord" Version="$(HulakiVersion)" />
-    <PackageReference Include="Hulaki.Ntfy" Version="$(HulakiVersion)" />
-    <PackageReference Include="Hulaki.Webhook" Version="$(HulakiVersion)" />
     <PackageReference Include="Hulaki.Email" Version="$(HulakiVersion)" />
-    <PackageReference Include="Hulaki.WebPush" Version="$(HulakiVersion)" />
-    <PackageReference Include="Hulaki.Slack" Version="$(HulakiVersion)" />
-    <PackageReference Include="Hulaki.Teams" Version="$(HulakiVersion)" />
-    <PackageReference Include="Hulaki.Bluesky" Version="$(HulakiVersion)" />
-    <PackageReference Include="Hulaki.Mastodon" Version="$(HulakiVersion)" />
   </ItemGroup>
   <!-- The version to consume is passed in (-p:HulakiVersion=...), so a stale package can never be
        picked up by accident. -->

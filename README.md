@@ -31,20 +31,27 @@ delivery library.
 
 | Package | What it adds |
 | --- | --- |
-| [`Hulaki`](src/Hulaki/PACKAGE.md) | core: messages, outcomes, retries, idempotency, diagnostics |
-| [`Hulaki.Extensions.DependencyInjection`](src/Hulaki.Extensions.DependencyInjection/PACKAGE.md) | `AddHulaki()` and configuration binding |
+| [`Hulaki`](src/Hulaki/PACKAGE.md) | core (messages, outcomes, retries, idempotency, diagnostics), `AddHulaki()`, and the channels below |
+| [`Hulaki.Email`](src/Hulaki.Email/PACKAGE.md) | email over SMTP through MailKit |
 | [`Hulaki.Testing`](src/Hulaki.Testing/PACKAGE.md) | fake channels, a recording handler and a contract test kit for providers |
-| [`Hulaki.Telegram`](src/Hulaki.Telegram/PACKAGE.md) | Telegram Bot API |
-| [`Hulaki.Discord`](src/Hulaki.Discord/PACKAGE.md) | Discord webhooks |
-| [`Hulaki.Ntfy`](src/Hulaki.Ntfy/PACKAGE.md) | ntfy |
-| [`Hulaki.Webhook`](src/Hulaki.Webhook/PACKAGE.md) | signed JSON to any HTTPS endpoint |
-| [`Hulaki.Email`](src/Hulaki.Email/PACKAGE.md) | SMTP through MailKit |
-| [`Hulaki.WebPush`](src/Hulaki.WebPush/PACKAGE.md) | browser push (VAPID, RFC 8291 encryption) |
-| [`Hulaki.Slack`](src/Hulaki.Slack/PACKAGE.md) | Slack incoming webhooks |
-| [`Hulaki.Teams`](src/Hulaki.Teams/PACKAGE.md) | Teams through a Workflows webhook |
-| [`Hulaki.Bluesky`](src/Hulaki.Bluesky/PACKAGE.md) | Bluesky posts and threads |
-| [`Hulaki.Mastodon`](src/Hulaki.Mastodon/PACKAGE.md) | Mastodon statuses |
 | [`Hulaki.Cli`](tools/Hulaki.Cli/PACKAGE.md) | the `hulaki` tool: `capabilities`, `send`, `doctor` |
+
+Channels in `Hulaki`, each with its own page:
+
+| Channel | Namespace | What it sends through |
+| --- | --- | --- |
+| [Telegram](docs/channels/telegram.md) | `Hulaki.Telegram` | Telegram Bot API |
+| [Discord](docs/channels/discord.md) | `Hulaki.Discord` | Discord webhooks |
+| [ntfy](docs/channels/ntfy.md) | `Hulaki.Ntfy` | ntfy.sh or a self-hosted server |
+| [Webhook](docs/channels/webhook.md) | `Hulaki.Webhook` | signed JSON to any HTTPS endpoint |
+| [Web Push](docs/channels/webpush.md) | `Hulaki.WebPush` | browser push (VAPID, RFC 8291 encryption) |
+| [Slack](docs/channels/slack.md) | `Hulaki.Slack` | Slack incoming webhooks |
+| [Teams](docs/channels/teams.md) | `Hulaki.Teams` | Teams through a Workflows webhook |
+| [Bluesky](docs/channels/bluesky.md) | `Hulaki.Bluesky` | Bluesky posts and threads |
+| [Mastodon](docs/channels/mastodon.md) | `Hulaki.Mastodon` | Mastodon statuses |
+
+Only email is a separate package, because it is the one channel with a dependency (MailKit). The
+channels you never construct are trimmed from a Native AOT app.
 
 What each platform supports, limits and charges for is in [docs/capabilities.md](docs/capabilities.md),
 generated from the providers' manifests.
@@ -54,7 +61,8 @@ generated from the providers' manifests.
 Not on nuget.org yet. Once it is:
 
 ```
-dotnet add package Hulaki.Telegram
+dotnet add package Hulaki
+dotnet add package Hulaki.Email   # only for email
 ```
 
 ## Send a message

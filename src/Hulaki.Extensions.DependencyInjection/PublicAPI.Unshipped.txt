@@ -1,7 +1,0 @@
-#nullable enable
-Microsoft.Extensions.DependencyInjection.HulakiBuilderExtensions
-Microsoft.Extensions.DependencyInjection.HulakiServiceCollectionExtensions
-Microsoft.Extensions.DependencyInjection.IHulakiBuilder
-Microsoft.Extensions.DependencyInjection.IHulakiBuilder.Services.get -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
-static Microsoft.Extensions.DependencyInjection.HulakiBuilderExtensions.AddChannel(this Microsoft.Extensions.DependencyInjection.IHulakiBuilder! builder, string! name, System.Func<System.IServiceProvider!, Hulaki.IChannel!>! factory) -> Microsoft.Extensions.DependencyInjection.IHulakiBuilder!
-static Microsoft.Extensions.DependencyInjection.HulakiServiceCollectionExtensions.AddHulaki(this Microsoft.Extensions.DependencyInjection.IServiceCollection! services) -> Microsoft.Extensions.DependencyInjection.IHulakiBuilder!

@@ -14,7 +14,7 @@ namespace Hulaki.Providers;
 /// options validated at startup, the host's logger factory, a named <see cref="HttpClient"/>
 /// without request logging, and the channel as a keyed singleton.
 /// </summary>
-/// <remarks>Compiled into every provider assembly from <c>src/Shared</c>.</remarks>
+/// <remarks>Compiled into <c>Hulaki</c> and <c>Hulaki.Email</c> from <c>src/Shared</c>.</remarks>
 internal static class ProviderRegistration
 {
     public static IHulakiBuilder AddHttpChannel<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor)] TOptions, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TValidator>(

@@ -12,16 +12,8 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="System.CommandLine" />
-    <ProjectReference Include="../../src/Hulaki.Telegram/Hulaki.Telegram.csproj" />
-    <ProjectReference Include="../../src/Hulaki.Discord/Hulaki.Discord.csproj" />
-    <ProjectReference Include="../../src/Hulaki.Ntfy/Hulaki.Ntfy.csproj" />
-    <ProjectReference Include="../../src/Hulaki.Webhook/Hulaki.Webhook.csproj" />
+    <ProjectReference Include="../../src/Hulaki/Hulaki.csproj" />
     <ProjectReference Include="../../src/Hulaki.Email/Hulaki.Email.csproj" />
-    <ProjectReference Include="../../src/Hulaki.WebPush/Hulaki.WebPush.csproj" />
-    <ProjectReference Include="../../src/Hulaki.Slack/Hulaki.Slack.csproj" />
-    <ProjectReference Include="../../src/Hulaki.Teams/Hulaki.Teams.csproj" />
-    <ProjectReference Include="../../src/Hulaki.Bluesky/Hulaki.Bluesky.csproj" />
-    <ProjectReference Include="../../src/Hulaki.Mastodon/Hulaki.Mastodon.csproj" />
     <InternalsVisibleTo Include="Hulaki.Cli.Tests" />
   </ItemGroup>
   <ItemGroup>

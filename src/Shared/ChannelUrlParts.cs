@@ -9,7 +9,7 @@ namespace Hulaki.Providers;
 /// <c>--channel-url</c> (ADR-0013). Secrets sit in the user info or the query, which nothing
 /// prints: <see cref="Redacted"/> keeps the scheme and host only.
 /// </summary>
-/// <remarks>Compiled into every provider assembly from <c>src/Shared</c>.</remarks>
+/// <remarks>Compiled into <c>Hulaki</c> and <c>Hulaki.Email</c> from <c>src/Shared</c>.</remarks>
 internal static class ChannelUrlParts
 {
     /// <summary>The whole user info, percent-decoded. Empty when there is none.</summary>
