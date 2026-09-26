@@ -17,6 +17,9 @@
   <Folder Name="/tools/">
     <Project Path="tools/Hulaki.Cli/Hulaki.Cli.csproj" />
   </Folder>
+  <Folder Name="/samples/">
+    <Project Path="samples/Hulaki.Samples/Hulaki.Samples.csproj" />
+  </Folder>
   <Folder Name="/tests/">
     <Project Path="tests/Hulaki.Bluesky.Tests/Hulaki.Bluesky.Tests.csproj" />
     <Project Path="tests/Hulaki.Cli.Tests/Hulaki.Cli.Tests.csproj" />

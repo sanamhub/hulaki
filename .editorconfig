@@ -54,3 +54,9 @@ dotnet_diagnostic.CA1707.severity = none
 [tests/Hulaki.WebPush.Tests/**.cs]
 # T18 requires the RFC 8291 section 5 example, whose keys and salt are fixed by the RFC.
 dotnet_diagnostic.CA5390.severity = none
+
+# The README's samples read like application code: no synchronization context to escape, and
+# console text is the point, not a localisation gap.
+[samples/**.cs]
+dotnet_diagnostic.CA2007.severity = none
+dotnet_diagnostic.CA1303.severity = none

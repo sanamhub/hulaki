@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- The README's code, compiled by CI so it cannot drift from the API. Never run by CI and never
+       packed: it would need real channel credentials. -->
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <OutputType>Exe</OutputType>
+    <IsPackable>false</IsPackable>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Hulaki\Hulaki.csproj" />
+    <ProjectReference Include="..\..\src\Hulaki.Telegram\Hulaki.Telegram.csproj" />
+    <ProjectReference Include="..\..\src\Hulaki.Ntfy\Hulaki.Ntfy.csproj" />
+    <ProjectReference Include="..\..\src\Hulaki.Extensions.DependencyInjection\Hulaki.Extensions.DependencyInjection.csproj" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" />
+    <PackageReference Include="OpenTelemetry" />
+    <PackageReference Include="OpenTelemetry.Instrumentation.Http" />
+  </ItemGroup>
+</Project>

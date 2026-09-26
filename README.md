@@ -27,6 +27,81 @@ delivery library.
 - Some platforms cost money or need business verification: X, Viber, WhatsApp, Facebook Pages.
   They come after the free ones.
 
+## Packages
+
+| Package | What it adds |
+| --- | --- |
+| [`Hulaki`](src/Hulaki/PACKAGE.md) | core: messages, outcomes, retries, idempotency, diagnostics |
+| [`Hulaki.Extensions.DependencyInjection`](src/Hulaki.Extensions.DependencyInjection/PACKAGE.md) | `AddHulaki()` and configuration binding |
+| [`Hulaki.Testing`](src/Hulaki.Testing/PACKAGE.md) | fake channels, a recording handler and a contract test kit for providers |
+| [`Hulaki.Telegram`](src/Hulaki.Telegram/PACKAGE.md) | Telegram Bot API |
+| [`Hulaki.Discord`](src/Hulaki.Discord/PACKAGE.md) | Discord webhooks |
+| [`Hulaki.Ntfy`](src/Hulaki.Ntfy/PACKAGE.md) | ntfy |
+| [`Hulaki.Webhook`](src/Hulaki.Webhook/PACKAGE.md) | signed JSON to any HTTPS endpoint |
+| [`Hulaki.Email`](src/Hulaki.Email/PACKAGE.md) | SMTP through MailKit |
+| [`Hulaki.WebPush`](src/Hulaki.WebPush/PACKAGE.md) | browser push (VAPID, RFC 8291 encryption) |
+| [`Hulaki.Slack`](src/Hulaki.Slack/PACKAGE.md) | Slack incoming webhooks |
+| [`Hulaki.Teams`](src/Hulaki.Teams/PACKAGE.md) | Teams through a Workflows webhook |
+| [`Hulaki.Bluesky`](src/Hulaki.Bluesky/PACKAGE.md) | Bluesky posts and threads |
+| [`Hulaki.Mastodon`](src/Hulaki.Mastodon/PACKAGE.md) | Mastodon statuses |
+| [`Hulaki.Cli`](tools/Hulaki.Cli/PACKAGE.md) | the `hulaki` tool: `capabilities`, `send`, `doctor` |
+
+What each platform supports, limits and charges for is in [docs/capabilities.md](docs/capabilities.md),
+generated from the providers' manifests.
+
+## Install
+
+Not on nuget.org yet. Once it is:
+
+```
+dotnet add package Hulaki.Telegram
+```
+
+## Send a message
+
+```csharp
+using Hulaki;
+using Hulaki.Telegram;
+
+using var http = new HttpClient();
+using var telegram = new TelegramChannel("alerts", http, new TelegramChannelOptions
+{
+    BotToken = configuration["Hulaki:Channels:alerts:BotToken"]!,
+});
+var client = new HulakiClient([telegram]);
+
+var message = new Message("**Orange** rain warning for Myagdi on 26 Sep. [DHM](https://dhm.gov.np)")
+{
+    Format = TextFormat.Markup,
+    Title = "Route alert: Pokhara to Beni",
+    Priority = MessagePriority.High,
+    IdempotencyKey = "watch-42:2026-09-26:rev-7",
+};
+
+var result = await client.SendAsync(message, [new Target("alerts", new Recipient("123456789"))]);
+foreach (var (target, outcome) in result.Outcomes)
+{
+    switch (outcome.Error?.Code)
+    {
+        case null: break;                                   // delivered or accepted
+        case HulakiErrorCode.RecipientBlocked:
+        case HulakiErrorCode.RecipientNotFound: /* disable this subscription */ break;
+        case HulakiErrorCode.RateLimited: /* reschedule after outcome.Error.RetryAfter */ break;
+        default: /* log outcome.Error.Code; never the recipient */ break;
+    }
+}
+```
+
+With dependency injection:
+
+```csharp
+builder.Services.AddHulaki()
+    .AddTelegram("alerts", builder.Configuration.GetSection("Hulaki:Channels:alerts"))
+    .AddNtfy("ops", o => o.BaseAddress = new Uri("https://ntfy.sh/"));
+```
+
+Both samples are compiled by CI from [samples/Hulaki.Samples](samples/Hulaki.Samples).
+
 ## How it avoids double sends
 
 | Situation | Hulaki |
@@ -35,6 +110,29 @@ delivery library.
 | Request sent, answer lost | reports `Unknown`; resends only if you set `ResendUnknown` |
 | Platform deduplicates by key (Mastodon) | retries safely |
 | You call again with the same `IdempotencyKey` | replays earlier outcomes, sends only what is missing |
+
+## Security notes
+
+- Telegram puts the bot token in the request path, and Discord and Slack webhook URLs are
+  secrets in the path. Each provider's `Add…` registration (`AddTelegram`, `AddDiscord`, and so
+  on) removes the loggers from its `HttpClient`. If you build the `HttpClient` yourself, do not
+  log its request URIs.
+- OpenTelemetry's HTTP client spans record `url.full`. .NET redacts the query string there, not
+  the path, so leave these hosts out of HTTP client tracing. Hulaki's own `Hulaki` spans carry no
+  URL, recipient or message text.
+
+  ```csharp
+  string[] secretInPathHosts = ["api.telegram.org", "discord.com", "hooks.slack.com"];
+  Sdk.CreateTracerProviderBuilder()
+      .AddSource("Hulaki")
+      .AddHttpClientInstrumentation(o => o.FilterHttpRequestMessage =
+          request => request.RequestUri is not { } uri || !secretInPathHosts.Contains(uri.Host, StringComparer.OrdinalIgnoreCase))
+      .Build();
+  ```
+
+- `Recipient.ToString()` prints `Recipient(***)`, and `HulakiError.Message` is Hulaki's own text,
+  never the platform's response body.
+- Report a vulnerability as [SECURITY.md](SECURITY.md) describes, not in a public issue.
 
 ## Credit
 
