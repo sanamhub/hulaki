@@ -1,25 +1,22 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Net.Sockets;
 using System.Threading.Tasks;
+using FreeTierMail;
+using FreeTierMail.Testing;
 using Hulaki.Channels;
 using Hulaki.Tests;
-using MailKit.Net.Smtp;
-using MailKit.Security;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Time.Testing;
-using MimeKit;
 using Xunit;
 
 namespace Hulaki.Email.Tests;
 
 /// <summary>
-/// Reply codes follow RFC 5321 section 4.2 and MailKit's SmtpCommandException. Addresses use the
-/// example.org domain reserved by RFC 2606.
+/// The channel over a <see cref="FreeTierMailer"/> with fake providers. SMTP itself is tested in
+/// FreeTierMail.Smtp. Addresses use the example.org domain reserved by RFC 2606.
 /// </summary>
 public sealed class EmailChannelTests
 {
@@ -28,65 +25,36 @@ public sealed class EmailChannelTests
 
     private static EmailChannelOptions Options(FakeTimeProvider? time = null) => new()
     {
-        Host = "smtp.example.org",
-        Username = "alerts@example.org",
-        Password = Password,
+        UseFreeTierMail = true,
         From = "Route alerts <alerts@example.org>",
         TimeProvider = time ?? new FakeTimeProvider(),
     };
 
-    private static (EmailChannel Channel, FakeSmtpServer Server) Create(EmailChannelOptions? options = null)
+    private static (EmailChannel Channel, FakeEmailProvider Provider) Create(EmailChannelOptions? options = null, FakeEmailProvider? provider = null)
     {
-        var server = new FakeSmtpServer();
-        return (new EmailChannel("mail", options ?? Options(), server.Open), server);
+        provider ??= new FakeEmailProvider("resend");
+        return (new EmailChannel("mail", new FreeTierMailer([provider]), options ?? Options()), provider);
     }
 
-    private static SmtpCommandException Reply(SmtpErrorCode code, int status) =>
-        new(code, (SmtpStatusCode)status, "server text quoting reader@example.org and the body");
-
     [Fact]
-    public async Task Sends_with_starttls_on_587_and_logs_in()
+    public async Task Sends_through_the_mailer_and_returns_the_providers_message_id()
     {
-        var (channel, server) = Create();
+        var (channel, provider) = Create();
 
         var outcome = await channel.SendAsync(new Message("Rain warning"), new Recipient(To), TestContext.Current.CancellationToken);
 
         Assert.Equal(DeliveryStatus.Accepted, outcome.Status);
-        Assert.Equal(("smtp.example.org", 587, SecureSocketOptions.StartTls), Assert.Single(server.Connections));
-        Assert.Equal(("alerts@example.org", Password), Assert.Single(server.Logins));
-        var sent = Assert.Single(server.Sent);
-        Assert.Equal(sent.MessageId, outcome.PlatformMessageId);
-        Assert.EndsWith("@example.org", sent.MessageId, StringComparison.Ordinal);
-        Assert.Equal(1, server.Disconnects);
-    }
-
-    [Theory]
-    [InlineData("smtp.example.org", 465, SecureSocketOptions.SslOnConnect)]
-    [InlineData("smtp.example.org", 25, SecureSocketOptions.StartTls)]
-    [InlineData("localhost", 1025, SecureSocketOptions.StartTlsWhenAvailable)]
-    [InlineData("127.0.0.1", 25, SecureSocketOptions.StartTlsWhenAvailable)]
-    [InlineData("::1", 25, SecureSocketOptions.StartTlsWhenAvailable)]
-    [InlineData("localhost", 465, SecureSocketOptions.SslOnConnect)]
-    public void Tls_mode_follows_the_port_and_loopback(string host, int port, SecureSocketOptions expected) =>
-        Assert.Equal(expected, EmailChannel.SecurityFor(host, port));
-
-    [Fact]
-    public async Task No_username_means_no_login()
-    {
-        var options = Options();
-        options.Username = null;
-        options.Password = null;
-        var (channel, server) = Create(options);
-
-        await channel.SendAsync(new Message("x"), new Recipient(To), TestContext.Current.CancellationToken);
-
-        Assert.Empty(server.Logins);
+        Assert.Equal("resend-1", outcome.PlatformMessageId);
+        var sent = Assert.Single(provider.Sent);
+        Assert.Equal("alerts@example.org", sent.From.Address);
+        Assert.Equal("Route alerts", sent.From.DisplayName);
+        Assert.Equal(To, Assert.Single(sent.To).Address);
     }
 
     [Fact]
-    public async Task The_message_has_a_subject_both_parts_and_priority_headers()
+    public void The_message_has_a_subject_both_parts_and_critical_priority()
     {
-        var (channel, server) = Create();
+        var (channel, _) = Create();
         var message = new Message("**Red** <b>alert</b> & [DHM](https://dhm.gov.np/?a=1&b=2)\nsecond line")
         {
             Format = TextFormat.Markup,
@@ -95,20 +63,27 @@ public sealed class EmailChannelTests
             Link = new Uri("https://example.org/watch/42"),
         };
 
-        await channel.SendAsync(message, new Recipient(To), TestContext.Current.CancellationToken);
+        var sent = channel.Build(message, new Recipient(To));
 
-        var sent = Assert.Single(server.Sent);
         Assert.Equal("Route alert: Pokhara to Beni", sent.Subject);
-        Assert.Equal("alerts@example.org", sent.From.Mailboxes.Single().Address);
-        Assert.Equal(To, sent.To.Mailboxes.Single().Address);
-        Assert.Equal(MimeKit.MessagePriority.Urgent, sent.Priority);
-        Assert.Equal(MessageImportance.High, sent.Importance);
-        Assert.Equal(XMessagePriority.Highest, sent.XPriority);
-        Assert.Equal("Red <b>alert</b> & DHM (https://dhm.gov.np/?a=1&b=2)\nsecond line\n\nhttps://example.org/watch/42", sent.TextBody!.ReplaceLineEndings("\n").TrimEnd());
+        Assert.Equal(EmailPriority.Critical, sent.Priority);
+        Assert.Equal("Red <b>alert</b> & DHM (https://dhm.gov.np/?a=1&b=2)\nsecond line\n\nhttps://example.org/watch/42", sent.TextBody);
         Assert.Contains(
             "<p><strong>Red</strong> &lt;b&gt;alert&lt;/b&gt; &amp; <a href=\"https://dhm.gov.np/?a=1&amp;b=2\">DHM</a><br>second line</p><p><a href=\"https://example.org/watch/42\">https://example.org/watch/42</a></p>",
             sent.HtmlBody!,
             StringComparison.Ordinal);
+    }
+
+    [Theory]
+    [InlineData(MessagePriority.Low, EmailPriority.Normal)]
+    [InlineData(MessagePriority.Normal, EmailPriority.Normal)]
+    [InlineData(MessagePriority.High, EmailPriority.Critical)]
+    [InlineData(MessagePriority.Urgent, EmailPriority.Critical)]
+    public void High_and_urgent_are_critical_mail(MessagePriority priority, EmailPriority expected)
+    {
+        var (channel, _) = Create();
+
+        Assert.Equal(expected, channel.Build(new Message("x") { Priority = priority }, new Recipient(To)).Priority);
     }
 
     [Fact]
@@ -116,11 +91,11 @@ public sealed class EmailChannelTests
     {
         var (channel, _) = Create();
 
-        using var shortOne = channel.Build(new Message("  Road closed at Beni\nDetails follow"), new Recipient(To));
-        using var longOne = channel.Build(new Message(new string('x', 100)), new Recipient(To));
+        var shortOne = channel.Build(new Message("  Road closed at Beni\nDetails follow"), new Recipient(To));
+        var longOne = channel.Build(new Message(new string('x', 100)), new Recipient(To));
 
         Assert.Equal("Road closed at Beni", shortOne.Subject);
-        Assert.Equal(78, longOne.Subject!.Length);
+        Assert.Equal(78, longOne.Subject.Length);
         Assert.EndsWith("…", longOne.Subject, StringComparison.Ordinal);
     }
 
@@ -128,136 +103,78 @@ public sealed class EmailChannelTests
     public void Plain_text_is_html_encoded_in_the_html_part() =>
         Assert.Equal("<!DOCTYPE html><html><body><p>a &lt;script&gt; **b**</p></body></html>", EmailChannel.HtmlBody(new Message("a <script> **b**")));
 
-    public static TheoryData<SmtpErrorCode, int, HulakiErrorCode, RetryDisposition> Replies() => new()
+    public static TheoryData<ProviderOutcome[], HulakiErrorCode, RetryDisposition> Failures() => new()
     {
-        { SmtpErrorCode.RecipientNotAccepted, 550, HulakiErrorCode.RecipientNotFound, RetryDisposition.Never },
-        { SmtpErrorCode.RecipientNotAccepted, 551, HulakiErrorCode.RecipientNotFound, RetryDisposition.Never },
-        { SmtpErrorCode.RecipientNotAccepted, 553, HulakiErrorCode.RecipientNotFound, RetryDisposition.Never },
-        { SmtpErrorCode.RecipientNotAccepted, 552, HulakiErrorCode.UpstreamFailure, RetryDisposition.Never },
-        { SmtpErrorCode.SenderNotAccepted, 553, HulakiErrorCode.InvalidConfiguration, RetryDisposition.Never },
-        { SmtpErrorCode.MessageNotAccepted, 554, HulakiErrorCode.ContentRejected, RetryDisposition.Never },
-        { SmtpErrorCode.MessageNotAccepted, 552, HulakiErrorCode.InvalidInput, RetryDisposition.Never },
-        { SmtpErrorCode.UnexpectedStatusCode, 530, HulakiErrorCode.InvalidConfiguration, RetryDisposition.Never },
-        { SmtpErrorCode.UnexpectedStatusCode, 502, HulakiErrorCode.UpstreamFailure, RetryDisposition.Never },
-        { SmtpErrorCode.RecipientNotAccepted, 450, HulakiErrorCode.UpstreamFailure, RetryDisposition.AfterDelay },
-        { SmtpErrorCode.MessageNotAccepted, 451, HulakiErrorCode.UpstreamFailure, RetryDisposition.AfterDelay },
-        { SmtpErrorCode.UnexpectedStatusCode, 421, HulakiErrorCode.UpstreamFailure, RetryDisposition.AfterDelay },
+        { [ProviderOutcome.RecipientRejected], HulakiErrorCode.RecipientNotFound, RetryDisposition.Never },
+        { [ProviderOutcome.Unavailable, ProviderOutcome.RecipientRejected], HulakiErrorCode.RecipientNotFound, RetryDisposition.Never },
+        { [ProviderOutcome.ProviderFault, ProviderOutcome.ProviderFault], HulakiErrorCode.InvalidConfiguration, RetryDisposition.Never },
+        { [ProviderOutcome.Throttled, ProviderOutcome.QuotaExhausted], HulakiErrorCode.RateLimited, RetryDisposition.AfterDelay },
+        { [ProviderOutcome.ProviderFault, ProviderOutcome.QuotaExhausted], HulakiErrorCode.RateLimited, RetryDisposition.AfterDelay },
+        { [], HulakiErrorCode.RateLimited, RetryDisposition.AfterDelay },
+        { [ProviderOutcome.Unavailable], HulakiErrorCode.UpstreamFailure, RetryDisposition.AfterDelay },
+        { [ProviderOutcome.Throttled, ProviderOutcome.Unavailable], HulakiErrorCode.UpstreamFailure, RetryDisposition.AfterDelay },
     };
 
     [Theory]
-    [MemberData(nameof(Replies))]
-    public void Smtp_replies_map_by_class_and_command(SmtpErrorCode command, int status, HulakiErrorCode code, RetryDisposition retry)
+    [MemberData(nameof(Failures))]
+    public void A_failed_send_maps_by_what_every_provider_said(ProviderOutcome[] outcomes, HulakiErrorCode code, RetryDisposition retry)
     {
-        var error = EmailChannel.ErrorFor(Reply(command, status));
+        var attempts = outcomes.Select((o, i) => new SendAttempt("p" + i, o, TimeSpan.Zero, "reader@example.org said no")).ToArray();
 
-        Assert.Equal(code, error.Code);
-        Assert.Equal(retry, error.Retry);
-        Assert.Equal(status.ToString(System.Globalization.CultureInfo.InvariantCulture), error.PlatformCode);
-        Assert.DoesNotContain("reader@example.org", error.Message, StringComparison.Ordinal);
-        Assert.DoesNotContain("server text", error.Message, StringComparison.Ordinal);
-    }
-
-    [Fact]
-    public async Task A_550_for_the_recipient_fails_once_as_recipient_not_found()
-    {
-        var (channel, server) = Create();
-        server.FailSend(Reply(SmtpErrorCode.RecipientNotAccepted, 550));
-
-        var outcome = await channel.SendAsync(new Message("x"), new Recipient(To), TestContext.Current.CancellationToken);
-
-        Assert.Equal(DeliveryStatus.Failed, outcome.Status);
-        Assert.Equal(HulakiErrorCode.RecipientNotFound, outcome.Error!.Code);
-        Assert.Single(server.Connections);
-    }
-
-    [Fact]
-    public async Task A_4xx_reply_is_retried_on_a_new_connection()
-    {
-        var time = new FakeTimeProvider();
-        var (channel, server) = Create(Options(time));
-        server.FailSend(Reply(SmtpErrorCode.MessageNotAccepted, 451));
-
-        var outcome = await FakeClock.RunAsync(time, () => channel.SendAsync(new Message("x"), new Recipient(To), TestContext.Current.CancellationToken));
-
-        Assert.Equal(DeliveryStatus.Accepted, outcome.Status);
-        Assert.Equal(2, outcome.Attempts);
-        Assert.Equal(2, server.Connections.Count);
-        Assert.Single(server.Sent);
-    }
-
-    [Fact]
-    public async Task A_refused_connection_is_retried()
-    {
-        var time = new FakeTimeProvider();
-        var (channel, server) = Create(Options(time));
-        server.FailConnect(new SocketException((int)SocketError.ConnectionRefused));
-
-        var outcome = await FakeClock.RunAsync(time, () => channel.SendAsync(new Message("x"), new Recipient(To), TestContext.Current.CancellationToken));
-
-        Assert.Equal(DeliveryStatus.Accepted, outcome.Status);
-        Assert.Equal(2, outcome.Attempts);
-    }
-
-    public static TheoryData<Exception, HulakiErrorCode> ConnectFailures() => new()
-    {
-        { new AuthenticationException("535 5.7.8 bad credentials for alerts@example.org"), HulakiErrorCode.InvalidConfiguration },
-        { new SslHandshakeException("certificate mismatch"), HulakiErrorCode.InvalidConfiguration },
-        { new NotSupportedException("The SMTP server does not support STARTTLS."), HulakiErrorCode.InvalidConfiguration },
-    };
-
-    [Theory]
-    [MemberData(nameof(ConnectFailures))]
-    public async Task Configuration_failures_while_connecting_are_not_retried(Exception failure, HulakiErrorCode code)
-    {
-        var (channel, server) = Create();
-        server.FailConnect(failure);
-
-        var outcome = await channel.SendAsync(new Message("x"), new Recipient(To), TestContext.Current.CancellationToken);
+        var outcome = EmailChannel.Map(new FreeTierMail.SendResult(FreeTierMail.SendStatus.Failed, attempts));
 
         Assert.Equal(DeliveryStatus.Failed, outcome.Status);
         Assert.Equal(code, outcome.Error!.Code);
-        Assert.Equal(RetryDisposition.Never, outcome.Error.Retry);
-        Assert.DoesNotContain("example.org", outcome.Error.Message, StringComparison.Ordinal);
-        Assert.Empty(server.Sent);
+        Assert.Equal(retry, outcome.Error.Retry);
+        Assert.DoesNotContain("reader@example.org", outcome.Error.Message, StringComparison.Ordinal);
     }
 
     [Fact]
-    public async Task A_connection_lost_while_sending_is_unknown_and_not_resent()
+    public void A_suppressed_address_is_blocked_and_never_retried()
     {
-        var (channel, server) = Create();
-        server.FailSend(new IOException("connection reset"));
+        var outcome = EmailChannel.Map(new FreeTierMail.SendResult(FreeTierMail.SendStatus.Failed, []) { Suppressed = true });
+
+        Assert.Equal(HulakiErrorCode.RecipientBlocked, outcome.Error!.Code);
+        Assert.Equal(RetryDisposition.Never, outcome.Error.Retry);
+    }
+
+    [Fact]
+    public async Task An_unknown_answer_is_unknown_and_not_resent()
+    {
+        var (channel, provider) = Create(provider: new FakeEmailProvider("resend").Then(ProviderOutcome.Unknown));
 
         var outcome = await channel.SendAsync(new Message("x"), new Recipient(To), TestContext.Current.CancellationToken);
 
         Assert.Equal(DeliveryStatus.Unknown, outcome.Status);
         Assert.Equal(HulakiErrorCode.AmbiguousOutcome, outcome.Error!.Code);
-        Assert.Single(server.Connections);
+        Assert.Single(provider.Sent);
     }
 
     [Fact]
-    public async Task Resend_unknown_opts_into_a_second_attempt()
+    public async Task An_outage_is_retried_by_the_channel()
     {
         var time = new FakeTimeProvider();
-        var options = Options(time);
-        options.Retry = SendRetryPolicy.Default with { ResendUnknown = true };
-        var (channel, server) = Create(options);
-        server.FailSend(new SmtpProtocolException("unexpected end of stream"));
+        var (channel, provider) = Create(Options(time), new FakeEmailProvider("resend").Then(ProviderOutcome.Unavailable));
 
         var outcome = await FakeClock.RunAsync(time, () => channel.SendAsync(new Message("x"), new Recipient(To), TestContext.Current.CancellationToken));
 
         Assert.Equal(DeliveryStatus.Accepted, outcome.Status);
         Assert.Equal(2, outcome.Attempts);
+        Assert.Equal(2, provider.Sent.Count);
     }
 
     [Fact]
-    public async Task A_failed_quit_after_the_send_keeps_the_success()
+    public async Task The_mailer_fails_over_before_the_channel_sees_a_failure()
     {
-        var (channel, server) = Create();
-        server.DisconnectFailure = new IOException("reset after QUIT");
+        var first = new FakeEmailProvider("brevo").Then(ProviderOutcome.QuotaExhausted);
+        var second = new FakeEmailProvider("resend");
+        var channel = new EmailChannel("mail", new FreeTierMailer([first, second], new FreeTierMailerOptions { Strategy = RoutingStrategy.Ordered }), Options());
 
         var outcome = await channel.SendAsync(new Message("x"), new Recipient(To), TestContext.Current.CancellationToken);
 
         Assert.Equal(DeliveryStatus.Accepted, outcome.Status);
+        Assert.Equal(1, outcome.Attempts);
+        Assert.Single(second.Sent);
     }
 
     [Theory]
@@ -272,31 +189,38 @@ public sealed class EmailChannelTests
     }
 
     [Fact]
-    public void Constructor_rejects_bad_options_without_echoing_them()
+    public void Smtp_mode_builds_one_smtp_provider_named_after_the_channel()
     {
-        var noHost = Options();
-        noHost.Host = " ";
-        var badFrom = Options();
-        badFrom.From = "not-an-address-TEST";
-        var badPort = Options();
-        badPort.Port = 70000;
+        using var channel = new EmailChannel("mail", new EmailChannelOptions { Host = "localhost", Port = 1025, From = "alerts@example.org" });
 
-        Assert.Throws<ArgumentException>(() => new EmailChannel("mail", noHost));
-        Assert.DoesNotContain("TEST", Assert.Throws<ArgumentException>(() => new EmailChannel("mail", badFrom)).Message, StringComparison.Ordinal);
-        Assert.Throws<ArgumentException>(() => new EmailChannel("mail", badPort));
+        Assert.Equal(["mail"], channel.Mailer.ProviderNames);
     }
 
     [Fact]
-    public void Options_bind_from_configuration()
+    public void Constructors_reject_bad_options_without_echoing_them()
     {
-        var configuration = new ConfigurationBuilder().AddInMemoryCollection(new Dictionary<string, string?>
+        var badFrom = new EmailChannelOptions { Host = "smtp.example.org", Username = "u", Password = Password, From = "not-an-address-TEST" };
+
+        Assert.Throws<ArgumentException>(() => new EmailChannel("mail", new EmailChannelOptions { Host = " ", From = "alerts@example.org" }));
+        Assert.Throws<ArgumentException>(() => new EmailChannel("mail", new EmailChannelOptions { Host = "smtp.example.org", Port = 70000, Username = "u", Password = Password, From = "alerts@example.org" }));
+        Assert.Throws<ArgumentException>(() => new EmailChannel("mail", new EmailChannelOptions { UseFreeTierMail = true, Host = "localhost", From = "alerts@example.org" }));
+        var error = Assert.Throws<ArgumentException>(() => new EmailChannel("mail", badFrom));
+        Assert.DoesNotContain("TEST", error.Message, StringComparison.Ordinal);
+        Assert.DoesNotContain(Password, error.Message, StringComparison.Ordinal);
+    }
+
+    private static IConfiguration Configuration(Dictionary<string, string?> values) =>
+        new ConfigurationBuilder().AddInMemoryCollection(values).Build();
+
+    [Fact]
+    public void Smtp_options_bind_from_configuration()
+    {
+        var configuration = Configuration(new()
         {
             ["mail:Host"] = "localhost",
             ["mail:Port"] = "1025",
-            ["mail:Username"] = "alerts@example.org",
-            ["mail:Password"] = Password,
             ["mail:From"] = "alerts@example.org",
-        }).Build();
+        });
         var services = new ServiceCollection();
         services.AddHulaki().AddEmail("mail", configuration.GetSection("mail"));
         using var provider = services.BuildServiceProvider();
@@ -304,21 +228,70 @@ public sealed class EmailChannelTests
         provider.GetRequiredService<IStartupValidator>().Validate();
         var options = provider.GetRequiredService<IOptionsMonitor<EmailChannelOptions>>().Get("mail");
 
-        Assert.Equal("localhost", options.Host);
+        Assert.False(options.UseFreeTierMail);
         Assert.Equal(1025, options.Port);
-        Assert.Equal(Password, options.Password);
-        Assert.IsType<EmailChannel>(provider.GetRequiredKeyedService<IChannel>("mail"));
+        Assert.Equal(["mail"], Assert.IsType<EmailChannel>(provider.GetRequiredKeyedService<IChannel>("mail")).Mailer.ProviderNames);
     }
 
-    [Theory]
-    [InlineData("", "alerts@example.org", "alerts@example.org", "Host is empty")]
-    [InlineData("smtp.example.org", "not an address", "alerts@example.org", "From is not")]
-    [InlineData("smtp.example.org", "alerts@example.org", "", "Password is set without a Username")]
-    public void Validate_on_start_reports_the_problem_without_the_password(string host, string from, string user, string expected)
+    [Fact]
+    public void Use_free_tier_mail_sends_through_the_registered_mailer()
+    {
+        var configuration = Configuration(new()
+        {
+            ["FreeTierMail:Providers:resend:ApiKey"] = "test-key-0000000000000000",
+            ["Hulaki:Channels:mail:UseFreeTierMail"] = "true",
+            ["Hulaki:Channels:mail:From"] = "alerts@example.org",
+        });
+        var services = new ServiceCollection();
+        services.AddFreeTierMail(configuration.GetSection("FreeTierMail")).AddResend();
+        services.AddHulaki().AddEmail("mail", configuration.GetSection("Hulaki:Channels:mail"));
+        using var provider = services.BuildServiceProvider();
+
+        provider.GetRequiredService<IStartupValidator>().Validate();
+        var channel = Assert.IsType<EmailChannel>(provider.GetRequiredKeyedService<IChannel>("mail"));
+
+        Assert.Same(provider.GetRequiredService<FreeTierMailer>(), channel.Mailer);
+    }
+
+    [Fact]
+    public void Use_free_tier_mail_without_a_mailer_names_the_missing_call()
     {
         var services = new ServiceCollection();
         services.AddHulaki().AddEmail("mail", o =>
         {
+            o.UseFreeTierMail = true;
+            o.From = "alerts@example.org";
+        });
+        using var provider = services.BuildServiceProvider();
+
+        var error = Assert.Throws<InvalidOperationException>(() => provider.GetRequiredKeyedService<IChannel>("mail"));
+
+        Assert.Contains("AddFreeTierMail()", error.Message, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void A_channel_switched_off_in_configuration_is_not_registered()
+    {
+        var configuration = Configuration(new() { ["mail:Enabled"] = "false", ["mail:Host"] = "smtp.example.org" });
+        var services = new ServiceCollection();
+        services.AddHulaki().AddEmail("mail", configuration.GetSection("mail"));
+        using var provider = services.BuildServiceProvider();
+
+        Assert.Null(provider.GetKeyedService<IChannel>("mail"));
+        Assert.Null(provider.GetService<IStartupValidator>()); // no options were added to check
+    }
+
+    [Theory]
+    [InlineData(false, "", "alerts@example.org", "", "Host is empty")]
+    [InlineData(false, "smtp.example.org", "not an address", "u", "From is not")]
+    [InlineData(false, "smtp.example.org", "alerts@example.org", "", "Password is set without a Username")]
+    [InlineData(true, "smtp.example.org", "alerts@example.org", "", "UseFreeTierMail is true")]
+    public void Validate_on_start_reports_the_problem_without_the_password(bool useFreeTierMail, string host, string from, string user, string expected)
+    {
+        var services = new ServiceCollection();
+        services.AddHulaki().AddEmail("mail", o =>
+        {
+            o.UseFreeTierMail = useFreeTierMail;
             o.Host = host;
             o.From = from;
             o.Username = user;
@@ -330,5 +303,21 @@ public sealed class EmailChannelTests
 
         Assert.Contains(expected, ex.Message, StringComparison.Ordinal);
         Assert.DoesNotContain(Password, ex.Message, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void A_remote_smtp_server_needs_a_login()
+    {
+        var services = new ServiceCollection();
+        services.AddHulaki().AddEmail("mail", o =>
+        {
+            o.Host = "smtp.example.org";
+            o.From = "alerts@example.org";
+        });
+        using var provider = services.BuildServiceProvider();
+
+        var ex = Assert.Throws<OptionsValidationException>(() => provider.GetRequiredService<IStartupValidator>().Validate());
+
+        Assert.Contains("only a loopback host may skip the login", ex.Message, StringComparison.Ordinal);
     }
 }

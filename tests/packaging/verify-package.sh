@@ -39,6 +39,11 @@ fi
 
 echo "consuming Hulaki $VERSION from $NATIVE_PACKAGE_DIR (aot=$AOT)"
 
+# FreeTierMail, which Hulaki.Email depends on, comes from the repository's packages-local/ until
+# it is on nuget.org.
+FREETIERMAIL_DIR="$(cd "$(dirname "$0")/../../packages-local" && pwd)"
+if command -v cygpath >/dev/null 2>&1; then FREETIERMAIL_DIR="$(cygpath -w "$FREETIERMAIL_DIR")"; fi
+
 WORK="$(mktemp -d)"
 trap 'rm -rf "$WORK"' EXIT
 cd "$WORK"
@@ -51,12 +56,17 @@ cat > NuGet.Config <<XML
   <packageSources>
     <clear />
     <add key="local" value="$NATIVE_PACKAGE_DIR" />
+    <add key="freetiermail" value="$FREETIERMAIL_DIR" />
     <add key="nuget.org" value="https://api.nuget.org/v3/index.json" protocolVersion="3" />
   </packageSources>
   <packageSourceMapping>
     <packageSource key="local">
       <package pattern="Hulaki" />
       <package pattern="Hulaki.*" />
+    </packageSource>
+    <packageSource key="freetiermail">
+      <package pattern="FreeTierMail" />
+      <package pattern="FreeTierMail.*" />
     </packageSource>
     <packageSource key="nuget.org">
       <package pattern="*" />

@@ -20,11 +20,18 @@ public static class WebhookHulakiBuilderExtensions
     /// <returns>The builder, for chaining.</returns>
     /// <exception cref="ArgumentNullException"><paramref name="builder"/> or <paramref name="section"/> is null.</exception>
     /// <exception cref="ArgumentException"><paramref name="name"/> is null, empty or whitespace.</exception>
+    /// <exception cref="FormatException">The section's <c>Enabled</c> is not true or false.</exception>
+    /// <remarks>Nothing is added when the section's <c>Enabled</c> is false.</remarks>
     public static IHulakiBuilder AddWebhook(this IHulakiBuilder builder, string name, IConfigurationSection section)
     {
         ArgumentNullException.ThrowIfNull(builder);
         ArgumentException.ThrowIfNullOrWhiteSpace(name);
         ArgumentNullException.ThrowIfNull(section);
+        if (!ProviderRegistration.IsEnabled(section))
+        {
+            return builder;
+        }
+
         return AddWebhookCore(builder, name, options => options.Configure(o => WebhookChannelSettings.Apply(section, o)));
     }
 

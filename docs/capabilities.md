@@ -42,7 +42,7 @@ command disagree. A capability a provider does not declare reads as not implemen
 | --- | --- | --- |
 | Title | available | The subject; without a title, the first line of the text |
 | Markup | available | Rendered into the HTML part |
-| Priority | available | Priority, Importance and X-Priority headers |
+| Priority | available | High and Urgent are critical mail: providers marked for it first, and the quota reserve |
 | ClickAction | unsupported by platform | The link is appended |
 
 ## mastodon

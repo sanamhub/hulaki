@@ -32,7 +32,7 @@ delivery library.
 | Package | What it adds |
 | --- | --- |
 | [`Hulaki`](src/Hulaki/PACKAGE.md) | core (messages, outcomes, retries, idempotency, diagnostics), `AddHulaki()`, and the channels below |
-| [`Hulaki.Email`](src/Hulaki.Email/PACKAGE.md) | email over SMTP through MailKit |
+| [`Hulaki.Email`](src/Hulaki.Email/PACKAGE.md) | email through [FreeTierMail](https://github.com/sanamhub/freetiermail): one SMTP server, or any mix of SMTP and HTTP email accounts with failover |
 | [`Hulaki.Testing`](src/Hulaki.Testing/PACKAGE.md) | fake channels, a recording handler and a contract test kit for providers |
 | [`Hulaki.Cli`](tools/Hulaki.Cli/PACKAGE.md) | the `hulaki` tool: `capabilities`, `send`, `doctor` |
 
@@ -50,8 +50,12 @@ Channels in `Hulaki`, each with its own page:
 | [Bluesky](docs/channels/bluesky.md) | `Hulaki.Bluesky` | Bluesky posts and threads |
 | [Mastodon](docs/channels/mastodon.md) | `Hulaki.Mastodon` | Mastodon statuses |
 
-Only email is a separate package, because it is the one channel with a dependency (MailKit). The
-channels you never construct are trimmed from a Native AOT app.
+Only email is a separate package, because it is the one channel with dependencies (FreeTierMail
+and MailKit). The channels you never construct are trimmed from a Native AOT app.
+
+Every `Add<Name>(name, section)` call skips the channel when the section has `"Enabled": false`,
+so one registration serves every environment and `appsettings.{Environment}.json` turns channels
+on and off.
 
 What each platform supports, limits and charges for is in [docs/capabilities.md](docs/capabilities.md),
 generated from the providers' manifests.

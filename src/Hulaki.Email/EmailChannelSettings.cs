@@ -6,6 +6,8 @@ namespace Hulaki.Email;
 /// <summary>The configuration-bindable part of <see cref="EmailChannelOptions"/>; see <see cref="ChannelSettings"/>.</summary>
 internal sealed class EmailChannelSettings : ChannelSettings
 {
+    public bool? UseFreeTierMail { get; set; }
+
     public string? Host { get; set; }
 
     public int? Port { get; set; }
@@ -24,6 +26,7 @@ internal sealed class EmailChannelSettings : ChannelSettings
             return;
         }
 
+        options.UseFreeTierMail = settings.UseFreeTierMail ?? options.UseFreeTierMail;
         options.Host = settings.Host ?? options.Host;
         options.Port = settings.Port ?? options.Port;
         options.Username = settings.Username ?? options.Username;

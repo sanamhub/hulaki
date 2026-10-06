@@ -2,6 +2,7 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Net.Http;
 using Hulaki.Channels;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
@@ -17,6 +18,15 @@ namespace Hulaki.Providers;
 /// <remarks>Compiled into <c>Hulaki</c> and <c>Hulaki.Email</c> from <c>src/Shared</c>.</remarks>
 internal static class ProviderRegistration
 {
+    /// <summary>
+    /// False when <paramref name="section"/> sets <c>Enabled</c> to false. A channel switched off is
+    /// not registered at all, so one <c>Add&lt;Name&gt;</c> call serves every environment.
+    /// </summary>
+    /// <exception cref="FormatException"><c>Enabled</c> is not true or false.</exception>
+    public static bool IsEnabled(IConfiguration section) =>
+        section["Enabled"] is not { Length: > 0 } enabled
+        || (bool.TryParse(enabled, out var on) ? on : throw new FormatException($"Enabled is '{enabled}'; use true or false."));
+
     public static IHulakiBuilder AddHttpChannel<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor)] TOptions, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TValidator>(
         IHulakiBuilder builder,
         string name,

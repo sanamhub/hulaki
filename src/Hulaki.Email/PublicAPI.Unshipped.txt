@@ -17,3 +17,6 @@ Microsoft.Extensions.DependencyInjection.EmailHulakiBuilderExtensions
 static Hulaki.Email.EmailChannel.Manifest.get -> Hulaki.CapabilityManifest!
 static Microsoft.Extensions.DependencyInjection.EmailHulakiBuilderExtensions.AddEmail(this Microsoft.Extensions.DependencyInjection.IHulakiBuilder! builder, string! name, Microsoft.Extensions.Configuration.IConfigurationSection! section) -> Microsoft.Extensions.DependencyInjection.IHulakiBuilder!
 static Microsoft.Extensions.DependencyInjection.EmailHulakiBuilderExtensions.AddEmail(this Microsoft.Extensions.DependencyInjection.IHulakiBuilder! builder, string! name, System.Action<Hulaki.Email.EmailChannelOptions!>! configure) -> Microsoft.Extensions.DependencyInjection.IHulakiBuilder!
+Hulaki.Email.EmailChannel.EmailChannel(string! name, FreeTierMail.FreeTierMailer! mailer, Hulaki.Email.EmailChannelOptions! options) -> void
+Hulaki.Email.EmailChannelOptions.UseFreeTierMail.get -> bool
+Hulaki.Email.EmailChannelOptions.UseFreeTierMail.set -> void

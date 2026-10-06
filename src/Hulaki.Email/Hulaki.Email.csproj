@@ -8,12 +8,13 @@
     <EnableConfigurationBindingGenerator>true</EnableConfigurationBindingGenerator>
     <IsPackable>true</IsPackable>
     <PackageId>Hulaki.Email</PackageId>
-    <Description>Hulaki provider for email over SMTP submission with MailKit: STARTTLS by default, a plain text and an HTML part, and SMTP replies mapped to retry-safe outcomes.</Description>
-    <PackageTags>notifications;email;smtp;mailkit;hulaki</PackageTags>
+    <Description>Hulaki provider for email through FreeTierMail: one SMTP server by default, or switch on UseFreeTierMail to send through Resend, Brevo and other accounts with quota-aware failover. A plain text and an HTML part, outcomes mapped to Hulaki's retry rules.</Description>
+    <PackageTags>notifications;email;smtp;resend;brevo;freetiermail;hulaki</PackageTags>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="../Hulaki/Hulaki.csproj" />
-    <PackageReference Include="MailKit" />
+    <!-- FreeTierMail.Smtp brings FreeTierMail and MailKit. -->
+    <PackageReference Include="FreeTierMail.Smtp" />
     <InternalsVisibleTo Include="Hulaki.Email.Tests" />
     <!-- The CLI builds channels from channel URLs with the internal parser (ADR-0013). -->
     <InternalsVisibleTo Include="Hulaki.Cli" />

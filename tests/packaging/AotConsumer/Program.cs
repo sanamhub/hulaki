@@ -90,8 +90,9 @@ foreach (var (target, outcome) in result.Outcomes.Where(o => !o.Outcome.Succeede
     Console.Error.WriteLine($"{target.Channel}: {outcome}");
 }
 
-// SMTP has no stub: connect to a closed loopback port instead. That runs MailKit's connect path and
-// MimeKit's message building under AOT, and the refusal must come back as a retryable failure.
+// SMTP has no stub: connect to a closed loopback port instead. That runs FreeTierMail's mailer,
+// MailKit's connect path and MimeKit's message building under AOT, and the refusal must come back
+// as a retryable failure.
 using var email = new EmailChannel("email", new EmailChannelOptions
 {
     Host = "127.0.0.1",

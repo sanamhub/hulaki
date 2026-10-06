@@ -48,6 +48,36 @@ public sealed class DependencyInjectionTests
     }
 
     [Fact]
+    public void A_channel_switched_off_in_configuration_is_not_registered_or_checked()
+    {
+        var configuration = Configuration(new()
+        {
+            ["Hulaki:Channels:alerts:Enabled"] = "false",
+            ["Hulaki:Channels:ops:BaseAddress"] = "https://ntfy.example.org/",
+            ["Hulaki:Channels:ops:Enabled"] = "true",
+        });
+        var services = new ServiceCollection();
+        services.AddHulaki()
+            .AddTelegram("alerts", configuration.GetSection("Hulaki:Channels:alerts"))
+            .AddNtfy("ops", configuration.GetSection("Hulaki:Channels:ops"));
+        using var provider = services.BuildServiceProvider();
+
+        provider.GetRequiredService<IStartupValidator>().Validate(); // the empty Telegram token is not checked
+        Assert.Null(provider.GetKeyedService<IChannel>("alerts"));
+        Assert.NotNull(provider.GetKeyedService<IChannel>("ops"));
+    }
+
+    [Fact]
+    public void Enabled_that_is_not_a_flag_is_refused_at_registration()
+    {
+        var configuration = Configuration(new() { ["Hulaki:Channels:alerts:Enabled"] = "off" });
+
+        var error = Assert.Throws<FormatException>(() => new ServiceCollection().AddHulaki().AddTelegram("alerts", configuration.GetSection("Hulaki:Channels:alerts")));
+
+        Assert.Contains("'off'", error.Message, StringComparison.Ordinal);
+    }
+
+    [Fact]
     public void Validate_on_start_fails_on_an_empty_token()
     {
         var services = new ServiceCollection();

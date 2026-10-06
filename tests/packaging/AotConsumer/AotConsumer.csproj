@@ -18,6 +18,8 @@
          reaches. -->
     <TrimmerRootAssembly Include="Hulaki" />
     <TrimmerRootAssembly Include="Hulaki.Email" />
+    <TrimmerRootAssembly Include="FreeTierMail" />
+    <TrimmerRootAssembly Include="FreeTierMail.Smtp" />
     <PackageReference Include="Hulaki" Version="$(HulakiVersion)" />
     <PackageReference Include="Hulaki.Email" Version="$(HulakiVersion)" />
   </ItemGroup>

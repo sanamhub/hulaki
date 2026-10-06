@@ -15,6 +15,7 @@
     <PackageReference Include="Microsoft.Testing.Extensions.CodeCoverage" />
     <PackageReference Include="Microsoft.Testing.Extensions.TrxReport" />
     <ProjectReference Include="../../src/Hulaki.Email/Hulaki.Email.csproj" />
+    <PackageReference Include="FreeTierMail.Testing" />
     <ProjectReference Include="../../src/Hulaki.Testing/Hulaki.Testing.csproj" />
   </ItemGroup>
   <ItemGroup>

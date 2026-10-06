@@ -13,7 +13,10 @@
     <PackageVersion Include="Microsoft.Extensions.Http" Version="10.0.12" />
     <PackageVersion Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="10.0.12" />
     <!-- The one third-party runtime dependency, in Hulaki.Email only (ADR-0009). -->
-    <PackageVersion Include="MailKit" Version="4.18.0" />
+    <!-- From packages-local/ until FreeTierMail is on nuget.org (NuGet.Config). -->
+    <PackageVersion Include="FreeTierMail" Version="0.1.0-dev.1" />
+    <PackageVersion Include="FreeTierMail.Smtp" Version="0.1.0-dev.1" />
+    <PackageVersion Include="FreeTierMail.Testing" Version="0.1.0-dev.1" />
     <!-- Hulaki.Cli only. -->
     <PackageVersion Include="System.CommandLine" Version="2.0.12" />
     <!-- samples/ only: the README's configuration and OpenTelemetry snippets. -->
