@@ -1,1 +1,22 @@
 #nullable enable
+Hulaki.Email.EmailChannel
+Hulaki.Email.EmailChannel.EmailChannel(string! name, FreeTierMail.FreeTierMailer! mailer, Hulaki.Email.EmailChannelOptions! options) -> void
+Hulaki.Email.EmailChannel.EmailChannel(string! name, Hulaki.Email.EmailChannelOptions! options) -> void
+Hulaki.Email.EmailChannelOptions
+Hulaki.Email.EmailChannelOptions.EmailChannelOptions() -> void
+Hulaki.Email.EmailChannelOptions.From.get -> string!
+Hulaki.Email.EmailChannelOptions.From.set -> void
+Hulaki.Email.EmailChannelOptions.Host.get -> string!
+Hulaki.Email.EmailChannelOptions.Host.set -> void
+Hulaki.Email.EmailChannelOptions.Password.get -> string?
+Hulaki.Email.EmailChannelOptions.Password.set -> void
+Hulaki.Email.EmailChannelOptions.Port.get -> int
+Hulaki.Email.EmailChannelOptions.Port.set -> void
+Hulaki.Email.EmailChannelOptions.UseFreeTierMail.get -> bool
+Hulaki.Email.EmailChannelOptions.UseFreeTierMail.set -> void
+Hulaki.Email.EmailChannelOptions.Username.get -> string?
+Hulaki.Email.EmailChannelOptions.Username.set -> void
+Microsoft.Extensions.DependencyInjection.EmailHulakiBuilderExtensions
+static Hulaki.Email.EmailChannel.Manifest.get -> Hulaki.CapabilityManifest!
+static Microsoft.Extensions.DependencyInjection.EmailHulakiBuilderExtensions.AddEmail(this Microsoft.Extensions.DependencyInjection.IHulakiBuilder! builder, string! name, Microsoft.Extensions.Configuration.IConfigurationSection! section) -> Microsoft.Extensions.DependencyInjection.IHulakiBuilder!
+static Microsoft.Extensions.DependencyInjection.EmailHulakiBuilderExtensions.AddEmail(this Microsoft.Extensions.DependencyInjection.IHulakiBuilder! builder, string! name, System.Action<Hulaki.Email.EmailChannelOptions!>! configure) -> Microsoft.Extensions.DependencyInjection.IHulakiBuilder!

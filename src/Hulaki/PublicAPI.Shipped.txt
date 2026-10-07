@@ -1,1 +1,585 @@
 #nullable enable
+abstract Hulaki.Channels.ChannelBase.SendOnceAsync(Hulaki.Message! message, Hulaki.Recipient! recipient, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<Hulaki.DeliveryOutcome!>!
+abstract Hulaki.Markup.MarkupNode.<Clone>$() -> Hulaki.Markup.MarkupNode!
+abstract Hulaki.Text.TextCounter.Count(string! text) -> int
+abstract Hulaki.Text.TextCounter.Unit.get -> string!
+Hulaki.Availability
+Hulaki.Availability.ApprovalDependent = 4 -> Hulaki.Availability
+Hulaki.Availability.Available = 0 -> Hulaki.Availability
+Hulaki.Availability.NotImplemented = 2 -> Hulaki.Availability
+Hulaki.Availability.Paid = 5 -> Hulaki.Availability
+Hulaki.Availability.PermissionRequired = 3 -> Hulaki.Availability
+Hulaki.Availability.UnknownUntilRequest = 6 -> Hulaki.Availability
+Hulaki.Availability.UnsupportedByPlatform = 1 -> Hulaki.Availability
+Hulaki.Bluesky.BlueskyChannel
+Hulaki.Bluesky.BlueskyChannel.BlueskyChannel(string! name, System.Net.Http.HttpClient! http, Hulaki.Bluesky.BlueskyChannelOptions! options) -> void
+Hulaki.Bluesky.BlueskyChannelOptions
+Hulaki.Bluesky.BlueskyChannelOptions.AppPassword.get -> string!
+Hulaki.Bluesky.BlueskyChannelOptions.AppPassword.set -> void
+Hulaki.Bluesky.BlueskyChannelOptions.BlueskyChannelOptions() -> void
+Hulaki.Bluesky.BlueskyChannelOptions.CredentialStore.get -> Hulaki.Credentials.ICredentialStore?
+Hulaki.Bluesky.BlueskyChannelOptions.CredentialStore.set -> void
+Hulaki.Bluesky.BlueskyChannelOptions.Identifier.get -> string!
+Hulaki.Bluesky.BlueskyChannelOptions.Identifier.set -> void
+Hulaki.Bluesky.BlueskyChannelOptions.Languages.get -> System.Collections.Generic.IList<string!>!
+Hulaki.Bluesky.BlueskyChannelOptions.ServiceUrl.get -> System.Uri!
+Hulaki.Bluesky.BlueskyChannelOptions.ServiceUrl.set -> void
+Hulaki.Bluesky.BlueskyChannelOptions.ThreadLongPosts.get -> bool
+Hulaki.Bluesky.BlueskyChannelOptions.ThreadLongPosts.set -> void
+Hulaki.Capability
+Hulaki.Capability.ClickAction = 6 -> Hulaki.Capability
+Hulaki.Capability.Delete = 9 -> Hulaki.Capability
+Hulaki.Capability.IdempotentSend = 7 -> Hulaki.Capability
+Hulaki.Capability.Images = 3 -> Hulaki.Capability
+Hulaki.Capability.Markup = 2 -> Hulaki.Capability
+Hulaki.Capability.Priority = 5 -> Hulaki.Capability
+Hulaki.Capability.Reconcile = 8 -> Hulaki.Capability
+Hulaki.Capability.Text = 0 -> Hulaki.Capability
+Hulaki.Capability.Title = 1 -> Hulaki.Capability
+Hulaki.Capability.Video = 4 -> Hulaki.Capability
+Hulaki.CapabilityDeclaration
+Hulaki.CapabilityDeclaration.<Clone>$() -> Hulaki.CapabilityDeclaration!
+Hulaki.CapabilityDeclaration.Availability.get -> Hulaki.Availability
+Hulaki.CapabilityDeclaration.Availability.init -> void
+Hulaki.CapabilityDeclaration.Capability.get -> Hulaki.Capability
+Hulaki.CapabilityDeclaration.Capability.init -> void
+Hulaki.CapabilityDeclaration.CapabilityDeclaration(Hulaki.Capability Capability, Hulaki.Availability Availability, string? Notes = null) -> void
+Hulaki.CapabilityDeclaration.Deconstruct(out Hulaki.Capability Capability, out Hulaki.Availability Availability, out string? Notes) -> void
+Hulaki.CapabilityDeclaration.Equals(Hulaki.CapabilityDeclaration? other) -> bool
+Hulaki.CapabilityDeclaration.Notes.get -> string?
+Hulaki.CapabilityDeclaration.Notes.init -> void
+Hulaki.CapabilityManifest
+Hulaki.CapabilityManifest.CapabilityManifest(string! platform, Hulaki.Text.TextLimit! textLimit, System.Collections.Generic.IEnumerable<Hulaki.CapabilityDeclaration!>! declarations, int maxAttachments = 0) -> void
+Hulaki.CapabilityManifest.Declarations.get -> System.Collections.Generic.IReadOnlyList<Hulaki.CapabilityDeclaration!>!
+Hulaki.CapabilityManifest.Get(Hulaki.Capability capability) -> Hulaki.Availability
+Hulaki.CapabilityManifest.MaxAttachments.get -> int
+Hulaki.CapabilityManifest.Platform.get -> string!
+Hulaki.CapabilityManifest.Supports(Hulaki.Capability capability) -> bool
+Hulaki.CapabilityManifest.TextLimit.get -> Hulaki.Text.TextLimit!
+Hulaki.Channels.ChannelBase
+Hulaki.Channels.ChannelBase.Capabilities.get -> Hulaki.CapabilityManifest!
+Hulaki.Channels.ChannelBase.ChannelBase(string! name, Hulaki.CapabilityManifest! capabilities, Hulaki.Channels.ChannelOptions! options, System.Func<System.Threading.RateLimiting.RateLimiter!>? defaultLimiter = null) -> void
+Hulaki.Channels.ChannelBase.Dispose() -> void
+Hulaki.Channels.ChannelBase.Name.get -> string!
+Hulaki.Channels.ChannelBase.Options.get -> Hulaki.Channels.ChannelOptions!
+Hulaki.Channels.ChannelBase.Prepare(Hulaki.Message! message, Hulaki.Recipient! recipient) -> System.Collections.Generic.IReadOnlyList<Hulaki.PreparationIssue!>!
+Hulaki.Channels.ChannelBase.SendAsync(Hulaki.Message! message, Hulaki.Recipient! recipient, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<Hulaki.DeliveryOutcome!>!
+Hulaki.Channels.ChannelOptions
+Hulaki.Channels.ChannelOptions.ChannelOptions() -> void
+Hulaki.Channels.ChannelOptions.DisableRateLimiting.get -> bool
+Hulaki.Channels.ChannelOptions.DisableRateLimiting.set -> void
+Hulaki.Channels.ChannelOptions.LoggerFactory.get -> Microsoft.Extensions.Logging.ILoggerFactory?
+Hulaki.Channels.ChannelOptions.LoggerFactory.set -> void
+Hulaki.Channels.ChannelOptions.RateLimiter.get -> System.Threading.RateLimiting.RateLimiter?
+Hulaki.Channels.ChannelOptions.RateLimiter.set -> void
+Hulaki.Channels.ChannelOptions.Retry.get -> Hulaki.Channels.SendRetryPolicy!
+Hulaki.Channels.ChannelOptions.Retry.set -> void
+Hulaki.Channels.ChannelOptions.TimeProvider.get -> System.TimeProvider!
+Hulaki.Channels.ChannelOptions.TimeProvider.set -> void
+Hulaki.Channels.HttpHelpers
+Hulaki.Channels.SendRetryPolicy
+Hulaki.Channels.SendRetryPolicy.<Clone>$() -> Hulaki.Channels.SendRetryPolicy!
+Hulaki.Channels.SendRetryPolicy.BaseDelay.get -> System.TimeSpan
+Hulaki.Channels.SendRetryPolicy.BaseDelay.init -> void
+Hulaki.Channels.SendRetryPolicy.Equals(Hulaki.Channels.SendRetryPolicy? other) -> bool
+Hulaki.Channels.SendRetryPolicy.MaxAttempts.get -> int
+Hulaki.Channels.SendRetryPolicy.MaxAttempts.init -> void
+Hulaki.Channels.SendRetryPolicy.MaxDelay.get -> System.TimeSpan
+Hulaki.Channels.SendRetryPolicy.MaxDelay.init -> void
+Hulaki.Channels.SendRetryPolicy.MaxRetryAfter.get -> System.TimeSpan
+Hulaki.Channels.SendRetryPolicy.MaxRetryAfter.init -> void
+Hulaki.Channels.SendRetryPolicy.ResendUnknown.get -> bool
+Hulaki.Channels.SendRetryPolicy.ResendUnknown.init -> void
+Hulaki.Channels.SendRetryPolicy.SendRetryPolicy() -> void
+Hulaki.Credentials.ICredentialStore
+Hulaki.Credentials.ICredentialStore.CompareAndSetAsync(string! key, long expectedRevision, Hulaki.Credentials.StoredCredential! value, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.ValueTask<bool>
+Hulaki.Credentials.ICredentialStore.GetAsync(string! key, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.ValueTask<Hulaki.Credentials.StoredCredential?>
+Hulaki.Credentials.InMemoryCredentialStore
+Hulaki.Credentials.InMemoryCredentialStore.CompareAndSetAsync(string! key, long expectedRevision, Hulaki.Credentials.StoredCredential! value, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.ValueTask<bool>
+Hulaki.Credentials.InMemoryCredentialStore.GetAsync(string! key, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.ValueTask<Hulaki.Credentials.StoredCredential?>
+Hulaki.Credentials.InMemoryCredentialStore.InMemoryCredentialStore() -> void
+Hulaki.Credentials.StoredCredential
+Hulaki.Credentials.StoredCredential.AccessToken.get -> string!
+Hulaki.Credentials.StoredCredential.ExpiresAt.get -> System.DateTimeOffset?
+Hulaki.Credentials.StoredCredential.Extra.get -> System.Collections.Generic.IReadOnlyDictionary<string!, string!>!
+Hulaki.Credentials.StoredCredential.RefreshToken.get -> string?
+Hulaki.Credentials.StoredCredential.Revision.get -> long
+Hulaki.Credentials.StoredCredential.StoredCredential(long revision, string! accessToken, string? refreshToken = null, System.DateTimeOffset? expiresAt = null, System.Collections.Generic.IReadOnlyDictionary<string!, string!>? extra = null) -> void
+Hulaki.DeliveryOutcome
+Hulaki.DeliveryOutcome.Attempts.get -> int
+Hulaki.DeliveryOutcome.Attempts.init -> void
+Hulaki.DeliveryOutcome.EnsureSucceeded() -> void
+Hulaki.DeliveryOutcome.Error.get -> Hulaki.HulakiError?
+Hulaki.DeliveryOutcome.IsReplay.get -> bool
+Hulaki.DeliveryOutcome.IsReplay.init -> void
+Hulaki.DeliveryOutcome.Issues.get -> System.Collections.Generic.IReadOnlyList<Hulaki.PreparationIssue!>!
+Hulaki.DeliveryOutcome.PlatformMessageId.get -> string?
+Hulaki.DeliveryOutcome.Status.get -> Hulaki.DeliveryStatus
+Hulaki.DeliveryOutcome.Succeeded.get -> bool
+Hulaki.DeliveryOutcome.Url.get -> System.Uri?
+Hulaki.DeliveryOutcome.With(int attempts, bool isReplay = false) -> Hulaki.DeliveryOutcome!
+Hulaki.DeliveryStatus
+Hulaki.DeliveryStatus.Accepted = 1 -> Hulaki.DeliveryStatus
+Hulaki.DeliveryStatus.Delivered = 2 -> Hulaki.DeliveryStatus
+Hulaki.DeliveryStatus.Failed = 3 -> Hulaki.DeliveryStatus
+Hulaki.DeliveryStatus.NotSubmitted = 0 -> Hulaki.DeliveryStatus
+Hulaki.DeliveryStatus.Unknown = 4 -> Hulaki.DeliveryStatus
+Hulaki.Discord.DiscordChannel
+Hulaki.Discord.DiscordChannel.DiscordChannel(string! name, System.Net.Http.HttpClient! http, Hulaki.Discord.DiscordChannelOptions! options) -> void
+Hulaki.Discord.DiscordChannelOptions
+Hulaki.Discord.DiscordChannelOptions.DiscordChannelOptions() -> void
+Hulaki.Discord.DiscordChannelOptions.WebhookUrl.get -> System.Uri?
+Hulaki.Discord.DiscordChannelOptions.WebhookUrl.set -> void
+Hulaki.HulakiClient
+Hulaki.HulakiClient.Channels.get -> System.Collections.Generic.IReadOnlyDictionary<string!, Hulaki.IChannel!>!
+Hulaki.HulakiClient.HulakiClient(System.Collections.Generic.IEnumerable<Hulaki.IChannel!>! channels, Hulaki.HulakiClientOptions? options = null, Hulaki.Idempotency.IIdempotencyStore? idempotencyStore = null, Microsoft.Extensions.Logging.ILogger<Hulaki.HulakiClient!>? logger = null) -> void
+Hulaki.HulakiClient.SendAsync(Hulaki.Message! message, System.Collections.Generic.IReadOnlyList<Hulaki.Target!>! targets, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<Hulaki.SendResult!>!
+Hulaki.HulakiClientOptions
+Hulaki.HulakiClientOptions.HulakiClientOptions() -> void
+Hulaki.HulakiClientOptions.IdempotencyScope.get -> string!
+Hulaki.HulakiClientOptions.IdempotencyScope.set -> void
+Hulaki.HulakiClientOptions.MaxConcurrency.get -> int
+Hulaki.HulakiClientOptions.MaxConcurrency.set -> void
+Hulaki.HulakiDeliveryException
+Hulaki.HulakiDeliveryException.HulakiDeliveryException() -> void
+Hulaki.HulakiDeliveryException.HulakiDeliveryException(Hulaki.DeliveryOutcome! outcome) -> void
+Hulaki.HulakiDeliveryException.HulakiDeliveryException(string! message) -> void
+Hulaki.HulakiDeliveryException.HulakiDeliveryException(string! message, System.Exception! innerException) -> void
+Hulaki.HulakiDeliveryException.Outcome.get -> Hulaki.DeliveryOutcome!
+Hulaki.HulakiError
+Hulaki.HulakiError.<Clone>$() -> Hulaki.HulakiError!
+Hulaki.HulakiError.Code.get -> Hulaki.HulakiErrorCode
+Hulaki.HulakiError.Code.init -> void
+Hulaki.HulakiError.Deconstruct(out Hulaki.HulakiErrorCode Code, out Hulaki.RetryDisposition Retry, out string! Message) -> void
+Hulaki.HulakiError.Equals(Hulaki.HulakiError? other) -> bool
+Hulaki.HulakiError.HttpStatus.get -> int?
+Hulaki.HulakiError.HttpStatus.init -> void
+Hulaki.HulakiError.HulakiError(Hulaki.HulakiErrorCode Code, Hulaki.RetryDisposition Retry, string! Message) -> void
+Hulaki.HulakiError.Message.get -> string!
+Hulaki.HulakiError.Message.init -> void
+Hulaki.HulakiError.PlatformCode.get -> string?
+Hulaki.HulakiError.PlatformCode.init -> void
+Hulaki.HulakiError.Retry.get -> Hulaki.RetryDisposition
+Hulaki.HulakiError.Retry.init -> void
+Hulaki.HulakiError.RetryAfter.get -> System.TimeSpan?
+Hulaki.HulakiError.RetryAfter.init -> void
+Hulaki.HulakiErrorCode
+Hulaki.HulakiErrorCode.AmbiguousOutcome = 12 -> Hulaki.HulakiErrorCode
+Hulaki.HulakiErrorCode.BillingRequired = 15 -> Hulaki.HulakiErrorCode
+Hulaki.HulakiErrorCode.ContentRejected = 9 -> Hulaki.HulakiErrorCode
+Hulaki.HulakiErrorCode.IdempotencyConflict = 14 -> Hulaki.HulakiErrorCode
+Hulaki.HulakiErrorCode.InvalidConfiguration = 0 -> Hulaki.HulakiErrorCode
+Hulaki.HulakiErrorCode.InvalidInput = 1 -> Hulaki.HulakiErrorCode
+Hulaki.HulakiErrorCode.MediaError = 10 -> Hulaki.HulakiErrorCode
+Hulaki.HulakiErrorCode.PermissionDenied = 5 -> Hulaki.HulakiErrorCode
+Hulaki.HulakiErrorCode.RateLimited = 8 -> Hulaki.HulakiErrorCode
+Hulaki.HulakiErrorCode.RecipientBlocked = 7 -> Hulaki.HulakiErrorCode
+Hulaki.HulakiErrorCode.RecipientNotFound = 6 -> Hulaki.HulakiErrorCode
+Hulaki.HulakiErrorCode.ReconnectRequired = 4 -> Hulaki.HulakiErrorCode
+Hulaki.HulakiErrorCode.Timeout = 13 -> Hulaki.HulakiErrorCode
+Hulaki.HulakiErrorCode.Unauthorized = 3 -> Hulaki.HulakiErrorCode
+Hulaki.HulakiErrorCode.UnsupportedCapability = 2 -> Hulaki.HulakiErrorCode
+Hulaki.HulakiErrorCode.UpstreamFailure = 11 -> Hulaki.HulakiErrorCode
+Hulaki.IChannel
+Hulaki.IChannel.Capabilities.get -> Hulaki.CapabilityManifest!
+Hulaki.IChannel.Name.get -> string!
+Hulaki.IChannel.Prepare(Hulaki.Message! message, Hulaki.Recipient! recipient) -> System.Collections.Generic.IReadOnlyList<Hulaki.PreparationIssue!>!
+Hulaki.IChannel.SendAsync(Hulaki.Message! message, Hulaki.Recipient! recipient, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<Hulaki.DeliveryOutcome!>!
+Hulaki.Idempotency.ClaimStatus
+Hulaki.Idempotency.ClaimStatus.Conflict = 2 -> Hulaki.Idempotency.ClaimStatus
+Hulaki.Idempotency.ClaimStatus.Existing = 1 -> Hulaki.Idempotency.ClaimStatus
+Hulaki.Idempotency.ClaimStatus.New = 0 -> Hulaki.Idempotency.ClaimStatus
+Hulaki.Idempotency.IdempotencyClaim
+Hulaki.Idempotency.IdempotencyClaim.<Clone>$() -> Hulaki.Idempotency.IdempotencyClaim!
+Hulaki.Idempotency.IdempotencyClaim.Deconstruct(out Hulaki.Idempotency.ClaimStatus Status, out System.Collections.Generic.IReadOnlyDictionary<string!, Hulaki.DeliveryOutcome!>! Outcomes) -> void
+Hulaki.Idempotency.IdempotencyClaim.Equals(Hulaki.Idempotency.IdempotencyClaim? other) -> bool
+Hulaki.Idempotency.IdempotencyClaim.IdempotencyClaim(Hulaki.Idempotency.ClaimStatus Status, System.Collections.Generic.IReadOnlyDictionary<string!, Hulaki.DeliveryOutcome!>! Outcomes) -> void
+Hulaki.Idempotency.IdempotencyClaim.Outcomes.get -> System.Collections.Generic.IReadOnlyDictionary<string!, Hulaki.DeliveryOutcome!>!
+Hulaki.Idempotency.IdempotencyClaim.Outcomes.init -> void
+Hulaki.Idempotency.IdempotencyClaim.Status.get -> Hulaki.Idempotency.ClaimStatus
+Hulaki.Idempotency.IdempotencyClaim.Status.init -> void
+Hulaki.Idempotency.IIdempotencyStore
+Hulaki.Idempotency.IIdempotencyStore.ClaimAsync(string! scope, string! key, string! fingerprint, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.ValueTask<Hulaki.Idempotency.IdempotencyClaim!>
+Hulaki.Idempotency.IIdempotencyStore.SaveOutcomeAsync(string! scope, string! key, string! targetKey, Hulaki.DeliveryOutcome! outcome, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.ValueTask
+Hulaki.Idempotency.InMemoryIdempotencyStore
+Hulaki.Idempotency.InMemoryIdempotencyStore.ClaimAsync(string! scope, string! key, string! fingerprint, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.ValueTask<Hulaki.Idempotency.IdempotencyClaim!>
+Hulaki.Idempotency.InMemoryIdempotencyStore.InMemoryIdempotencyStore(System.TimeProvider? timeProvider = null) -> void
+Hulaki.Idempotency.InMemoryIdempotencyStore.Retention.get -> System.TimeSpan
+Hulaki.Idempotency.InMemoryIdempotencyStore.Retention.init -> void
+Hulaki.Idempotency.InMemoryIdempotencyStore.SaveOutcomeAsync(string! scope, string! key, string! targetKey, Hulaki.DeliveryOutcome! outcome, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.ValueTask
+Hulaki.Idempotency.MessageFingerprint
+Hulaki.Markup.BoldNode
+Hulaki.Markup.BoldNode.BoldNode(System.Collections.Generic.IReadOnlyList<Hulaki.Markup.MarkupNode!>! Children) -> void
+Hulaki.Markup.BoldNode.Children.get -> System.Collections.Generic.IReadOnlyList<Hulaki.Markup.MarkupNode!>!
+Hulaki.Markup.BoldNode.Children.init -> void
+Hulaki.Markup.BoldNode.Deconstruct(out System.Collections.Generic.IReadOnlyList<Hulaki.Markup.MarkupNode!>! Children) -> void
+Hulaki.Markup.BoldNode.Equals(Hulaki.Markup.BoldNode? other) -> bool
+Hulaki.Markup.CodeNode
+Hulaki.Markup.CodeNode.CodeNode(string! Value) -> void
+Hulaki.Markup.CodeNode.Deconstruct(out string! Value) -> void
+Hulaki.Markup.CodeNode.Equals(Hulaki.Markup.CodeNode? other) -> bool
+Hulaki.Markup.CodeNode.Value.get -> string!
+Hulaki.Markup.CodeNode.Value.init -> void
+Hulaki.Markup.ItalicNode
+Hulaki.Markup.ItalicNode.Children.get -> System.Collections.Generic.IReadOnlyList<Hulaki.Markup.MarkupNode!>!
+Hulaki.Markup.ItalicNode.Children.init -> void
+Hulaki.Markup.ItalicNode.Deconstruct(out System.Collections.Generic.IReadOnlyList<Hulaki.Markup.MarkupNode!>! Children) -> void
+Hulaki.Markup.ItalicNode.Equals(Hulaki.Markup.ItalicNode? other) -> bool
+Hulaki.Markup.ItalicNode.ItalicNode(System.Collections.Generic.IReadOnlyList<Hulaki.Markup.MarkupNode!>! Children) -> void
+Hulaki.Markup.LinkNode
+Hulaki.Markup.LinkNode.Deconstruct(out string! Text, out System.Uri! Target) -> void
+Hulaki.Markup.LinkNode.Equals(Hulaki.Markup.LinkNode? other) -> bool
+Hulaki.Markup.LinkNode.LinkNode(string! Text, System.Uri! Target) -> void
+Hulaki.Markup.LinkNode.Target.get -> System.Uri!
+Hulaki.Markup.LinkNode.Target.init -> void
+Hulaki.Markup.LinkNode.Text.get -> string!
+Hulaki.Markup.LinkNode.Text.init -> void
+Hulaki.Markup.MarkupDocument
+Hulaki.Markup.MarkupDocument.Nodes.get -> System.Collections.Generic.IReadOnlyList<Hulaki.Markup.MarkupNode!>!
+Hulaki.Markup.MarkupDocument.ToPlainText() -> string!
+Hulaki.Markup.MarkupNode
+Hulaki.Markup.MarkupNode.MarkupNode() -> void
+Hulaki.Markup.MarkupNode.MarkupNode(Hulaki.Markup.MarkupNode! original) -> void
+Hulaki.Markup.TextNode
+Hulaki.Markup.TextNode.Deconstruct(out string! Value) -> void
+Hulaki.Markup.TextNode.Equals(Hulaki.Markup.TextNode? other) -> bool
+Hulaki.Markup.TextNode.TextNode(string! Value) -> void
+Hulaki.Markup.TextNode.Value.get -> string!
+Hulaki.Markup.TextNode.Value.init -> void
+Hulaki.Mastodon.MastodonChannel
+Hulaki.Mastodon.MastodonChannel.MastodonChannel(string! name, System.Net.Http.HttpClient! http, Hulaki.Mastodon.MastodonChannelOptions! options) -> void
+Hulaki.Mastodon.MastodonChannelOptions
+Hulaki.Mastodon.MastodonChannelOptions.AccessToken.get -> string!
+Hulaki.Mastodon.MastodonChannelOptions.AccessToken.set -> void
+Hulaki.Mastodon.MastodonChannelOptions.InstanceUrl.get -> System.Uri?
+Hulaki.Mastodon.MastodonChannelOptions.InstanceUrl.set -> void
+Hulaki.Mastodon.MastodonChannelOptions.Language.get -> string?
+Hulaki.Mastodon.MastodonChannelOptions.Language.set -> void
+Hulaki.Mastodon.MastodonChannelOptions.MastodonChannelOptions() -> void
+Hulaki.Mastodon.MastodonChannelOptions.MaxCharacters.get -> int?
+Hulaki.Mastodon.MastodonChannelOptions.MaxCharacters.set -> void
+Hulaki.Mastodon.MastodonChannelOptions.Visibility.get -> string?
+Hulaki.Mastodon.MastodonChannelOptions.Visibility.set -> void
+Hulaki.MediaAttachment
+Hulaki.MediaAttachment.AltText.get -> string?
+Hulaki.MediaAttachment.AltText.init -> void
+Hulaki.MediaAttachment.ContentType.get -> string!
+Hulaki.MediaAttachment.FileName.get -> string?
+Hulaki.MediaAttachment.Fingerprint.get -> string!
+Hulaki.MediaAttachment.Kind.get -> Hulaki.MediaSourceKind
+Hulaki.MediaAttachment.Length.get -> long?
+Hulaki.MediaAttachment.OpenAsync(System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.ValueTask<System.IO.Stream!>
+Hulaki.MediaAttachment.Url.get -> System.Uri?
+Hulaki.MediaSourceKind
+Hulaki.MediaSourceKind.Bytes = 1 -> Hulaki.MediaSourceKind
+Hulaki.MediaSourceKind.HttpsUrl = 0 -> Hulaki.MediaSourceKind
+Hulaki.MediaSourceKind.Stream = 2 -> Hulaki.MediaSourceKind
+Hulaki.Message
+Hulaki.Message.<Clone>$() -> Hulaki.Message!
+Hulaki.Message.Equals(Hulaki.Message? other) -> bool
+Hulaki.Message.Format.get -> Hulaki.TextFormat
+Hulaki.Message.Format.init -> void
+Hulaki.Message.IdempotencyKey.get -> string?
+Hulaki.Message.IdempotencyKey.init -> void
+Hulaki.Message.Link.get -> System.Uri?
+Hulaki.Message.Link.init -> void
+Hulaki.Message.Media.get -> System.Collections.Generic.IReadOnlyList<Hulaki.MediaAttachment!>!
+Hulaki.Message.Media.init -> void
+Hulaki.Message.Message(string! text) -> void
+Hulaki.Message.Overflow.get -> Hulaki.OverflowBehavior
+Hulaki.Message.Overflow.init -> void
+Hulaki.Message.Priority.get -> Hulaki.MessagePriority
+Hulaki.Message.Priority.init -> void
+Hulaki.Message.Text.get -> string!
+Hulaki.Message.Text.init -> void
+Hulaki.Message.Title.get -> string?
+Hulaki.Message.Title.init -> void
+Hulaki.MessagePriority
+Hulaki.MessagePriority.High = 2 -> Hulaki.MessagePriority
+Hulaki.MessagePriority.Low = 0 -> Hulaki.MessagePriority
+Hulaki.MessagePriority.Normal = 1 -> Hulaki.MessagePriority
+Hulaki.MessagePriority.Urgent = 3 -> Hulaki.MessagePriority
+Hulaki.Ntfy.NtfyChannel
+Hulaki.Ntfy.NtfyChannel.NtfyChannel(string! name, System.Net.Http.HttpClient! http, Hulaki.Ntfy.NtfyChannelOptions! options) -> void
+Hulaki.Ntfy.NtfyChannelOptions
+Hulaki.Ntfy.NtfyChannelOptions.AccessToken.get -> string?
+Hulaki.Ntfy.NtfyChannelOptions.AccessToken.set -> void
+Hulaki.Ntfy.NtfyChannelOptions.BaseAddress.get -> System.Uri!
+Hulaki.Ntfy.NtfyChannelOptions.BaseAddress.set -> void
+Hulaki.Ntfy.NtfyChannelOptions.NtfyChannelOptions() -> void
+Hulaki.OverflowBehavior
+Hulaki.OverflowBehavior.Reject = 0 -> Hulaki.OverflowBehavior
+Hulaki.OverflowBehavior.Truncate = 1 -> Hulaki.OverflowBehavior
+Hulaki.PreparationIssue
+Hulaki.PreparationIssue.<Clone>$() -> Hulaki.PreparationIssue!
+Hulaki.PreparationIssue.Code.get -> string!
+Hulaki.PreparationIssue.Code.init -> void
+Hulaki.PreparationIssue.Deconstruct(out string! Code, out string! Message, out bool IsError) -> void
+Hulaki.PreparationIssue.Equals(Hulaki.PreparationIssue? other) -> bool
+Hulaki.PreparationIssue.IsError.get -> bool
+Hulaki.PreparationIssue.IsError.init -> void
+Hulaki.PreparationIssue.Message.get -> string!
+Hulaki.PreparationIssue.Message.init -> void
+Hulaki.PreparationIssue.PreparationIssue(string! Code, string! Message, bool IsError = true) -> void
+Hulaki.Recipient
+Hulaki.Recipient.Address.get -> string!
+Hulaki.Recipient.Equals(Hulaki.Recipient? other) -> bool
+Hulaki.Recipient.IsSelf.get -> bool
+Hulaki.Recipient.Properties.get -> System.Collections.Generic.IReadOnlyDictionary<string!, string!>!
+Hulaki.Recipient.Recipient(string! address, System.Collections.Generic.IReadOnlyDictionary<string!, string!>? properties = null) -> void
+Hulaki.RetryDisposition
+Hulaki.RetryDisposition.AfterDelay = 1 -> Hulaki.RetryDisposition
+Hulaki.RetryDisposition.AfterReconnect = 2 -> Hulaki.RetryDisposition
+Hulaki.RetryDisposition.Never = 0 -> Hulaki.RetryDisposition
+Hulaki.RetryDisposition.ReconcileFirst = 3 -> Hulaki.RetryDisposition
+Hulaki.SendResult
+Hulaki.SendResult.Outcomes.get -> System.Collections.Generic.IReadOnlyList<Hulaki.TargetOutcome!>!
+Hulaki.SendResult.SendResult(System.Collections.Generic.IReadOnlyList<Hulaki.TargetOutcome!>! outcomes) -> void
+Hulaki.SendResult.Status.get -> Hulaki.SendStatus
+Hulaki.SendStatus
+Hulaki.SendStatus.Complete = 0 -> Hulaki.SendStatus
+Hulaki.SendStatus.Failed = 2 -> Hulaki.SendStatus
+Hulaki.SendStatus.Partial = 1 -> Hulaki.SendStatus
+Hulaki.Slack.SlackChannel
+Hulaki.Slack.SlackChannel.SlackChannel(string! name, System.Net.Http.HttpClient! http, Hulaki.Slack.SlackChannelOptions! options) -> void
+Hulaki.Slack.SlackChannelOptions
+Hulaki.Slack.SlackChannelOptions.SlackChannelOptions() -> void
+Hulaki.Slack.SlackChannelOptions.WebhookUrl.get -> System.Uri?
+Hulaki.Slack.SlackChannelOptions.WebhookUrl.set -> void
+Hulaki.Target
+Hulaki.Target.<Clone>$() -> Hulaki.Target!
+Hulaki.Target.Channel.get -> string!
+Hulaki.Target.Channel.init -> void
+Hulaki.Target.Deconstruct(out string! Channel, out Hulaki.Recipient! Recipient) -> void
+Hulaki.Target.Equals(Hulaki.Target? other) -> bool
+Hulaki.Target.Recipient.get -> Hulaki.Recipient!
+Hulaki.Target.Recipient.init -> void
+Hulaki.Target.Target(string! Channel, Hulaki.Recipient! Recipient) -> void
+Hulaki.TargetOutcome
+Hulaki.TargetOutcome.<Clone>$() -> Hulaki.TargetOutcome!
+Hulaki.TargetOutcome.Deconstruct(out Hulaki.Target! Target, out Hulaki.DeliveryOutcome! Outcome) -> void
+Hulaki.TargetOutcome.Equals(Hulaki.TargetOutcome? other) -> bool
+Hulaki.TargetOutcome.Outcome.get -> Hulaki.DeliveryOutcome!
+Hulaki.TargetOutcome.Outcome.init -> void
+Hulaki.TargetOutcome.Target.get -> Hulaki.Target!
+Hulaki.TargetOutcome.Target.init -> void
+Hulaki.TargetOutcome.TargetOutcome(Hulaki.Target! Target, Hulaki.DeliveryOutcome! Outcome) -> void
+Hulaki.Teams.TeamsChannel
+Hulaki.Teams.TeamsChannel.TeamsChannel(string! name, System.Net.Http.HttpClient! http, Hulaki.Teams.TeamsChannelOptions! options) -> void
+Hulaki.Teams.TeamsChannelOptions
+Hulaki.Teams.TeamsChannelOptions.TeamsChannelOptions() -> void
+Hulaki.Teams.TeamsChannelOptions.WorkflowUrl.get -> System.Uri?
+Hulaki.Teams.TeamsChannelOptions.WorkflowUrl.set -> void
+Hulaki.Telegram.TelegramChannel
+Hulaki.Telegram.TelegramChannel.TelegramChannel(string! name, System.Net.Http.HttpClient! http, Hulaki.Telegram.TelegramChannelOptions! options) -> void
+Hulaki.Telegram.TelegramChannelOptions
+Hulaki.Telegram.TelegramChannelOptions.BaseAddress.get -> System.Uri!
+Hulaki.Telegram.TelegramChannelOptions.BaseAddress.set -> void
+Hulaki.Telegram.TelegramChannelOptions.BotToken.get -> string!
+Hulaki.Telegram.TelegramChannelOptions.BotToken.set -> void
+Hulaki.Telegram.TelegramChannelOptions.DisableLinkPreview.get -> bool
+Hulaki.Telegram.TelegramChannelOptions.DisableLinkPreview.set -> void
+Hulaki.Telegram.TelegramChannelOptions.TelegramChannelOptions() -> void
+Hulaki.Text.TextCounter
+Hulaki.Text.TextCounter.TextCounter() -> void
+Hulaki.Text.TextFit
+Hulaki.Text.TextLimit
+Hulaki.Text.TextLimit.<Clone>$() -> Hulaki.Text.TextLimit!
+Hulaki.Text.TextLimit.Counter.get -> Hulaki.Text.TextCounter!
+Hulaki.Text.TextLimit.Counter.init -> void
+Hulaki.Text.TextLimit.Deconstruct(out int Max, out Hulaki.Text.TextCounter! Counter) -> void
+Hulaki.Text.TextLimit.Equals(Hulaki.Text.TextLimit? other) -> bool
+Hulaki.Text.TextLimit.Fits(string! text) -> bool
+Hulaki.Text.TextLimit.Max.get -> int
+Hulaki.Text.TextLimit.Max.init -> void
+Hulaki.Text.TextLimit.TextLimit(int Max, Hulaki.Text.TextCounter! Counter) -> void
+Hulaki.TextFormat
+Hulaki.TextFormat.Markup = 1 -> Hulaki.TextFormat
+Hulaki.TextFormat.Plain = 0 -> Hulaki.TextFormat
+Hulaki.Webhook.WebhookChannel
+Hulaki.Webhook.WebhookChannel.WebhookChannel(string! name, System.Net.Http.HttpClient! http, Hulaki.Webhook.WebhookChannelOptions! options) -> void
+Hulaki.Webhook.WebhookChannelOptions
+Hulaki.Webhook.WebhookChannelOptions.BodyTemplate.get -> string?
+Hulaki.Webhook.WebhookChannelOptions.BodyTemplate.set -> void
+Hulaki.Webhook.WebhookChannelOptions.ContentType.get -> string!
+Hulaki.Webhook.WebhookChannelOptions.ContentType.set -> void
+Hulaki.Webhook.WebhookChannelOptions.Headers.get -> System.Collections.Generic.IDictionary<string!, string!>!
+Hulaki.Webhook.WebhookChannelOptions.MaxTextBytes.get -> int
+Hulaki.Webhook.WebhookChannelOptions.MaxTextBytes.set -> void
+Hulaki.Webhook.WebhookChannelOptions.Secret.get -> string?
+Hulaki.Webhook.WebhookChannelOptions.Secret.set -> void
+Hulaki.Webhook.WebhookChannelOptions.Url.get -> System.Uri?
+Hulaki.Webhook.WebhookChannelOptions.Url.set -> void
+Hulaki.Webhook.WebhookChannelOptions.WebhookChannelOptions() -> void
+Hulaki.WebPush.WebPushChannel
+Hulaki.WebPush.WebPushChannel.WebPushChannel(string! name, System.Net.Http.HttpClient! http, Hulaki.WebPush.WebPushChannelOptions! options) -> void
+Hulaki.WebPush.WebPushChannelOptions
+Hulaki.WebPush.WebPushChannelOptions.TimeToLive.get -> System.TimeSpan
+Hulaki.WebPush.WebPushChannelOptions.TimeToLive.set -> void
+Hulaki.WebPush.WebPushChannelOptions.VapidPrivateKey.get -> string!
+Hulaki.WebPush.WebPushChannelOptions.VapidPrivateKey.set -> void
+Hulaki.WebPush.WebPushChannelOptions.VapidPublicKey.get -> string!
+Hulaki.WebPush.WebPushChannelOptions.VapidPublicKey.set -> void
+Hulaki.WebPush.WebPushChannelOptions.VapidSubject.get -> string!
+Hulaki.WebPush.WebPushChannelOptions.VapidSubject.set -> void
+Hulaki.WebPush.WebPushChannelOptions.WebPushChannelOptions() -> void
+Microsoft.Extensions.DependencyInjection.BlueskyHulakiBuilderExtensions
+Microsoft.Extensions.DependencyInjection.DiscordHulakiBuilderExtensions
+Microsoft.Extensions.DependencyInjection.HulakiBuilderExtensions
+Microsoft.Extensions.DependencyInjection.HulakiServiceCollectionExtensions
+Microsoft.Extensions.DependencyInjection.IHulakiBuilder
+Microsoft.Extensions.DependencyInjection.IHulakiBuilder.Services.get -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
+Microsoft.Extensions.DependencyInjection.MastodonHulakiBuilderExtensions
+Microsoft.Extensions.DependencyInjection.NtfyHulakiBuilderExtensions
+Microsoft.Extensions.DependencyInjection.SlackHulakiBuilderExtensions
+Microsoft.Extensions.DependencyInjection.TeamsHulakiBuilderExtensions
+Microsoft.Extensions.DependencyInjection.TelegramHulakiBuilderExtensions
+Microsoft.Extensions.DependencyInjection.WebhookHulakiBuilderExtensions
+Microsoft.Extensions.DependencyInjection.WebPushHulakiBuilderExtensions
+override Hulaki.CapabilityDeclaration.Equals(object? obj) -> bool
+override Hulaki.CapabilityDeclaration.GetHashCode() -> int
+override Hulaki.CapabilityDeclaration.ToString() -> string!
+override Hulaki.Channels.SendRetryPolicy.Equals(object? obj) -> bool
+override Hulaki.Channels.SendRetryPolicy.GetHashCode() -> int
+override Hulaki.Channels.SendRetryPolicy.ToString() -> string!
+override Hulaki.Credentials.StoredCredential.ToString() -> string!
+override Hulaki.DeliveryOutcome.ToString() -> string!
+override Hulaki.HulakiError.Equals(object? obj) -> bool
+override Hulaki.HulakiError.GetHashCode() -> int
+override Hulaki.HulakiError.ToString() -> string!
+override Hulaki.Idempotency.IdempotencyClaim.Equals(object? obj) -> bool
+override Hulaki.Idempotency.IdempotencyClaim.GetHashCode() -> int
+override Hulaki.Idempotency.IdempotencyClaim.ToString() -> string!
+override Hulaki.Markup.BoldNode.<Clone>$() -> Hulaki.Markup.BoldNode!
+override Hulaki.Markup.BoldNode.Equals(object? obj) -> bool
+override Hulaki.Markup.BoldNode.GetHashCode() -> int
+override Hulaki.Markup.BoldNode.ToString() -> string!
+override Hulaki.Markup.CodeNode.<Clone>$() -> Hulaki.Markup.CodeNode!
+override Hulaki.Markup.CodeNode.Equals(object? obj) -> bool
+override Hulaki.Markup.CodeNode.GetHashCode() -> int
+override Hulaki.Markup.CodeNode.ToString() -> string!
+override Hulaki.Markup.ItalicNode.<Clone>$() -> Hulaki.Markup.ItalicNode!
+override Hulaki.Markup.ItalicNode.Equals(object? obj) -> bool
+override Hulaki.Markup.ItalicNode.GetHashCode() -> int
+override Hulaki.Markup.ItalicNode.ToString() -> string!
+override Hulaki.Markup.LinkNode.<Clone>$() -> Hulaki.Markup.LinkNode!
+override Hulaki.Markup.LinkNode.Equals(object? obj) -> bool
+override Hulaki.Markup.LinkNode.GetHashCode() -> int
+override Hulaki.Markup.LinkNode.ToString() -> string!
+override Hulaki.Markup.MarkupNode.Equals(object? obj) -> bool
+override Hulaki.Markup.MarkupNode.GetHashCode() -> int
+override Hulaki.Markup.MarkupNode.ToString() -> string!
+override Hulaki.Markup.TextNode.<Clone>$() -> Hulaki.Markup.TextNode!
+override Hulaki.Markup.TextNode.Equals(object? obj) -> bool
+override Hulaki.Markup.TextNode.GetHashCode() -> int
+override Hulaki.Markup.TextNode.ToString() -> string!
+override Hulaki.Message.Equals(object? obj) -> bool
+override Hulaki.Message.GetHashCode() -> int
+override Hulaki.Message.ToString() -> string!
+override Hulaki.PreparationIssue.Equals(object? obj) -> bool
+override Hulaki.PreparationIssue.GetHashCode() -> int
+override Hulaki.PreparationIssue.ToString() -> string!
+override Hulaki.Recipient.Equals(object? obj) -> bool
+override Hulaki.Recipient.GetHashCode() -> int
+override Hulaki.Recipient.ToString() -> string!
+override Hulaki.Target.Equals(object? obj) -> bool
+override Hulaki.Target.GetHashCode() -> int
+override Hulaki.Target.ToString() -> string!
+override Hulaki.TargetOutcome.Equals(object? obj) -> bool
+override Hulaki.TargetOutcome.GetHashCode() -> int
+override Hulaki.TargetOutcome.ToString() -> string!
+override Hulaki.Text.TextLimit.Equals(object? obj) -> bool
+override Hulaki.Text.TextLimit.GetHashCode() -> int
+override Hulaki.Text.TextLimit.ToString() -> string!
+override sealed Hulaki.Markup.BoldNode.Equals(Hulaki.Markup.MarkupNode? other) -> bool
+override sealed Hulaki.Markup.CodeNode.Equals(Hulaki.Markup.MarkupNode? other) -> bool
+override sealed Hulaki.Markup.ItalicNode.Equals(Hulaki.Markup.MarkupNode? other) -> bool
+override sealed Hulaki.Markup.LinkNode.Equals(Hulaki.Markup.MarkupNode? other) -> bool
+override sealed Hulaki.Markup.TextNode.Equals(Hulaki.Markup.MarkupNode? other) -> bool
+static Hulaki.Bluesky.BlueskyChannel.Manifest.get -> Hulaki.CapabilityManifest!
+static Hulaki.CapabilityDeclaration.operator !=(Hulaki.CapabilityDeclaration? left, Hulaki.CapabilityDeclaration? right) -> bool
+static Hulaki.CapabilityDeclaration.operator ==(Hulaki.CapabilityDeclaration? left, Hulaki.CapabilityDeclaration? right) -> bool
+static Hulaki.Channels.HttpHelpers.ErrorFor(System.Net.HttpStatusCode status, System.TimeSpan? retryAfter, string! message) -> Hulaki.HulakiError!
+static Hulaki.Channels.HttpHelpers.OutcomeFor(Hulaki.HulakiError! error) -> Hulaki.DeliveryOutcome!
+static Hulaki.Channels.HttpHelpers.RetryAfter(System.Net.Http.HttpResponseMessage! response, System.TimeProvider! timeProvider) -> System.TimeSpan?
+static Hulaki.Channels.SendRetryPolicy.Default.get -> Hulaki.Channels.SendRetryPolicy!
+static Hulaki.Channels.SendRetryPolicy.None.get -> Hulaki.Channels.SendRetryPolicy!
+static Hulaki.Channels.SendRetryPolicy.operator !=(Hulaki.Channels.SendRetryPolicy? left, Hulaki.Channels.SendRetryPolicy? right) -> bool
+static Hulaki.Channels.SendRetryPolicy.operator ==(Hulaki.Channels.SendRetryPolicy? left, Hulaki.Channels.SendRetryPolicy? right) -> bool
+static Hulaki.DeliveryOutcome.Accepted(string? platformMessageId = null) -> Hulaki.DeliveryOutcome!
+static Hulaki.DeliveryOutcome.Delivered(string? platformMessageId = null, System.Uri? url = null, System.Collections.Generic.IReadOnlyList<Hulaki.PreparationIssue!>? warnings = null) -> Hulaki.DeliveryOutcome!
+static Hulaki.DeliveryOutcome.Failed(Hulaki.HulakiError! error) -> Hulaki.DeliveryOutcome!
+static Hulaki.DeliveryOutcome.NotSubmitted(Hulaki.HulakiError! error) -> Hulaki.DeliveryOutcome!
+static Hulaki.DeliveryOutcome.NotSubmitted(System.Collections.Generic.IReadOnlyList<Hulaki.PreparationIssue!>! issues) -> Hulaki.DeliveryOutcome!
+static Hulaki.DeliveryOutcome.Unknown(Hulaki.HulakiError! error) -> Hulaki.DeliveryOutcome!
+static Hulaki.Discord.DiscordChannel.Manifest.get -> Hulaki.CapabilityManifest!
+static Hulaki.HulakiError.operator !=(Hulaki.HulakiError? left, Hulaki.HulakiError? right) -> bool
+static Hulaki.HulakiError.operator ==(Hulaki.HulakiError? left, Hulaki.HulakiError? right) -> bool
+static Hulaki.Idempotency.IdempotencyClaim.operator !=(Hulaki.Idempotency.IdempotencyClaim? left, Hulaki.Idempotency.IdempotencyClaim? right) -> bool
+static Hulaki.Idempotency.IdempotencyClaim.operator ==(Hulaki.Idempotency.IdempotencyClaim? left, Hulaki.Idempotency.IdempotencyClaim? right) -> bool
+static Hulaki.Idempotency.MessageFingerprint.Compute(Hulaki.Message! message) -> string!
+static Hulaki.Markup.BoldNode.operator !=(Hulaki.Markup.BoldNode? left, Hulaki.Markup.BoldNode? right) -> bool
+static Hulaki.Markup.BoldNode.operator ==(Hulaki.Markup.BoldNode? left, Hulaki.Markup.BoldNode? right) -> bool
+static Hulaki.Markup.CodeNode.operator !=(Hulaki.Markup.CodeNode? left, Hulaki.Markup.CodeNode? right) -> bool
+static Hulaki.Markup.CodeNode.operator ==(Hulaki.Markup.CodeNode? left, Hulaki.Markup.CodeNode? right) -> bool
+static Hulaki.Markup.ItalicNode.operator !=(Hulaki.Markup.ItalicNode? left, Hulaki.Markup.ItalicNode? right) -> bool
+static Hulaki.Markup.ItalicNode.operator ==(Hulaki.Markup.ItalicNode? left, Hulaki.Markup.ItalicNode? right) -> bool
+static Hulaki.Markup.LinkNode.operator !=(Hulaki.Markup.LinkNode? left, Hulaki.Markup.LinkNode? right) -> bool
+static Hulaki.Markup.LinkNode.operator ==(Hulaki.Markup.LinkNode? left, Hulaki.Markup.LinkNode? right) -> bool
+static Hulaki.Markup.MarkupDocument.Parse(string! markup) -> Hulaki.Markup.MarkupDocument!
+static Hulaki.Markup.MarkupNode.operator !=(Hulaki.Markup.MarkupNode? left, Hulaki.Markup.MarkupNode? right) -> bool
+static Hulaki.Markup.MarkupNode.operator ==(Hulaki.Markup.MarkupNode? left, Hulaki.Markup.MarkupNode? right) -> bool
+static Hulaki.Markup.TextNode.operator !=(Hulaki.Markup.TextNode? left, Hulaki.Markup.TextNode? right) -> bool
+static Hulaki.Markup.TextNode.operator ==(Hulaki.Markup.TextNode? left, Hulaki.Markup.TextNode? right) -> bool
+static Hulaki.Mastodon.MastodonChannel.Manifest.get -> Hulaki.CapabilityManifest!
+static Hulaki.MediaAttachment.FromBytes(System.ReadOnlyMemory<byte> bytes, string! contentType, string? fileName = null) -> Hulaki.MediaAttachment!
+static Hulaki.MediaAttachment.FromStream(System.Func<System.Threading.CancellationToken, System.Threading.Tasks.ValueTask<System.IO.Stream!>>! open, string! contentType, string! fingerprint, long? length = null, string? fileName = null) -> Hulaki.MediaAttachment!
+static Hulaki.MediaAttachment.FromUrl(System.Uri! url, string! contentType) -> Hulaki.MediaAttachment!
+static Hulaki.Message.operator !=(Hulaki.Message? left, Hulaki.Message? right) -> bool
+static Hulaki.Message.operator ==(Hulaki.Message? left, Hulaki.Message? right) -> bool
+static Hulaki.Ntfy.NtfyChannel.Manifest.get -> Hulaki.CapabilityManifest!
+static Hulaki.PreparationIssue.operator !=(Hulaki.PreparationIssue? left, Hulaki.PreparationIssue? right) -> bool
+static Hulaki.PreparationIssue.operator ==(Hulaki.PreparationIssue? left, Hulaki.PreparationIssue? right) -> bool
+static Hulaki.Recipient.Self.get -> Hulaki.Recipient!
+static Hulaki.Slack.SlackChannel.Manifest.get -> Hulaki.CapabilityManifest!
+static Hulaki.Target.operator !=(Hulaki.Target? left, Hulaki.Target? right) -> bool
+static Hulaki.Target.operator ==(Hulaki.Target? left, Hulaki.Target? right) -> bool
+static Hulaki.TargetOutcome.operator !=(Hulaki.TargetOutcome? left, Hulaki.TargetOutcome? right) -> bool
+static Hulaki.TargetOutcome.operator ==(Hulaki.TargetOutcome? left, Hulaki.TargetOutcome? right) -> bool
+static Hulaki.Teams.TeamsChannel.Manifest.get -> Hulaki.CapabilityManifest!
+static Hulaki.Telegram.TelegramChannel.Manifest.get -> Hulaki.CapabilityManifest!
+static Hulaki.Text.TextCounter.Graphemes.get -> Hulaki.Text.TextCounter!
+static Hulaki.Text.TextCounter.Utf16CodeUnits.get -> Hulaki.Text.TextCounter!
+static Hulaki.Text.TextCounter.Utf8Bytes.get -> Hulaki.Text.TextCounter!
+static Hulaki.Text.TextFit.Split(string! text, Hulaki.Text.TextLimit! limit) -> System.Collections.Generic.IReadOnlyList<string!>!
+static Hulaki.Text.TextFit.Truncate(string! text, Hulaki.Text.TextLimit! limit, string! ellipsis = "…") -> string!
+static Hulaki.Text.TextLimit.operator !=(Hulaki.Text.TextLimit? left, Hulaki.Text.TextLimit? right) -> bool
+static Hulaki.Text.TextLimit.operator ==(Hulaki.Text.TextLimit? left, Hulaki.Text.TextLimit? right) -> bool
+static Hulaki.Webhook.WebhookChannel.Manifest.get -> Hulaki.CapabilityManifest!
+static Hulaki.WebPush.WebPushChannel.Manifest.get -> Hulaki.CapabilityManifest!
+static Microsoft.Extensions.DependencyInjection.BlueskyHulakiBuilderExtensions.AddBluesky(this Microsoft.Extensions.DependencyInjection.IHulakiBuilder! builder, string! name, Microsoft.Extensions.Configuration.IConfigurationSection! section) -> Microsoft.Extensions.DependencyInjection.IHulakiBuilder!
+static Microsoft.Extensions.DependencyInjection.BlueskyHulakiBuilderExtensions.AddBluesky(this Microsoft.Extensions.DependencyInjection.IHulakiBuilder! builder, string! name, System.Action<Hulaki.Bluesky.BlueskyChannelOptions!>! configure) -> Microsoft.Extensions.DependencyInjection.IHulakiBuilder!
+static Microsoft.Extensions.DependencyInjection.DiscordHulakiBuilderExtensions.AddDiscord(this Microsoft.Extensions.DependencyInjection.IHulakiBuilder! builder, string! name, Microsoft.Extensions.Configuration.IConfigurationSection! section) -> Microsoft.Extensions.DependencyInjection.IHulakiBuilder!
+static Microsoft.Extensions.DependencyInjection.DiscordHulakiBuilderExtensions.AddDiscord(this Microsoft.Extensions.DependencyInjection.IHulakiBuilder! builder, string! name, System.Action<Hulaki.Discord.DiscordChannelOptions!>! configure) -> Microsoft.Extensions.DependencyInjection.IHulakiBuilder!
+static Microsoft.Extensions.DependencyInjection.HulakiBuilderExtensions.AddChannel(this Microsoft.Extensions.DependencyInjection.IHulakiBuilder! builder, string! name, System.Func<System.IServiceProvider!, Hulaki.IChannel!>! factory) -> Microsoft.Extensions.DependencyInjection.IHulakiBuilder!
+static Microsoft.Extensions.DependencyInjection.HulakiServiceCollectionExtensions.AddHulaki(this Microsoft.Extensions.DependencyInjection.IServiceCollection! services) -> Microsoft.Extensions.DependencyInjection.IHulakiBuilder!
+static Microsoft.Extensions.DependencyInjection.MastodonHulakiBuilderExtensions.AddMastodon(this Microsoft.Extensions.DependencyInjection.IHulakiBuilder! builder, string! name, Microsoft.Extensions.Configuration.IConfigurationSection! section) -> Microsoft.Extensions.DependencyInjection.IHulakiBuilder!
+static Microsoft.Extensions.DependencyInjection.MastodonHulakiBuilderExtensions.AddMastodon(this Microsoft.Extensions.DependencyInjection.IHulakiBuilder! builder, string! name, System.Action<Hulaki.Mastodon.MastodonChannelOptions!>! configure) -> Microsoft.Extensions.DependencyInjection.IHulakiBuilder!
+static Microsoft.Extensions.DependencyInjection.NtfyHulakiBuilderExtensions.AddNtfy(this Microsoft.Extensions.DependencyInjection.IHulakiBuilder! builder, string! name, Microsoft.Extensions.Configuration.IConfigurationSection! section) -> Microsoft.Extensions.DependencyInjection.IHulakiBuilder!
+static Microsoft.Extensions.DependencyInjection.NtfyHulakiBuilderExtensions.AddNtfy(this Microsoft.Extensions.DependencyInjection.IHulakiBuilder! builder, string! name, System.Action<Hulaki.Ntfy.NtfyChannelOptions!>! configure) -> Microsoft.Extensions.DependencyInjection.IHulakiBuilder!
+static Microsoft.Extensions.DependencyInjection.SlackHulakiBuilderExtensions.AddSlack(this Microsoft.Extensions.DependencyInjection.IHulakiBuilder! builder, string! name, Microsoft.Extensions.Configuration.IConfigurationSection! section) -> Microsoft.Extensions.DependencyInjection.IHulakiBuilder!
+static Microsoft.Extensions.DependencyInjection.SlackHulakiBuilderExtensions.AddSlack(this Microsoft.Extensions.DependencyInjection.IHulakiBuilder! builder, string! name, System.Action<Hulaki.Slack.SlackChannelOptions!>! configure) -> Microsoft.Extensions.DependencyInjection.IHulakiBuilder!
+static Microsoft.Extensions.DependencyInjection.TeamsHulakiBuilderExtensions.AddTeams(this Microsoft.Extensions.DependencyInjection.IHulakiBuilder! builder, string! name, Microsoft.Extensions.Configuration.IConfigurationSection! section) -> Microsoft.Extensions.DependencyInjection.IHulakiBuilder!
+static Microsoft.Extensions.DependencyInjection.TeamsHulakiBuilderExtensions.AddTeams(this Microsoft.Extensions.DependencyInjection.IHulakiBuilder! builder, string! name, System.Action<Hulaki.Teams.TeamsChannelOptions!>! configure) -> Microsoft.Extensions.DependencyInjection.IHulakiBuilder!
+static Microsoft.Extensions.DependencyInjection.TelegramHulakiBuilderExtensions.AddTelegram(this Microsoft.Extensions.DependencyInjection.IHulakiBuilder! builder, string! name, Microsoft.Extensions.Configuration.IConfigurationSection! section) -> Microsoft.Extensions.DependencyInjection.IHulakiBuilder!
+static Microsoft.Extensions.DependencyInjection.TelegramHulakiBuilderExtensions.AddTelegram(this Microsoft.Extensions.DependencyInjection.IHulakiBuilder! builder, string! name, System.Action<Hulaki.Telegram.TelegramChannelOptions!>! configure) -> Microsoft.Extensions.DependencyInjection.IHulakiBuilder!
+static Microsoft.Extensions.DependencyInjection.WebhookHulakiBuilderExtensions.AddWebhook(this Microsoft.Extensions.DependencyInjection.IHulakiBuilder! builder, string! name, Microsoft.Extensions.Configuration.IConfigurationSection! section) -> Microsoft.Extensions.DependencyInjection.IHulakiBuilder!
+static Microsoft.Extensions.DependencyInjection.WebhookHulakiBuilderExtensions.AddWebhook(this Microsoft.Extensions.DependencyInjection.IHulakiBuilder! builder, string! name, System.Action<Hulaki.Webhook.WebhookChannelOptions!>! configure) -> Microsoft.Extensions.DependencyInjection.IHulakiBuilder!
+static Microsoft.Extensions.DependencyInjection.WebPushHulakiBuilderExtensions.AddWebPush(this Microsoft.Extensions.DependencyInjection.IHulakiBuilder! builder, string! name, Microsoft.Extensions.Configuration.IConfigurationSection! section) -> Microsoft.Extensions.DependencyInjection.IHulakiBuilder!
+static Microsoft.Extensions.DependencyInjection.WebPushHulakiBuilderExtensions.AddWebPush(this Microsoft.Extensions.DependencyInjection.IHulakiBuilder! builder, string! name, System.Action<Hulaki.WebPush.WebPushChannelOptions!>! configure) -> Microsoft.Extensions.DependencyInjection.IHulakiBuilder!
+virtual Hulaki.Channels.ChannelBase.CountedText(Hulaki.Message! message) -> string!
+virtual Hulaki.Channels.ChannelBase.Dispose(bool disposing) -> void
+virtual Hulaki.Channels.ChannelBase.PrepareCore(Hulaki.Message! message, Hulaki.Recipient! recipient, System.Collections.Generic.ICollection<Hulaki.PreparationIssue!>! issues) -> void
+virtual Hulaki.Markup.MarkupNode.EqualityContract.get -> System.Type!
+virtual Hulaki.Markup.MarkupNode.Equals(Hulaki.Markup.MarkupNode? other) -> bool
+virtual Hulaki.Markup.MarkupNode.PrintMembers(System.Text.StringBuilder! builder) -> bool
