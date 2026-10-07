@@ -5,6 +5,8 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [0.1.0-alpha.1] - 2026-10-07
+
 ### Added
 
 - `Hulaki` core: `Message`, `Recipient`, `HulakiClient` with per-target outcomes in input order,
