@@ -1,5 +1,8 @@
 # Hulaki
 
+[![CI](https://github.com/sanamhub/hulaki/actions/workflows/ci.yml/badge.svg)](https://github.com/sanamhub/hulaki/actions/workflows/ci.yml)
+[![License](https://img.shields.io/badge/license-MIT-blue)](https://github.com/sanamhub/hulaki/blob/main/LICENSE)
+
 Deliver a message to people and accounts on chat, push and social platforms from .NET, with one
 API and an honest answer about what happened to each one.
 
@@ -150,6 +153,14 @@ Both samples are compiled by CI from [samples/Hulaki.Samples](samples/Hulaki.Sam
 
 The outcome model, capability states and credential rotation are inspired by
 [social-sdk.dev](https://social-sdk.dev) (MIT, TypeScript). No code is shared.
+
+## Documentation
+
+The [wiki](https://github.com/sanamhub/hulaki/wiki) has guides with examples: delivery outcomes and
+retries, each channel's setup, email through FreeTierMail, and testing with `Hulaki.Testing`.
+Per-channel limits are in
+[docs/channels](https://github.com/sanamhub/hulaki/tree/main/docs/channels).
+
 
 ## License
 
