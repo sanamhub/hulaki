@@ -56,17 +56,12 @@ cat > NuGet.Config <<XML
   <packageSources>
     <clear />
     <add key="local" value="$NATIVE_PACKAGE_DIR" />
-    <add key="freetiermail" value="$FREETIERMAIL_DIR" />
     <add key="nuget.org" value="https://api.nuget.org/v3/index.json" protocolVersion="3" />
   </packageSources>
   <packageSourceMapping>
     <packageSource key="local">
       <package pattern="Hulaki" />
       <package pattern="Hulaki.*" />
-    </packageSource>
-    <packageSource key="freetiermail">
-      <package pattern="FreeTierMail" />
-      <package pattern="FreeTierMail.*" />
     </packageSource>
     <packageSource key="nuget.org">
       <package pattern="*" />
