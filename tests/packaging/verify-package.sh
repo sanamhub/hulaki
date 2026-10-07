@@ -39,11 +39,6 @@ fi
 
 echo "consuming Hulaki $VERSION from $NATIVE_PACKAGE_DIR (aot=$AOT)"
 
-# FreeTierMail, which Hulaki.Email depends on, comes from the repository's packages-local/ until
-# it is on nuget.org.
-FREETIERMAIL_DIR="$(cd "$(dirname "$0")/../../packages-local" && pwd)"
-if command -v cygpath >/dev/null 2>&1; then FREETIERMAIL_DIR="$(cygpath -w "$FREETIERMAIL_DIR")"; fi
-
 WORK="$(mktemp -d)"
 trap 'rm -rf "$WORK"' EXIT
 cd "$WORK"
