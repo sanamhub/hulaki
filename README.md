@@ -65,11 +65,11 @@ generated from the providers' manifests.
 
 ## Install
 
-Not on nuget.org yet. Once it is:
+On nuget.org as a prerelease, so `dotnet add package` needs `--prerelease` until 0.1.0:
 
 ```
-dotnet add package Hulaki
-dotnet add package Hulaki.Email   # only for email
+dotnet add package Hulaki --prerelease
+dotnet add package Hulaki.Email --prerelease   # only for email
 ```
 
 ## Send a message
