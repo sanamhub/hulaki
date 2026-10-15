@@ -5,6 +5,15 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [0.1.0-alpha.2] - 2026-10-15
+
+### Security
+
+- `Hulaki.Email` no longer resolves `System.Security.Cryptography.Pkcs` 10.0.0, which
+  GHSA-846f-f764-76mx (CVE-2026-84008) marks high severity. The FreeTierMail floor is now
+  0.1.0-alpha.2, which pins `System.Security.Cryptography.Pkcs` to 10.0.13 or later. No API
+  change, so nothing in `Hulaki`, `Hulaki.Email` or `Hulaki.Testing` changes.
+
 ## [0.1.0-alpha.1] - 2026-10-07
 
 ### Added

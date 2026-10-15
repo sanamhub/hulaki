@@ -12,10 +12,11 @@
     <PackageVersion Include="System.Threading.RateLimiting" Version="10.0.12" />
     <PackageVersion Include="Microsoft.Extensions.Http" Version="10.0.12" />
     <PackageVersion Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="10.0.12" />
-    <!-- The one third-party runtime dependency, in Hulaki.Email only (ADR-0009). -->
-    <PackageVersion Include="FreeTierMail" Version="0.1.0-alpha.1" />
-    <PackageVersion Include="FreeTierMail.Smtp" Version="0.1.0-alpha.1" />
-    <PackageVersion Include="FreeTierMail.Testing" Version="0.1.0-alpha.1" />
+    <!-- The one third-party runtime dependency, in Hulaki.Email only (ADR-0009). 0.1.0-alpha.2
+         floors System.Security.Cryptography.Pkcs at 10.0.13, which clears GHSA-846f-f764-76mx. -->
+    <PackageVersion Include="FreeTierMail" Version="0.1.0-alpha.2" />
+    <PackageVersion Include="FreeTierMail.Smtp" Version="0.1.0-alpha.2" />
+    <PackageVersion Include="FreeTierMail.Testing" Version="0.1.0-alpha.2" />
     <!-- Hulaki.Cli only. -->
     <PackageVersion Include="System.CommandLine" Version="2.0.12" />
     <!-- samples/ only: the README's configuration and OpenTelemetry snippets. -->
