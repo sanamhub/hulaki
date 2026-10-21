@@ -20,7 +20,7 @@
     <!-- Hulaki.Cli only. -->
     <PackageVersion Include="System.CommandLine" Version="2.0.12" />
     <!-- samples/ only: the README's configuration and OpenTelemetry snippets. -->
-    <PackageVersion Include="Microsoft.Extensions.Configuration" Version="10.0.12" />
+    <PackageVersion Include="Microsoft.Extensions.Configuration" Version="10.0.13" />
     <PackageVersion Include="OpenTelemetry" Version="1.19.1" />
     <PackageVersion Include="OpenTelemetry.Instrumentation.Http" Version="1.19.0" />
     <PackageVersion Include="xunit.v3" Version="4.0.1" />
